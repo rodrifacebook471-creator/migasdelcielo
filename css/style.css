@@ -1,0 +1,654 @@
+/* ========================================================
+   ESTILOS GENERALES (ROJO BORDÓ, AMARILLO DORADO Y BLANCO)
+   ======================================================== */
+:root {
+    --bg-color: #9A1B22;      /* ROJO BORDÓ: Fondo principal de la página */
+    --text-main: #F4C430;     /* AMARILLO DORADO: Textos principales y destaques */
+    --accent-red: #7A151A;    /* BORDÓ OSCURO: Para efectos de botones y fondos secundarios */
+    --text-dark: #2A1111;     /* NEGRO/MARRÓN: Para poder leer el texto adentro de las tarjetas blancas */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Fredoka', sans-serif;
+    color: var(--text-main);
+}
+
+/* ========================================================
+   ANIMACIONES GLOBALES
+   ======================================================== */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* ========================================================
+   BANNER SUPERIOR DE ANUNCIOS
+   ======================================================== */
+.banner-anuncios {
+    background-color: var(--text-main); /* Fondo amarillo dorado */
+    color: var(--text-dark); /* Letra oscura */
+    padding: 10px 0;
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-family: 'Nunito', sans-serif;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    z-index: 1000;
+    border-bottom: 3px solid var(--text-dark);
+}
+
+.banner-texto {
+    display: inline-block;
+    padding-left: 100%;
+    animation: marquesina 20s linear infinite;
+}
+
+@keyframes marquesina {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+.banner-anuncios:hover .banner-texto {
+    animation-play-state: paused;
+}
+
+/* ========================================================
+   1. PORTADA
+   ======================================================== */
+.portada {
+    height: 100vh;
+    /* Degradado bordó sutil para darle profundidad */
+    background: radial-gradient(circle, #B22222 0%, #9A1B22 100%); 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-bottom: 5px solid var(--text-main);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.titulo-retro {
+    font-size: 5rem;
+    color: var(--text-main); /* Amarillo Dorado */
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+    text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3); 
+}
+
+@media (max-width: 768px) {
+    .titulo-retro {
+        font-size: 3.5rem;
+    }
+}
+
+.btn-menu {
+    text-decoration: none;
+    color: var(--text-dark);
+    background-color: var(--text-main);
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    border-radius: 50px;
+    border: 3px solid var(--text-dark);
+    transition: all 0.2s ease;
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+}
+
+.btn-menu:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.3);
+    background-color: #fff;
+}
+
+.btn-menu:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
+}
+
+/* ========================================================
+   2. SECCIÓN DE MENÚ Y FILTROS
+   ======================================================== */
+.seccion-menu {
+    padding: 80px 20px;
+    text-align: center;
+    background-color: var(--bg-color); /* Bordó */
+    min-height: 60vh;
+}
+
+.cartel-horarios {
+    background-color: #fff; /* Tarjeta blanca */
+    border: 3px solid var(--text-dark);
+    padding: 15px;
+    margin: 0 auto 40px auto;
+    max-width: 600px;
+    border-radius: 10px;
+    text-align: center;
+    color: var(--text-dark);
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.2);
+}
+
+.filtros-menu {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 50px;
+}
+
+.btn-filtro {
+    background-color: #fff;
+    color: var(--text-dark);
+    border: 3px solid var(--text-dark);
+    padding: 10px 25px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-family: 'Nunito', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
+}
+
+.btn-filtro:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.2);
+}
+
+.btn-filtro.activo {
+    background-color: var(--text-main); /* Amarillo dorado al seleccionarlo */
+    color: var(--text-dark);
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
+}
+
+.categoria-oculta {
+    display: none !important;
+}
+
+/* ========================================================
+   TARJETAS DE PRODUCTOS
+   ======================================================== */
+.contenedor-menu {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.tarjeta-sandwich {
+    background-color: #fff; /* Las otras cosas blanco */
+    width: 300px;
+    padding: 25px 20px;
+    border-radius: 15px;
+    border: 3px solid var(--text-dark);
+    box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+    text-align: center;
+    position: relative;
+    color: var(--text-dark);
+}
+
+.tarjeta-sandwich:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.3);
+}
+
+.imagen-placeholder {
+    font-size: 4rem;
+    margin-bottom: 15px;
+    color: var(--text-dark);
+    opacity: 0.8;
+}
+
+.tarjeta-sandwich h3 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+    color: var(--text-dark); /* Forzamos color oscuro adentro del blanco */
+}
+
+.tarjeta-sandwich p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    color: #444;
+    font-weight: 600;
+}
+
+.precio {
+    display: inline-block;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    background-color: var(--text-main); /* Etiqueta amarilla dorada */
+    padding: 6px 15px;
+    border-radius: 20px;
+    border: 2px solid var(--text-dark);
+    margin-bottom: 20px;
+}
+
+/* SELECTORES Y BOTONES INTERNOS */
+.selector-cantidad {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+    color: var(--text-dark);
+    border: 2px solid var(--text-dark);
+    border-radius: 10px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.selector-cantidad:focus {
+    border-color: var(--bg-color); /* Borde bordó al tocarlo */
+}
+
+.btn-seleccionar {
+    background-color: var(--bg-color); /* Botón bordó adentro de la tarjeta blanca */
+    color: var(--text-main); /* Letra amarilla dorada */
+    border: 3px solid var(--text-dark);
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s ease;
+    font-family: 'Nunito', sans-serif;
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
+}
+
+.btn-seleccionar:hover {
+    background-color: var(--accent-red);
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.2);
+}
+
+.btn-seleccionar:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
+}
+
+/* ========================================================
+   3. VENTANA FLOTANTE (MODAL DEL CARRITO)
+   ======================================================== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(42, 17, 17, 0.9); /* Fondo oscurecido */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-contenido {
+    background-color: #fff; /* Modal blanco */
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    border: 4px solid var(--text-dark);
+    box-shadow: 8px 8px 0px rgba(0,0,0,0.3);
+    color: var(--text-dark);
+    box-sizing: border-box;
+}
+
+.cerrar {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 2.5rem;
+    cursor: pointer;
+    color: var(--text-dark);
+    transition: 0.2s;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.cerrar:hover {
+    color: var(--bg-color);
+    transform: scale(1.1);
+}
+
+#formularioPedido {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+#formularioPedido input, #formularioPedido select {
+    padding: 12px;
+    background-color: #f9f9f9;
+    border: 2px solid var(--text-dark);
+    color: var(--text-dark);
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    outline: none;
+    transition: 0.2s;
+    box-sizing: border-box;
+}
+
+#formularioPedido input:focus, #formularioPedido select:focus {
+    border-color: var(--bg-color);
+}
+
+#datosTransferencia {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border: 2px dashed var(--text-dark);
+    border-radius: 10px;
+    color: var(--text-dark);
+    text-align: center;
+    font-weight: 600;
+}
+
+.btn-confirmar {
+    background-color: var(--text-main); /* Amarillo Dorado */
+    color: var(--text-dark);
+    border: 3px solid var(--text-dark);
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Nunito', sans-serif;
+    box-shadow: 4px 4px 0px rgba(0,0,0, 0.2);
+    margin-top: 10px;
+}
+
+.btn-confirmar:hover {
+    background-color: #fff;
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px rgba(0,0,0, 0.2);
+}
+
+.btn-confirmar:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px rgba(0,0,0, 0.2);
+}
+
+/* ========================================================
+   4. REDES Y CARRITO FLOTANTE
+   ======================================================== */
+.redes-flotantes {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 1000;
+}
+
+.btn-red {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    text-decoration: none;
+    border: 2px solid var(--text-dark);
+    box-shadow: 3px 3px 0px rgba(0,0,0, 0.3);
+    transition: all 0.2s;
+}
+
+.btn-red:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0px rgba(0,0,0, 0.3);
+}
+
+.btn-wa { background-color: #25D366; }
+.btn-ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+
+.btn-carrito-nuevo {
+    background-color: var(--text-main); /* Amarillo Dorado */
+    color: var(--text-dark); /* Icono oscuro */
+    padding: 0;
+    outline: none;
+}
+
+.btn-carrito-nuevo:hover {
+    background-color: #fff;
+}
+
+#contador-carrito {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: var(--bg-color); /* Circulito bordó */
+    color: var(--text-main); /* Numero dorado */
+    font-size: 14px;
+    font-weight: 800;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--text-dark);
+    font-family: 'Fredoka', sans-serif;
+}
+
+/* ========================================================
+   5. SECCIÓN DE PREGUNTAS FRECUENTES (FAQ)
+   ======================================================== */
+.seccion-faq {
+    padding: 60px 20px;
+    background-color: var(--accent-red); /* Un bordó un toque más oscuro para separar el fondo */
+    border-top: 3px dashed var(--text-main);
+}
+
+.contenedor-faq {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.pregunta-faq {
+    background-color: #fff; /* Cajas Blancas */
+    border: 3px solid var(--text-dark);
+    border-radius: 10px;
+    padding: 15px 20px;
+    box-shadow: 4px 4px 0px rgba(0,0,0, 0.2);
+    transition: all 0.2s ease;
+    color: var(--text-dark);
+}
+
+.pregunta-faq:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px rgba(0,0,0, 0.2);
+}
+
+.pregunta-faq summary {
+    font-size: 1.1rem;
+    font-weight: 800;
+    font-family: 'Nunito', sans-serif;
+    color: var(--text-dark);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pregunta-faq summary::after {
+    content: '\25BC'; 
+    font-size: 0.9rem;
+    color: var(--bg-color); /* Flechita bordó */
+    transition: transform 0.3s;
+}
+
+.pregunta-faq[open] summary::after {
+    transform: rotate(180deg);
+}
+
+.pregunta-faq p {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px dashed #ccc;
+    color: #444;
+    font-weight: 600;
+    line-height: 1.5;
+}
+/* ========================================================
+   6. NOTIFICACIONES TOAST (Alertas bonitas)
+   ======================================================== */
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    background-color: var(--text-main);
+    color: var(--text-dark);
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.4);
+    border: 3px solid var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: slideInRight 0.3s ease-out forwards;
+    font-family: 'Nunito', sans-serif;
+}
+
+.toast.error {
+    background-color: #D32F2F; /* Fondo rojo si hay error */
+    color: #FFF;
+}
+
+.toast.success {
+    background-color: #4CAF50; /* Verde retro cuando se agrega algo */
+    color: #FFF;
+}
+
+.toast.anim-out {
+    animation: slideOutRight 0.3s ease-in forwards;
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(120%); }
+    to { transform: translateX(0); }
+}
+
+@keyframes slideOutRight {
+    from { transform: translateX(0); }
+    to { transform: translateX(120%); }
+}
+
+/* ========================================================
+   7. MEJORAS DE RESPONSIVIDAD Y AJUSTES EXTRA
+   ======================================================== */
+
+/* Ajustes de responsividad para la cuadrícula de menú */
+@media (max-width: 768px) {
+    .contenedor-menu {
+        gap: 20px;
+        padding: 0 10px;
+    }
+
+    .tarjeta-sandwich {
+        width: 100%;
+        max-width: 350px;
+        margin: 0 auto;
+        padding: 20px 15px;
+    }
+
+    .seccion-menu {
+        padding: 50px 10px;
+    }
+
+    .filtros-menu {
+        gap: 10px;
+    }
+
+    .btn-filtro {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Evitar desbordamiento en botones flotantes en móviles pequeños */
+@media (max-width: 480px) {
+    .redes-flotantes {
+        bottom: 15px;
+        left: 15px;
+        transform: scale(0.9);
+        transform-origin: bottom left;
+    }
+    
+    .titulo-retro {
+        font-size: 2.8rem;
+    }
+}
+
+/* Suavizar la transición de hover en todo */
+* {
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Espaciado mejorado en el modal en móviles */
+@media (max-width: 768px) {
+    .modal-contenido {
+        padding: 20px;
+        width: 95%;
+    }
+}
+
+/* Mejorar foco para accesibilidad y usabilidad */
+:focus-visible {
+    outline: 3px dashed var(--text-main);
+    outline-offset: 4px;
+}

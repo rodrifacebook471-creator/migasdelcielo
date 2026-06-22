@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Seguro - Migas del Cielo</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', 'Segoe UI', sans-serif; background-color: #F3EFE9; margin: 0; padding: 40px 20px; color: #2A1111; }
+        #pantallaLogin { max-width: 420px; margin: 100px auto; background: white; padding: 50px 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.08); text-align: center; border-top: 6px solid #9A1B22; }
+        #pantallaLogin input { width: 100%; padding: 14px; margin: 15px 0; border: 2px solid #ddd; border-radius: 10px; font-size: 1.05rem; font-family: 'Nunito', sans-serif; }
+        #btnIngresar { width: 100%; padding: 16px; background-color: #9A1B22; color: #F4C430; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 800; cursor: pointer; margin-top: 20px; transition: transform 0.2s; }
+        #btnIngresar:hover { transform: scale(1.02); }
+        #pantallaPanel { display: none; max-width: 1200px; margin: 0 auto; }
+        
+        .cabecera-panel { display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg, #9A1B22, #7a151b); padding: 30px 40px; border-radius: 16px; color: white; margin-bottom: 50px; box-shadow: 0 10px 25px rgba(154, 27, 34, 0.2); flex-wrap: wrap; gap: 15px; }
+        .cabecera-panel h1 { font-family: 'Fredoka', sans-serif; color: #F4C430; margin: 0; font-size: 2.2rem; letter-spacing: 1px; }
+        .grupo-botones-header { display: flex; gap: 15px; }
+        .btn-accion { border: none; padding: 12px 20px; border-radius: 10px; cursor: pointer; font-weight: bold; font-family: 'Nunito', sans-serif; font-size: 1rem; display: flex; align-items: center; gap: 8px; transition: all 0.3s; }
+        #btnSalir { background-color: #dc3545; color: white; }
+        #btnSalir:hover { background-color: #c82333; transform: translateX(3px); }
+        #btnExportar { background-color: #198754; color: white; }
+        #btnExportar:hover { background-color: #157347; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(25,135,84,0.3); }
+
+        .titulo-seccion { font-family: 'Fredoka', sans-serif; color: #7a151b; font-size: 1.6rem; margin-top: 0; margin-bottom: 25px; border-bottom: 3px dashed #e2d9cd; padding-bottom: 10px; }
+
+        .control-tienda { background: white; padding: 35px; border-radius: 16px; border-left: 8px solid #F4C430; box-shadow: 0 8px 20px rgba(0,0,0,0.05); margin-bottom: 50px; display: flex; gap: 50px; flex-wrap: wrap; }
+        .switch-box { display: flex; align-items: center; gap: 15px; margin: 15px 0; font-weight: 600; font-size: 1.05rem; user-select: none; }
+        .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #d1d5db; transition: .3s; border-radius: 26px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .3s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        input:checked + .slider { background-color: #4CAF50; } 
+        input:checked + .slider:before { transform: translateX(24px); }
+
+        .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 30px; }
+        .stat-card { background: white; padding: 30px; border-radius: 16px; text-align: center; border-bottom: 5px solid #9A1B22; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+        .stat-card h3 { margin: 0 0 15px 0; color: #777; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .stat-card .numero { font-size: 2.8rem; font-weight: 800; font-family: 'Fredoka', sans-serif; color: #2A1111; margin: 0; }
+        .graficos-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-bottom: 50px; }
+        .grafico-card { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+
+        /* NUEVO: ESTILOS DE CLIENTES VIP */
+        .contenedor-vip { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; margin-bottom: 50px; }
+        .tarjeta-vip { background: linear-gradient(135deg, #fff, #fffde7); padding: 25px 20px; border-radius: 16px; border: 2px solid #F4C430; box-shadow: 0 5px 15px rgba(244, 196, 48, 0.15); text-align: center; position: relative; overflow: hidden; transition: transform 0.2s; }
+        .tarjeta-vip:hover { transform: translateY(-5px); }
+        .tarjeta-vip .corona { position: absolute; top: -10px; left: -10px; font-size: 4rem; color: rgba(244, 196, 48, 0.2); transform: rotate(-20deg); }
+        .tarjeta-vip h4 { margin: 10px 0 5px 0; font-size: 1.2rem; color: #2A1111; font-family: 'Fredoka', sans-serif; position: relative; z-index: 2; }
+        .tarjeta-vip p { margin: 0; color: #666; font-size: 0.95rem; position: relative; z-index: 2; }
+        .tarjeta-vip .gastado { font-size: 1.5rem; font-weight: 800; color: #9A1B22; margin: 10px 0; position: relative; z-index: 2; }
+        .btn-wa-vip { background-color: #25D366; color: white; border: none; padding: 8px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; text-decoration: none; display: inline-block; font-size: 0.9rem; margin-top: 10px; box-shadow: 0 2px 5px rgba(37,211,102,0.3); transition: 0.2s; position: relative; z-index: 2; }
+        .btn-wa-vip:hover { background-color: #128C7E; transform: scale(1.05); }
+
+        .filtros-admin { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; justify-content: center; }
+        .btn-filtro { background-color: white; border: 2px solid #F4C430; color: #2A1111; padding: 10px 25px; border-radius: 30px; font-weight: bold; cursor: pointer; font-size: 1.05rem; transition: all 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.04); }
+        .btn-filtro:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.08); }
+        .btn-filtro.activo { background-color: #F4C430; }
+
+        .contenedor-pedidos { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 30px; margin-bottom: 50px; }
+        .tarjeta-pedido { background-color: white; padding: 30px; border-radius: 16px; border-left: 8px solid #9A1B22; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 8px 15px rgba(0,0,0,0.05); transition: transform 0.2s ease, box-shadow 0.2s ease; position: relative; }
+        .tarjeta-pedido:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(0,0,0,0.1); }
+        .tarjeta-pedido.completado { background-color: #f1f3f5; border-left: 8px solid #9ca3af; opacity: 0.75; }
+        .tarjeta-pedido.completado:hover { transform: none; box-shadow: 0 8px 15px rgba(0,0,0,0.05); }
+        
+        .badge-nuevo { position: absolute; top: -12px; right: 20px; background: #4CAF50; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; animation: parpadeo 2s infinite; }
+        @keyframes parpadeo { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        
+        .detalle-productos { background-color: #fffdf2; padding: 15px; border-radius: 10px; margin: 20px 0; border: 1px solid #ffea8a; font-size: 1rem; line-height: 1.6; color: #444; }
+        .controles { display: flex; gap: 15px; background-color: #f9f9f9; padding: 15px; border-radius: 10px; margin-top: auto; align-items: center; border: 1px solid #eee; flex-wrap: wrap; }
+        .controles input[type="checkbox"] { width: 22px; height: 22px; cursor: pointer; accent-color: #9A1B22; }
+        .btn-wa-camino { background-color: #25D366; color: white; padding: 8px 12px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: bold; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 5px rgba(37, 211, 102, 0.3); margin-left: auto; }
+        .btn-wa-camino:hover { background-color: #128C7E; transform: scale(1.05); }
+
+        .tarjeta-moderacion { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 2px solid #eee; display: flex; flex-direction: column; justify-content: space-between; }
+        .tarjeta-moderacion h4 { margin: 0 0 10px 0; font-size: 1.1rem; color: #9A1B22; }
+        .tarjeta-moderacion p { margin: 0 0 15px 0; font-size: 0.95rem; color: #555; font-style: italic; }
+        .btn-eliminar-resena { background-color: #fff; color: #dc3545; border: 2px solid #dc3545; padding: 8px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s; }
+        .btn-eliminar-resena:hover { background-color: #dc3545; color: white; }
+
+        #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+        .toast { padding: 15px 25px; border-radius: 8px; color: white; font-weight: bold; font-family: 'Nunito', sans-serif; opacity: 1; transform: translateY(0); transition: all 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .toast.success { background-color: #4CAF50; }
+        .toast.error { background-color: #D32F2F; }
+        .anim-out { opacity: 0; transform: translateY(20px); }
+    </style>
+</head>
+<body>
+
+    <div id="pantallaLogin">
+        <div style="font-size: 4rem; color: #9A1B22; margin-bottom: 10px;"><i class="fa-solid fa-lock"></i></div>
+        <h2 style="font-family: 'Fredoka', sans-serif;">Acceso Privado</h2>
+        <input type="email" id="email" placeholder="Correo electrónico">
+        <input type="password" id="password" placeholder="Contraseña">
+        <button id="btnIngresar">Ingresar al Panel</button>
+        <p id="mensajeError" style="color: #dc3545; display: none; margin-top: 15px; font-weight: bold;"></p>
+    </div>
+
+    <div id="pantallaPanel">
+        <div class="cabecera-panel">
+            <div>
+                <h1>Migas del Cielo</h1>
+                <p style="margin: 5px 0 0 0; font-size: 1.1rem; opacity: 0.9;"><i class="fa-solid fa-user-shield"></i> Panel de Administración</p>
+            </div>
+            <div class="grupo-botones-header">
+                <button id="btnExportar" class="btn-accion" onclick="descargarExcel()"><i class="fa-solid fa-file-excel"></i> Descargar Balance</button>
+                <button id="btnSalir" class="btn-accion">Cerrar Sesión <i class="fa-solid fa-right-from-bracket"></i></button>
+            </div>
+        </div>
+
+        <h2 class="titulo-seccion"><i class="fa-solid fa-sliders"></i> Controles de Tienda</h2>
+        <div class="control-tienda">
+            <div style="flex: 1; border-right: 3px dashed #eee; padding-right: 30px;">
+                <h3 style="margin: 0 0 8px 0; color: #9A1B22; font-size: 1.3rem;"><i class="fa-solid fa-store"></i> Estado General</h3>
+                <p style="margin: 0 0 20px 0; font-size: 0.95rem; color:#666;">Apagá el switch para cerrar la tienda y bloquear compras temporalmente.</p>
+                <div class="switch-box" style="background: #f9f9f9; padding: 15px; border-radius: 10px;">
+                    <label class="switch"><input type="checkbox" id="toggle-tienda" onchange="subirConfiguracion()"><span class="slider"></span></label>
+                    <span id="txt-tienda" style="color:#4CAF50; font-size: 1.1rem;">Tienda ABIERTA</span>
+                </div>
+            </div>
+            <div style="flex: 2; min-width: 300px;">
+                <h3 style="margin: 0 0 8px 0; color: #9A1B22; font-size: 1.3rem;"><i class="fa-solid fa-cubes"></i> Disponibilidad de Productos</h3>
+                <p style="margin: 0 0 20px 0; font-size: 0.95rem; color:#666;">Desactivá cualquier opción para marcarla automáticamente como "Agotado".</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px;">
+                    <div class="switch-box"><label class="switch"><input type="checkbox" id="toggle-promo12" onchange="subirConfiguracion()"><span class="slider"></span></label> Promo 12</div>
+                    <div class="switch-box"><label class="switch"><input type="checkbox" id="toggle-promo24" onchange="subirConfiguracion()"><span class="slider"></span></label> Promo 24</div>
+                    <div class="switch-box"><label class="switch"><input type="checkbox" id="toggle-jyq" onchange="subirConfiguracion()"><span class="slider"></span></label> Tradicional JyQ</div>
+                    <div class="switch-box"><label class="switch"><input type="checkbox" id="toggle-jyqh" onchange="subirConfiguracion()"><span class="slider"></span></label> JyQ + Huevo</div>
+                    <div class="switch-box"><label class="switch"><input type="checkbox" id="toggle-completo" onchange="subirConfiguracion()"><span class="slider"></span></label> Completo</div>
+                    <div class="switch-box"><label class="switch"><input type="checkbox" id="toggle-cajas" onchange="subirConfiguracion()"><span class="slider"></span></label> Cajas Armadas</div>
+                    <div class="switch-box"><label class="switch"><input type="checkbox" id="toggle-gaseosas" onchange="subirConfiguracion()"><span class="slider"></span></label> Gaseosas</div>
+                    <div class="switch-box"><label class="switch"><input type="checkbox" id="toggle-aguas" onchange="subirConfiguracion()"><span class="slider"></span></label> Aguas/Saboriz.</div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="titulo-seccion"><i class="fa-solid fa-chart-pie"></i> Estadísticas y Reportes</h2>
+        <div class="dashboard">
+            <div class="stat-card"><h3>Facturación (30 Días)</h3><p class="numero" id="statMes">$0</p></div>
+            <div class="stat-card"><h3>Facturación (Últ. 7 Días)</h3><p class="numero" id="statSemana" style="color: #4CAF50;">$0</p></div>
+            <div class="stat-card" style="border-bottom-color: #F4C430;"><h3>Pedidos a Entregar</h3><p class="numero" id="statPendientes" style="color: #F4C430;">0</p></div>
+        </div>
+
+        <div class="graficos-container">
+            <div class="grafico-card"><canvas id="chartDias"></canvas></div>
+            <div class="grafico-card"><canvas id="chartSabores"></canvas></div>
+            <div class="grafico-card"><canvas id="chartPagos"></canvas></div>
+        </div>
+
+        <!-- NUEVA SECCIÓN: RANKING VIP -->
+        <h2 class="titulo-seccion"><i class="fa-solid fa-crown"></i> Clientes VIP (Últimos 30 días)</h2>
+        <p style="margin-bottom: 20px; color:#666;">Fidelizá a tus mejores clientes. El sistema detecta automáticamente quiénes gastaron más este mes.</p>
+        <div id="listaVIP" class="contenedor-vip"></div>
+
+        <h2 class="titulo-seccion"><i class="fa-solid fa-receipt"></i> Gestión de Pedidos</h2>
+        <div class="filtros-admin">
+            <button class="btn-filtro activo" onclick="filtrarPedidos('todos', this)"><i class="fa-solid fa-list"></i> Todos los Pedidos</button>
+            <button class="btn-filtro" onclick="filtrarPedidos('pendientes', this)"><i class="fa-solid fa-motorcycle"></i> Falta Entregar</button>
+            <button class="btn-filtro" onclick="filtrarPedidos('sin_abonar', this)"><i class="fa-solid fa-money-bill-transfer"></i> Transf. a Confirmar</button>
+        </div>
+        
+        <div id="listaPedidos" class="contenedor-pedidos"></div>
+
+        <h2 class="titulo-seccion"><i class="fa-solid fa-shield-halved"></i> Moderación de Opiniones</h2>
+        <p style="margin-bottom: 20px; color:#666;">Acá podés revisar y borrar cualquier comentario desubicado que la gente deje en tu página.</p>
+        <div id="listaResenasAdmin" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;"></div>
+
+        <div style="height: 60px;"></div> 
+    </div>
+
+    <div id="toast-container"></div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+        import { getFirestore, collection, query, orderBy, where, onSnapshot, doc, updateDoc, setDoc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDaRDRdeqcWpjioECt0t7MVGi2sFomd_Vk",
+            authDomain: "migas-del-cielo.firebaseapp.com",
+            projectId: "migas-del-cielo",
+            storageBucket: "migas-del-cielo.firebasestorage.app",
+            messagingSenderId: "320905334675",
+            appId: "1:320905334675:web:492d16adbae75a73fc2266"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        let chartDiasInstance = null;
+        let chartPagosInstance = null;
+        let chartSaboresInstance = null;
+        let listaPedidosLocal = [];
+        let primeraCarga = true; 
+
+        window.mostrarToast = function(mensaje, tipo = 'success') {
+            const container = document.getElementById('toast-container'); const toast = document.createElement('div');
+            toast.className = `toast ${tipo}`; toast.innerHTML = `<span>${mensaje}</span>`; container.appendChild(toast);
+            setTimeout(() => { toast.classList.add('anim-out'); setTimeout(() => toast.remove(), 300); }, 3000);
+        }
+
+        function reproducirTimbre() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc1 = ctx.createOscillator(); const gain1 = ctx.createGain();
+                osc1.connect(gain1); gain1.connect(ctx.destination);
+                osc1.type = 'sine'; osc1.frequency.setValueAtTime(800, ctx.currentTime);
+                gain1.gain.setValueAtTime(1, ctx.currentTime); gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+                osc1.start(); osc1.stop(ctx.currentTime + 0.5);
+                const osc2 = ctx.createOscillator(); const gain2 = ctx.createGain();
+                osc2.connect(gain2); gain2.connect(ctx.destination);
+                osc2.type = 'sine'; osc2.frequency.setValueAtTime(600, ctx.currentTime + 0.15);
+                gain2.gain.setValueAtTime(1, ctx.currentTime + 0.15); gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.65);
+                osc2.start(ctx.currentTime + 0.15); osc2.stop(ctx.currentTime + 0.65);
+            } catch(e) { console.log("El navegador bloqueó el sonido."); }
+        }
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('pantallaLogin').style.display = 'none';
+                document.getElementById('pantallaPanel').style.display = 'block';
+                cargarPedidos();
+                conectarControlRemotoTienda();
+                cargarModuloModeracion(); 
+            } else {
+                document.getElementById('pantallaLogin').style.display = 'block';
+                document.getElementById('pantallaPanel').style.display = 'none';
+            }
+        });
+
+        document.getElementById('btnIngresar').addEventListener('click', async () => {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const mensajeError = document.getElementById('mensajeError');
+            const boton = document.getElementById('btnIngresar');
+            if(email === "" || password === "") { mensajeError.innerText = "Por favor, completá ambos campos."; mensajeError.style.display = 'block'; return; }
+            boton.innerText = "Verificando...";
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                mensajeError.style.display = 'none'; boton.innerText = "Ingresar al Panel";
+            } catch (error) {
+                if (error.code === 'auth/invalid-credential') { mensajeError.innerText = "El correo o la contraseña no coinciden."; } 
+                else if (error.code === 'auth/invalid-email') { mensajeError.innerText = "El formato del correo es inválido."; } 
+                else { mensajeError.innerText = "Error técnico: " + error.code; }
+                mensajeError.style.display = 'block'; boton.innerText = "Ingresar al Panel";
+            }
+        });
+
+        document.getElementById('btnSalir').addEventListener('click', async () => { await signOut(auth); });
+
+        async function conectarControlRemotoTienda() {
+            const configRef = doc(db, "config", "tienda"); const snap = await getDoc(configRef);
+            if (!snap.exists()) { await setDoc(configRef, { abierta: true, stock: { promo12: true, promo24: true, jyq: true, jyqh: true, completo: true, cajas: true, gaseosas: true, aguas: true } }); }
+            onSnapshot(configRef, (docSnap) => {
+                if(docSnap.exists()) {
+                    const c = docSnap.data(); document.getElementById('toggle-tienda').checked = c.abierta !== false;
+                    const textLabel = document.getElementById('txt-tienda');
+                    if(c.abierta !== false) { textLabel.innerHTML = "<i class='fa-solid fa-door-open'></i> Tienda ABIERTA"; textLabel.style.color = "#4CAF50"; } 
+                    else { textLabel.innerHTML = "<i class='fa-solid fa-door-closed'></i> Tienda CERRADA"; textLabel.style.color = "#D32F2F"; }
+                    const stock = c.stock || {};
+                    document.getElementById('toggle-promo12').checked = stock.promo12 !== false; document.getElementById('toggle-promo24').checked = stock.promo24 !== false;
+                    document.getElementById('toggle-jyq').checked = stock.jyq !== false; document.getElementById('toggle-jyqh').checked = stock.jyqh !== false;
+                    document.getElementById('toggle-completo').checked = stock.completo !== false; document.getElementById('toggle-cajas').checked = stock.cajas !== false;
+                    document.getElementById('toggle-gaseosas').checked = stock.gaseosas !== false; document.getElementById('toggle-aguas').checked = stock.aguas !== false;
+                }
+            });
+        }
+
+        window.subirConfiguracion = async function() {
+            const configRef = doc(db, "config", "tienda");
+            await updateDoc(configRef, {
+                abierta: document.getElementById('toggle-tienda').checked,
+                stock: {
+                    promo12: document.getElementById('toggle-promo12').checked, promo24: document.getElementById('toggle-promo24').checked,
+                    jyq: document.getElementById('toggle-jyq').checked, jyqh: document.getElementById('toggle-jyqh').checked,
+                    completo: document.getElementById('toggle-completo').checked, cajas: document.getElementById('toggle-cajas').checked,
+                    gaseosas: document.getElementById('toggle-gaseosas').checked, aguas: document.getElementById('toggle-aguas').checked
+                }
+            });
+        }
+
+        window.descargarExcel = function() {
+            let csv = "\uFEFFFecha,Cliente,Teléfono,Dirección,Productos,Total ($),Método de Pago,Estado,Cupón Usado\n";
+            listaPedidosLocal.forEach(p => {
+                let fecha = p.fecha.toLocaleDateString() + ' ' + p.fecha.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                let nombre = `"${p.nombre}"`; let telefono = `"${p.telefono}"`; let direccion = `"${p.direccion}"`;
+                let productos = `"${p.producto.replace(/\n/g, ' ')}"`;
+                csv += `${fecha},${nombre},${telefono},${direccion},${productos},${p.total},${p.metodo_pago},${p.entregado ? "Entregado" : "Pendiente"},${p.cupon || "Ninguno"}\n`;
+            });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
+            link.download = `Balance_MigasDelCielo_${new Date().toLocaleDateString().replace(/\//g, '-')}.csv`; link.click();
+        }
+
+        window.filtrarPedidos = function(filtro, boton) { document.querySelectorAll('.btn-filtro').forEach(btn => btn.classList.remove('activo')); boton.classList.add('activo'); renderizarPedidos(filtro); }
+
+        function cargarPedidos() {
+            const haceUnMes = new Date(); haceUnMes.setDate(haceUnMes.getDate() - 30);
+            const consulta = query(collection(db, "pedidos"), where("fecha", ">=", haceUnMes), orderBy("fecha", "desc"));
+
+            onSnapshot(consulta, (snapshot) => {
+                let hayNuevo = false;
+                snapshot.docChanges().forEach((change) => { if (change.type === "added" && !primeraCarga) { hayNuevo = true; } });
+                if (hayNuevo) { reproducirTimbre(); } primeraCarga = false;
+
+                listaPedidosLocal = []; 
+                let tMes = 0, tSem = 0, pend = 0, ventasDias = [0,0,0,0,0,0,0], conteoSabores = {}, pEfe = 0, pTra = 0;
+                let clientesMap = {}; // Diccionario para rastrear VIPs
+                
+                const haceSieteDias = new Date(); haceSieteDias.setDate(haceSieteDias.getDate() - 7);
+
+                snapshot.forEach((docElement) => {
+                    const pedido = docElement.data(); const fecha = pedido.fecha ? pedido.fecha.toDate() : new Date(); const total = pedido.total || 0;
+                    listaPedidosLocal.push({ id: docElement.id, ...pedido, fecha: fecha, recienAgregado: hayNuevo && docElement.id === snapshot.docChanges()[0]?.doc.id });
+
+                    tMes += total; if(fecha >= haceSieteDias) tSem += total;
+                    if(pedido.metodo_pago === 'efectivo') pEfe++; else pTra++;
+                    if(!pedido.entregado) pend++;
+                    if(fecha >= haceSieteDias) { ventasDias[fecha.getDay()] += total; }
+
+                    if (pedido.producto) {
+                        pedido.producto.split('\n').forEach(l => {
+                            let text = l.replace('- ', '').split('($')[0].trim();
+                            if(text && !text.includes('Envío') && !text.includes('Cupón') && !text.includes('Retiro')) { conteoSabores[text] = (conteoSabores[text] || 0) + 1; }
+                        });
+                    }
+
+                    // --- LÓGICA DE CLIENTES VIP ---
+                    let telRaw = pedido.telefono || "";
+                    let telLimpio = telRaw.replace(/\D/g, ''); // Deja solo los números
+                    if(telLimpio) {
+                        if(!clientesMap[telLimpio]) {
+                            clientesMap[telLimpio] = { nombre: pedido.nombre, gastado: 0, cantidad: 0, telUrl: telLimpio };
+                        }
+                        clientesMap[telLimpio].gastado += total;
+                        clientesMap[telLimpio].cantidad += 1;
+                    }
+                });
+
+                document.getElementById('statMes').innerText = "$" + tMes; document.getElementById('statSemana').innerText = "$" + tSem; document.getElementById('statPendientes').innerText = pend;
+                
+                renderizarPedidos('todos');
+                renderizarClientesVIP(clientesMap);
+
+                if(chartDiasInstance) chartDiasInstance.destroy();
+                chartDiasInstance = new Chart(document.getElementById('chartDias').getContext('2d'), { type: 'bar', data: { labels: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'], datasets: [{ label: 'Ingresos últ. 7 días ($)', data: ventasDias, backgroundColor: '#9A1B22', borderRadius: 5 }] } });
+                
+                const top = Object.entries(conteoSabores).sort((a,b)=>b[1]-a[1]).slice(0,5);
+                if(chartSaboresInstance) chartSaboresInstance.destroy();
+                chartSaboresInstance = new Chart(document.getElementById('chartSabores').getContext('2d'), { type: 'bar', data: { labels: top.map(i=>i[0]), datasets: [{ label: 'Productos más pedidos', data: top.map(i=>i[1]), backgroundColor: '#F4C430', borderRadius: 5 }] }, options: { indexAxis: 'y' } });
+
+                if(chartPagosInstance) chartPagosInstance.destroy();
+                chartPagosInstance = new Chart(document.getElementById('chartPagos').getContext('2d'), { type: 'doughnut', data: { labels: ['Efectivo', 'Transf.'], datasets: [{ data: [pEfe, pTra], backgroundColor: ['#2A1111', '#e53935'], borderWidth: 0 }] } });
+            });
+        }
+
+        // FUNCIÓN: RENDERIZAR RANKING VIP
+        function renderizarClientesVIP(clientesMap) {
+            const contenedorVIP = document.getElementById('listaVIP');
+            contenedorVIP.innerHTML = "";
+
+            // Convertimos el diccionario a un array, lo ordenamos por guita gastada y nos quedamos con los primeros 5
+            const topClientes = Object.values(clientesMap)
+                .sort((a, b) => b.gastado - a.gastado)
+                .slice(0, 5);
+
+            if(topClientes.length === 0) {
+                contenedorVIP.innerHTML = "<p style='color:#666;'>Aún no hay compras registradas este mes.</p>";
+                return;
+            }
+
+            topClientes.forEach((cliente, index) => {
+                let iconoCorona = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '⭐';
+                let msgRegalo = encodeURIComponent(`¡Hola ${cliente.nombre}! Vimos que sos uno de los clientes que más nos eligió en Migas del Cielo este mes, y te queríamos agradecer con un regalito... 🥪🎁`);
+                
+                contenedorVIP.innerHTML += `
+                    <div class="tarjeta-vip">
+                        <i class="fa-solid fa-crown corona"></i>
+                        <h4>${iconoCorona} ${cliente.nombre}</h4>
+                        <p>${cliente.cantidad} compras este mes</p>
+                        <div class="gastado">$${cliente.gastado}</div>
+                        <a href="https://wa.me/${cliente.telUrl}?text=${msgRegalo}" target="_blank" class="btn-wa-vip">
+                            <i class="fa-brands fa-whatsapp"></i> Fidelizar
+                        </a>
+                    </div>
+                `;
+            });
+        }
+
+        function renderizarPedidos(filtro) {
+            const contenedor = document.getElementById('listaPedidos'); contenedor.innerHTML = "";
+            let pedidosAMostrar = listaPedidosLocal;
+            if(filtro === 'pendientes') { pedidosAMostrar = listaPedidosLocal.filter(p => !p.entregado); } 
+            else if(filtro === 'sin_abonar') { pedidosAMostrar = listaPedidosLocal.filter(p => p.metodo_pago === 'transferencia' && !p.entregado); }
+
+            pedidosAMostrar.forEach(pedido => {
+                const fechaFormat = pedido.fecha.toLocaleDateString() + ' ' + pedido.fecha.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                const numLimpio = pedido.telefono.replace(/\D/g,'');
+                const msgWa = encodeURIComponent(`¡Hola ${pedido.nombre}! Te aviso que tu pedido de Migas del Cielo ya salió y está en camino. 🛵🥪`);
+                const linkWa = `https://wa.me/${numLimpio}?text=${msgWa}`;
+                const badgeNuevo = pedido.recienAgregado && !pedido.entregado ? `<div class="badge-nuevo">¡NUEVO!</div>` : '';
+
+                contenedor.innerHTML += `
+                    <div class="tarjeta-pedido ${pedido.entregado ? 'completado' : ''}">
+                        ${badgeNuevo}
+                        <div>
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <strong style="font-size: 1.2rem; font-family: 'Fredoka', sans-serif;">${pedido.nombre}</strong>
+                                <strong style="font-size: 1.3rem; color: #9A1B22;">$${pedido.total}</strong>
+                            </div>
+                            <div style="font-size: 0.9rem; color: #666; margin-top: 8px;"><i class="fa-solid fa-phone"></i> ${pedido.telefono}</div>
+                            <div style="font-size: 0.9rem; color: #666; margin-top: 4px;"><i class="fa-solid fa-location-dot"></i> ${pedido.direccion}</div>
+                            <div style="font-size: 0.85rem; color: #999; margin-top: 8px;"><i class="fa-regular fa-clock"></i> ${fechaFormat}</div>
+                            <div class="detalle-productos"><p style="margin:0;">${pedido.producto.replace(/\n/g, '<br>')}</p></div>
+                        </div>
+                        <div class="controles">
+                            <label style="display: flex; align-items: center; gap: 8px; font-weight: bold; cursor: pointer;">
+                                <input type="checkbox" onchange="actEst('${pedido.id}', 'entregado', this.checked)" ${pedido.entregado?'checked':''}> Entregado
+                            </label>
+                            <span style="font-size: 0.95rem; font-weight: 800; padding: 6px 10px; border-radius: 6px; background-color: ${pedido.metodo_pago === 'efectivo' ? '#dcfce7' : '#fee2e2'}; color: ${pedido.metodo_pago === 'efectivo' ? '#166534' : '#991b1b'};">
+                                <i class="fa-solid ${pedido.metodo_pago === 'efectivo' ? 'fa-money-bill' : 'fa-mobile-screen'}"></i>
+                            </span>
+                            ${!pedido.entregado ? `<a href="${linkWa}" target="_blank" class="btn-wa-camino"><i class="fa-brands fa-whatsapp"></i> En camino</a>` : ''}
+                        </div>
+                    </div>`;
+            });
+        }
+
+        window.actEst = async (id, c, v) => await updateDoc(doc(db, "pedidos", id), { [c]: v });
+
+        function cargarModuloModeracion() {
+            const consultaResenas = query(collection(db, "resenas"), orderBy("fecha", "desc"));
+            onSnapshot(consultaResenas, (snapshot) => {
+                const contenedor = document.getElementById('listaResenasAdmin');
+                contenedor.innerHTML = "";
+                if(snapshot.empty) { contenedor.innerHTML = "<p style='color:#666;'>No hay opiniones para moderar todavía.</p>"; return; }
+                
+                snapshot.forEach((docElement) => {
+                    const r = docElement.data();
+                    let estrellas = ""; for(let i=0; i<r.estrellas; i++) estrellas += "⭐";
+                    
+                    contenedor.innerHTML += `
+                        <div class="tarjeta-moderacion">
+                            <div>
+                                <h4>${r.nombre} <span style="font-size:0.8rem; color:#888; font-weight:normal;">(${estrellas})</span></h4>
+                                <p>"${r.comentario}"</p>
+                            </div>
+                            <button class="btn-eliminar-resena" onclick="borrarResena('${docElement.id}')"><i class="fa-solid fa-trash"></i> Eliminar</button>
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        window.borrarResena = async function(idDocumento) {
+            if(confirm("¿Estás 100% seguro de eliminar este comentario de la web? Esta acción no se puede deshacer.")) {
+                try {
+                    await deleteDoc(doc(db, "resenas", idDocumento));
+                    mostrarToast("Opinión eliminada de la web.", "success");
+                } catch(e) { mostrarToast("Error al eliminar.", "error"); }
+            }
+        }
+    </script>
+</body>
+</html>

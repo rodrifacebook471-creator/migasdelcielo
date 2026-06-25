@@ -7,11 +7,16 @@
     <meta name="keywords" content="sándwiches de miga, comida rápida, Santo Tomé, envío gratis, comida casera, catering, eventos">
     <title>Migas del Cielo - Sandwiches de Miga</title>
     
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🥪</text></svg>">
+    <!-- NUEVO FAVICON (Icono de la pestaña del navegador) -->
+    <link rel="icon" type="image/png" href="logo-fondo.png">
+    
+    <!-- ETIQUETAS PARA COMPARTIR EN REDES Y WHATSAPP -->
     <meta property="og:title" content="Migas del Cielo - Sándwiches de Miga">
     <meta property="og:description" content="Los mejores sándwiches extra suaves de Santo Tomé. ¡Hacé tu pedido online para este finde y aprovechá envío gratis llevando 2 docenas!">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1619096252214-ef06c45683e3?q=80&w=800&auto=format&fit=crop">
     
+    <!-- NUEVA IMAGEN AL COMPARTIR EL LINK -->
+    <meta property="og:image" content="logo-fondo.png">
+      
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
@@ -411,7 +416,8 @@ body::before {
         
         const app = initializeApp(firebaseConfig); const db = getFirestore(app);
         
-        window.carrito = []; window.totalPesosGlobal = 0; let controlRemotoAbierto = true; window.stockGlobal = {};
+        
+        window.COSTO_FIJO_ENVIO = 1500; window.carrito = []; window.totalPesosGlobal = 0; let controlRemotoAbierto = true; window.stockGlobal = {};
         window.descuentoGlobal = 0; window.cuponAplicado = "";
         
         window.mostrarToast = function(mensaje, tipo = 'success') {
@@ -610,7 +616,7 @@ body::before {
             });
             let costoEnvio = 0; let textoEnvio = "";
             if (tipoEntrega === 'retiro') { costoEnvio = 0; textoEnvio = "Retiro en local: <span style='color: #4CAF50; font-weight: bold;'>¡GRATIS! 🏪</span>"; } 
-            else { costoEnvio = (totalCantidadSandwiches >= 24) ? 0 : 1500; textoEnvio = (costoEnvio === 0) ? "Envío a domicilio: <span style='color: #4CAF50; font-weight: bold;'>¡GRATIS! 🛵</span>" : `Envío a domicilio: $${costoEnvio} 🛵 <br><small style='font-size:0.75rem; color:#888;'>(¡Sumá ${24 - totalCantidadSandwiches} más para envío gratis!)</small>`; }
+            else { costoEnvio = (totalCantidadSandwiches >= 24) ? 0 : window.COSTO_FIJO_ENVIO; textoEnvio = (costoEnvio === 0) ? "Envío a domicilio: <span style='color: #4CAF50; font-weight: bold;'>¡GRATIS! 🛵</span>" : `Envío a domicilio: $${costoEnvio} 🛵 <br><small style='font-size:0.75rem; color:#888;'>(¡Sumá ${24 - totalCantidadSandwiches} más para envío gratis!)</small>`; }
             lista.innerHTML += `<li style="text-align:right; font-size:0.9rem; margin-top:10px;">${textoEnvio}</li>`;
             let montoDescuento = 0;
             if (window.descuentoGlobal > 0) { montoDescuento = Math.round(subtotalPesos * (window.descuentoGlobal / 100)); lista.innerHTML += `<li style="text-align:right; font-size:0.9rem; color:#4CAF50;">Descuento (${window.cuponAplicado}): -$${montoDescuento} 🎉</li>`; }
@@ -663,7 +669,8 @@ body::before {
         function bloquearInterfaz(inputs, botones, btnConfirmar) {
             inputs.forEach(input => input.disabled = true);
             botones.forEach(btn => { btn.disabled = true; btn.classList.add('boton-agotado'); btn.innerText = "CERRADO"; });
-            if(btnConfirmar) btnConfirmar.disabled = true; document.getElementById('btn-carrito').style.display = 'none'; window.carrito = []; 
+            if(btnConfirmar) btnConfirmar.disabled = true; document.getElementById('btn-carrito').style.display = 'none'; 
+        window.carrito = []; 
         }
 
         function desbloquearInterfaz(inputs, botones, btnConfirmar) {
@@ -716,7 +723,8 @@ body::before {
                 boton.textContent = "Procesando...";
                 const pedidoCompletoTexto = window.carrito.map(item => `${item.nombre} ($${item.precio})`).join('- ');
                 let cantS = window.carrito.reduce((suma, item) => suma + item.cantidadValidaEnvio, 0);
-                let envioAplicado = "Retiro por local"; if(tipoEntrega === 'domicilio') { envioAplicado = (cantS >= 24) ? "¡GRATIS!" : "$1500"; }
+                let costoEnvioCalculado = (cantS >= 24) ? 0 : window.COSTO_FIJO_ENVIO;
+                let envioAplicado = "Retiro por local"; if(tipoEntrega === 'domicilio') { envioAplicado = (costoEnvioCalculado === 0) ? "¡GRATIS!" : `\$${costoEnvioCalculado}`; }
                 let subtotalPesos = window.carrito.reduce((suma, item) => suma + item.precio, 0);
                 let montoDescuento = window.descuentoGlobal > 0 ? Math.round(subtotalPesos * (window.descuentoGlobal / 100)) : 0;
                 let cuponTextoFirebase = window.cuponAplicado ? `
@@ -748,7 +756,8 @@ body::before {
                     
                     localStorage.removeItem('mdc_carrito'); localStorage.removeItem('mdc_cupon'); localStorage.removeItem('mdc_desc'); 
                     window.descuentoGlobal = 0; window.cuponAplicado = ""; document.getElementById('cupon-mensaje').style.display = "none"; document.getElementById('cupon').value = "";
-                    document.getElementById('formularioPedido').reset(); window.carrito = []; actualizarBotonCarrito(); window.cerrarModal(); boton.textContent = "Enviar Pedido por WhatsApp";
+                    document.getElementById('formularioPedido').reset(); 
+        window.carrito = []; actualizarBotonCarrito(); window.cerrarModal(); boton.textContent = "Enviar Pedido por WhatsApp";
                     setTimeout(() => { window.location.href = `https://wa.me/5493756433375?text=${encodeURIComponent(msg)}`; }, 1500);
                 } catch (error) { mostrarToast("Error.", "error"); boton.textContent = "Enviar Pedido por WhatsApp"; }
             });

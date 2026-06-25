@@ -111,16 +111,21 @@ body::before {
                 <i class="fa-solid fa-star" style="margin-left: 10px;"></i>
             </div>
         </div>
+        <div style="background-color: #f8f9fa; border-bottom: 2px solid #eee; padding: 10px 20px; text-align: center; font-size: 0.95rem; color: #555;">
+            <i class="fa-regular fa-clock" style="color: #9A1B22; margin-right: 5px;"></i>
+            <strong>Horarios de Atención:</strong> Jueves a Domingos de 8:00 a 12:00hs y de 16:00 a 22:00hs
+        </div>
     </header>
 
     <div class="redes-flotantes">
-        <button id="btn-carrito" aria-label="Ver carrito de compras" class="btn-red btn-carrito-nuevo" onclick="abrirCarrito()" style="display: none; position: relative; cursor: pointer;">
-            <i class="fa-solid fa-cart-shopping"></i>
-            <span id="contador-carrito">0</span>
-        </button>
         <a href="https://wa.me/5493756433375" target="_blank" class="btn-red btn-wa"><i class="fa-brands fa-whatsapp"></i></a>
         <a href="https://www.instagram.com/migasdelcielo.st" target="_blank" class="btn-red btn-ig"><i class="fa-brands fa-instagram"></i></a>
     </div>
+    
+    <button id="btn-carrito" aria-label="Ver carrito de compras" class="btn-red btn-carrito-nuevo" onclick="abrirCarrito()" style="display: none; cursor: pointer;">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span id="contador-carrito">0</span>
+    </button>
 
     <main>
         <section class="portada">
@@ -720,6 +725,7 @@ body::before {
                 const nombre = document.getElementById('nombre').value.trim(); const telefono = document.getElementById('telefono').value.trim();
                 const direccion = document.getElementById('direccion').value.trim(); const pago = document.getElementById('pago').value; const tipoEntrega = document.getElementById('tipo-entrega').value;
                 if(nombre === "" || telefono === "" || (tipoEntrega === 'domicilio' && direccion === "")) { mostrarToast("Completá tus datos.", "error"); return; }
+                if(telefono.length < 8) { mostrarToast("El número de teléfono parece muy corto.", "error"); return; }
                 boton.textContent = "Procesando...";
                 const pedidoCompletoTexto = window.carrito.map(item => `${item.nombre} ($${item.precio})`).join('- ');
                 let cantS = window.carrito.reduce((suma, item) => suma + item.cantidadValidaEnvio, 0);

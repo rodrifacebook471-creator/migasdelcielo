@@ -448,6 +448,25 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--text-dark); /* Icono oscuro */
     padding: 0;
     outline: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 65px;
+    height: 65px;
+    font-size: 28px;
+    z-index: 9999;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.4);
+    display: flex;
+}
+
+@media (max-width: 480px) {
+    .btn-carrito-nuevo {
+        bottom: 15px;
+        right: 15px;
+        width: 55px;
+        height: 55px;
+        font-size: 24px;
+    }
 }
 
 .btn-carrito-nuevo:hover {
@@ -456,8 +475,8 @@ h1, h2, h3, h4, h5, h6 {
 
 #contador-carrito {
     position: absolute;
-    top: -5px;
-    right: -5px;
+    top: 0px;
+    right: 0px;
     background-color: var(--bg-color); /* Circulito bordó */
     color: var(--text-main); /* Numero dorado */
     font-size: 14px;

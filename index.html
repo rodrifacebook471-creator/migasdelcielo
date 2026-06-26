@@ -146,31 +146,58 @@ body::before {
         </div>
 
         <div class="filtros-menu">
-            <button class="btn-filtro activo" onclick="cambiarCategoria('cat-promos', this)">Promos Destacadas</button>
-            <button class="btn-filtro" onclick="cambiarCategoria('cat-combos', this)">Cajas Armadas</button>
-            <button class="btn-filtro" onclick="cambiarCategoria('cat-unidad', this)">Por Unidad</button>
-            <button class="btn-filtro" onclick="cambiarCategoria('cat-bebidas', this)">Bebidas</button>
+            <button class="btn-filtro activo" onclick="cambiarCategoria('cat-sabores', this)">Sabores</button>
+            <button class="btn-filtro" onclick="cambiarCategoria('cat-combos', this)">Combo Pecado</button>
+            <button class="btn-filtro" onclick="cambiarCategoria('cat-armado', this)">Armá tu Caja</button>
         </div>
 
-        <div id="cat-promos" class="contenedor-menu fade-in-up">
-            <div class="tarjeta-sandwich">
-                <div class="imagen-placeholder"><i class="fa-solid fa-box-open"></i></div>
-                <h3>12 Sándwiches Mixtos</h3>
-                <p>La combinación perfecta para compartir. Incluye 4 de Jamón y Queso + 4 del gusto que más te guste y 4 especiales que el maestro sanguchero elija.</p>
-                <div class="precio">$12.500</div>
-                <button class="btn-seleccionar" id="btn-promo12" data-texto="¡Lo quiero!" onclick="abrirModal('Promo: 12 Mixtos', null, 12500, this)">¡Lo quiero!</button>
-            </div>
-            <div class="tarjeta-sandwich">
-                <div class="badge badge-oro"><i class="fa-solid fa-star"></i> Recomendado</div>
-                <div class="imagen-placeholder"><i class="fa-solid fa-crown"></i></div>
-                <h3>La Caja del Cielo</h3>
-                <p>24 Sándwiches surtidos premium. Ideal para cumples. ¡Llevás 2 docenas y el envío dentro de Santo Tomé es GRATIS!</p>
-                <div class="precio">$24.000</div>
-                <button class="btn-seleccionar" id="btn-promo24" data-texto="¡Lo quiero!" onclick="abrirModal('Promo: La Caja del Cielo x24', null, 24000, this)">¡Lo quiero!</button>
-            </div>
-        </div>
 
         <div id="cat-combos" class="contenedor-menu categoria-oculta">
+            <div class="tarjeta-sandwich">
+                <div class="badge badge-oro"><i class="fa-solid fa-star"></i> Combo Especial</div>
+                <div class="imagen-placeholder"><i class="fa-solid fa-crown"></i></div>
+                <h3>Combo Pecado</h3>
+                <p>La combinación perfecta y completa. Incluye 12 sándwiches en total: 4 de Jamón y Queso + 4 de JyQ con Huevo + 4 de JyQ con Tomate, Lechuga y Huevo.</p>
+                <div class="precio">$17.333</div>
+                <button class="btn-seleccionar" id="btn-promo-pecado" data-texto="¡Lo quiero!" onclick="abrirModal('Combo Pecado (12 Sándwiches)', null, 17333, this)">¡Lo quiero!</button>
+            </div>
+        </div>
+
+        <div id="cat-sabores" class="contenedor-menu fade-in-up">
+            <div class="tarjeta-sandwich">
+                <div class="badge badge-fuego"><i class="fa-solid fa-fire"></i> Más Vendido</div>
+                <div class="imagen-placeholder"><i class="fa-solid fa-bread-slice"></i></div>
+                <h3>Jamón y Queso</h3>
+                <p>El clásico infalible. Pan de miga extra suave, abundante jamón cocido y queso tybo fundente.</p>
+                <div class="precio">$1.666,66 c/u</div>
+                <select class="selector-cantidad" id="cant-jyq">
+                    <option value="1">1 u.</option><option value="2">2 u.</option><option value="3">3 u.</option><option value="4">4 u.</option><option value="5">5 u.</option><option value="6">6 u.</option>
+                </select>
+                <button class="btn-seleccionar" id="btn-jyq" data-texto="Elegir" onclick="abrirModal('Sándwich Jamón y Queso', 'cant-jyq', 1666.66, this)">Elegir</button>
+            </div>
+            <div class="tarjeta-sandwich">
+                <div class="imagen-placeholder"><i class="fa-solid fa-egg"></i></div>
+                <h3>Jamón, Queso y Huevo</h3>
+                <p>El clásico elevado. Nuestro sándwich de JyQ con una generosa capa de huevo duro picado.</p>
+                <div class="precio">$1.250 c/u</div>
+                <select class="selector-cantidad" id="cant-jyqh">
+                    <option value="1">1 u.</option><option value="2">2 u.</option><option value="3">3 u.</option><option value="4">4 u.</option><option value="5">5 u.</option><option value="6">6 u.</option>
+                </select>
+                <button class="btn-seleccionar" id="btn-jyqh" data-texto="Elegir" onclick="abrirModal('Sándwich Jamón, Queso y Huevo', 'cant-jyqh', 1250, this)">Elegir</button>
+            </div>
+            <div class="tarjeta-sandwich">
+                <div class="imagen-placeholder"><i class="fa-solid fa-leaf"></i></div>
+                <h3>JyQ, Tomate, Lechuga y Huevo</h3>
+                <p>Super completo y fresco. Jamón, queso, huevo duro picado, rodajas de tomate y lechuga crujiente.</p>
+                <div class="precio">$1.416,66 c/u</div>
+                <select class="selector-cantidad" id="cant-completo">
+                    <option value="1">1 u.</option><option value="2">2 u.</option><option value="3">3 u.</option><option value="4">4 u.</option><option value="5">5 u.</option><option value="6">6 u.</option>
+                </select>
+                <button class="btn-seleccionar" id="btn-completo" data-texto="Elegir" onclick="abrirModal('Sándwich JyQ, Tomate, Lechuga y Huevo', 'cant-completo', 1416.66, this)">Elegir</button>
+            </div>
+        </div>
+
+        <div id="cat-armado" class="contenedor-menu categoria-oculta">
             <div class="tarjeta-sandwich" style="width: 100%; max-width: 600px;">
                 <div class="badge badge-azul"><i class="fa-solid fa-wand-magic-sparkles"></i> A tu gusto</div>
                 <div class="imagen-placeholder"><i class="fa-solid fa-puzzle-piece"></i></div>
@@ -186,74 +213,13 @@ body::before {
                     <input type="number" id="sabor-jyq" class="selector-cantidad" min="0" value="0" placeholder="Cant. JyQ">
                     <label style="color:var(--text-dark); display:block; margin-bottom:5px; font-weight:bold;">Jamón, Queso y Huevo:</label>
                     <input type="number" id="sabor-jyqh" class="selector-cantidad" min="0" value="0" placeholder="Cant. JyQ+H">
-                    <label style="color:var(--text-dark); display:block; margin-bottom:5px; font-weight:bold;">Especial (Crudo/Roquefort/Atún):</label>
+                    <label style="color:var(--text-dark); display:block; margin-bottom:5px; font-weight:bold;">JyQ con tomate, lechuga y huevo:</label>
                     <input type="number" id="sabor-esp" class="selector-cantidad" min="0" value="0" placeholder="Cant. Especiales">
                 </div>
                 <button class="btn-seleccionar" id="btn-armado-caja" data-texto="Confirmar Mi Caja" onclick="validarYArmarPedido(this)">Confirmar Mi Caja</button>
             </div>
         </div>
 
-        <div id="cat-unidad" class="contenedor-menu categoria-oculta">
-            <div class="tarjeta-sandwich">
-                <div class="badge badge-fuego"><i class="fa-solid fa-fire"></i> Más Vendido</div>
-                <div class="imagen-placeholder"><i class="fa-solid fa-bread-slice"></i></div>
-                <h3>Jamón y Queso</h3>
-                <p>El clásico infalible. Pan de miga extra suave, abundante jamón cocido y queso tybo fundente.</p>
-                <div class="precio">$1.200 c/u</div>
-                <select class="selector-cantidad" id="cant-jyq">
-                    <option value="1">1 u.</option><option value="2">2 u.</option><option value="3">3 u.</option><option value="4">4 u.</option><option value="5">5 u.</option><option value="6">6 u.</option>
-                </select>
-                <button class="btn-seleccionar" id="btn-jyq" data-texto="Elegir" onclick="abrirModal('Sándwich Jamón y Queso', 'cant-jyq', 1200, this)">Elegir</button>
-            </div>
-            <div class="tarjeta-sandwich">
-                <div class="imagen-placeholder"><i class="fa-solid fa-egg"></i></div>
-                <h3>Jamón, Queso y Huevo</h3>
-                <p>El clásico elevado. Nuestro sándwich de JyQ con una generosa capa de huevo duro picado.</p>
-                <div class="precio">$1.400 c/u</div>
-                <select class="selector-cantidad" id="cant-jyqh">
-                    <option value="1">1 u.</option><option value="2">2 u.</option><option value="3">3 u.</option><option value="4">4 u.</option><option value="5">5 u.</option><option value="6">6 u.</option>
-                </select>
-                <button class="btn-seleccionar" id="btn-jyqh" data-texto="Elegir" onclick="abrirModal('Sándwich Jamón, Queso y Huevo', 'cant-jyqh', 1400, this)">Elegir</button>
-            </div>
-            <div class="tarjeta-sandwich">
-                <div class="imagen-placeholder"><i class="fa-solid fa-leaf"></i></div>
-                <h3>Completo</h3>
-                <p>Super completo y fresco. Jamón, queso, huevo duro picado, rodajas de tomate y lechuga crujiente.</p>
-                <div class="precio">$1.800 c/u</div>
-                <select class="selector-cantidad" id="cant-completo">
-                    <option value="1">1 u.</option><option value="2">2 u.</option><option value="3">3 u.</option><option value="4">4 u.</option><option value="5">5 u.</option><option value="6">6 u.</option>
-                </select>
-                <button class="btn-seleccionar" id="btn-completo" data-texto="Elegir" onclick="abrirModal('Sándwich Completo', 'cant-completo', 1800, this)">Elegir</button>
-            </div>
-        </div>
-
-        <div id="cat-bebidas" class="contenedor-menu categoria-oculta">
-            <div class="tarjeta-sandwich">
-                <div class="imagen-placeholder"><i class="fa-solid fa-bottle-droplet"></i></div>
-                <h3>Línea Gaseosas</h3>
-                <p>Coca-Cola, Fanta o Sprite. Elegí el tamaño ideal para acompañar.</p>
-                <div class="precio">Desde $1.000</div>
-                <select class="selector-cantidad" id="tam-gaseosa">
-                    <option value="Coca-Cola 500ml|1000">Coca-Cola 500ml - $1.000</option>
-                    <option value="Coca-Cola 1L|1800">Coca-Cola 1 Litro - $1.800</option>
-                    <option value="Sprite 500ml|1000">Sprite 500ml - $1.000</option>
-                    <option value="Fanta 500ml|1000">Fanta 500ml - $1.000</option>
-                </select>
-                <button class="btn-seleccionar" id="btn-gaseosas" data-texto="Agregar al carrito" onclick="abrirModal('Bebida', 'tam-gaseosa', 0, this)">Agregar al carrito</button>
-            </div>
-            <div class="tarjeta-sandwich">
-                <div class="imagen-placeholder"><i class="fa-solid fa-glass-water"></i></div>
-                <h3>Agua y Saborizadas</h3>
-                <p>Refrescante agua mineral o la dulzura justa de Levité.</p>
-                <div class="precio">Desde $800</div>
-                <select class="selector-cantidad" id="tam-agua">
-                    <option value="Agua 500ml|800">Agua 500ml - $800</option>
-                    <option value="Agua 1L|1200">Agua 1 Litro - $1.200</option>
-                    <option value="Levité 1L|1500">Levité 1 Litro - $1.500</option>
-                </select>
-                <button class="btn-seleccionar" id="btn-aguas" data-texto="Agregar al carrito" onclick="abrirModal('Bebida', 'tam-agua', 0, this)">Agregar al carrito</button>
-            </div>
-        </div>
         </section>
 
         <!-- SECCIÓN: TRAGAPERRAS DEL CASINO -->
@@ -593,7 +559,7 @@ body::before {
             let cantJyqh = parseInt(document.getElementById('sabor-jyqh').value) || 0;
             let cantEsp = parseInt(document.getElementById('sabor-esp').value) || 0;
             if (cantJyq + cantJyqh + cantEsp !== totalDeseado) return mostrarToast(`Elegiste ${totalDeseado} u. pero sumaste ${cantJyq + cantJyqh + cantEsp}.`, "error");
-            let precioCaja = (cantJyq * 1200) + (cantJyqh * 1400) + (cantEsp * 1600); let detalleTexto = `Caja surtida x${totalDeseado}: `; let saboresElegidos = [];
+            let precioCaja = Math.round((cantJyq * 1666.66) + (cantJyqh * 1250) + (cantEsp * 1416.66)); let detalleTexto = `Caja surtida x${totalDeseado}: `; let saboresElegidos = [];
             if (cantJyq > 0) saboresElegidos.push(`${cantJyq} JyQ`); if (cantJyqh > 0) saboresElegidos.push(`${cantJyqh} JyQ+H`); if (cantEsp > 0) saboresElegidos.push(`${cantEsp} Esp`);
             window.carrito.push({ nombre: detalleTexto + saboresElegidos.join(', '), precio: precioCaja, cantidadValidaEnvio: totalDeseado });
             window.guardarMemoria(); actualizarBotonCarrito(); document.getElementById('sabor-jyq').value = 0; document.getElementById('sabor-jyqh').value = 0; document.getElementById('sabor-esp').value = 0; window.animarInteraccion(botonElement);
@@ -682,10 +648,9 @@ body::before {
             if(btnConfirmar) btnConfirmar.disabled = false;
             inputs.forEach(input => input.disabled = false);
             botones.forEach(btn => { btn.disabled = false; btn.classList.remove('boton-agotado'); btn.innerText = btn.getAttribute('data-texto'); });
-            evaluarBotonStock('btn-promo12', window.stockGlobal.promo12); evaluarBotonStock('btn-promo24', window.stockGlobal.promo24);
+            evaluarBotonStock('btn-promo-pecado', window.stockGlobal.promo12);
             evaluarBotonStock('btn-jyq', window.stockGlobal.jyq); evaluarBotonStock('btn-jyqh', window.stockGlobal.jyqh);
             evaluarBotonStock('btn-completo', window.stockGlobal.completo); evaluarBotonStock('btn-armado-caja', window.stockGlobal.cajas);
-            evaluarBotonStock('btn-gaseosas', window.stockGlobal.gaseosas); evaluarBotonStock('btn-aguas', window.stockGlobal.aguas);
             if(window.carrito.length === 0) window.cargarMemoria(); actualizarBotonCarrito();
         }
 

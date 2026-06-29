@@ -71,18 +71,6 @@ h1, h2, h3, h4, h5, h6 {
 /* ========================================================
    1. PORTADA
    ======================================================== */
-.portada {
-    height: 100vh;
-    /* Degradado bordó sutil para darle profundidad */
-    background: radial-gradient(circle, #B22222 0%, #9A1B22 100%); 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    border-bottom: 5px solid var(--text-main);
-    padding: 20px;
-    box-sizing: border-box;
 }
 
 .titulo-retro {
@@ -672,4 +660,87 @@ h1, h2, h3, h4, h5, h6 {
 :focus-visible {
     outline: 3px dashed var(--text-main);
     outline-offset: 4px;
+}
+/* Nuevos estilos para Header (amarillo) y Portada Split-Screen */
+
+header {
+    background-color: var(--text-main); /* Amarillo Dorado */
+    color: var(--bg-color); /* Bordó para contraste */
+}
+
+/* Forzar que los textos dentro de los banners hereden o usen bordó si es necesario,
+   o ajustar el banner de anuncios específico. */
+.banner-anuncios {
+    background-color: var(--text-main) !important;
+    color: var(--bg-color) !important;
+    border-bottom: 2px solid var(--bg-color) !important;
+}
+
+header > div:nth-child(2) {
+    background-color: var(--text-main) !important;
+    border-bottom: 2px solid var(--bg-color) !important;
+    color: var(--bg-color) !important;
+}
+header > div:nth-child(2) i {
+    color: var(--bg-color) !important;
+}
+
+/* Rediseño de Portada */
+.portada {
+    height: 100vh;
+    background: var(--bg-color);
+    display: flex;
+    flex-direction: row; /* Desktop: side-by-side */
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    padding: 0; /* Quitamos padding para que la imagen toque el borde si queremos */
+    box-sizing: border-box;
+    overflow: hidden; /* Evitar scroll horizontal si la imagen se pasa */
+}
+
+.portada-texto {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; /* Texto alineado a la izquierda */
+}
+
+.portada-imagen {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000; /* Fondo negro por si la imagen no cubre todo */
+}
+
+.portada-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Asegura que la imagen llene su mitad sin deformarse */
+    object-position: center;
+}
+
+@media (max-width: 768px) {
+    .portada {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        text-align: center;
+    }
+
+    .portada-texto {
+        align-items: center;
+        padding: 40px 20px;
+        flex: 0 0 auto;
+    }
+
+    .portada-imagen {
+        flex: 1 1 auto;
+        width: 100%;
+        min-height: 40vh; /* Darle un mínimo de altura en móviles */
+    }
 }

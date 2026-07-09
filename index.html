@@ -54,6 +54,10 @@ body::before {
         .btn-gps:hover { background-color: #fff; transform: translate(-1px, -1px); box-shadow: 4px 4px 0px rgba(0,0,0,0.2); }
 
         .tarjeta-sandwich { position: relative; }
+        
+        /* NUEVO ESTILO PARA LAS FOTOS DE LOS SÁNDWICHES */
+        .imagen-producto { width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 15px; border: 2px solid var(--text-dark); box-sizing: border-box; }
+
         .badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); padding: 6px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 800; color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 10; white-space: nowrap; letter-spacing: 1px; text-transform: uppercase; font-family: 'Fredoka', sans-serif; }
         .badge-oro { background: linear-gradient(45deg, #F4C430, #f9a825); color: #2A1111; border: 2px solid #fff; }
         .badge-fuego { background: linear-gradient(45deg, #e53935, #c62828); border: 2px solid #fff; }
@@ -153,7 +157,7 @@ body::before {
         <div id="cat-combos" class="contenedor-menu categoria-oculta">
             <div class="tarjeta-sandwich">
                 <div class="badge badge-oro"><i class="fa-solid fa-star"></i> Combo Especial</div>
-                <div class="imagen-placeholder"><i class="fa-solid fa-crown"></i></div>
+                <img src="foto-combo.jpg" alt="Combo Pecado Especial" class="imagen-producto">
                 <h3>Combo Pecado</h3>
                 <p>La combinación perfecta y completa. Incluye 12 sándwiches en total: 4 de Jamón y Queso + 4 de JyQ con Huevo + 4 de JyQ con Tomate, Lechuga y Huevo.</p>
                 <div class="precio">$17.300</div>
@@ -164,7 +168,7 @@ body::before {
         <div id="cat-sabores" class="contenedor-menu fade-in-up">
             <div class="tarjeta-sandwich">
                 <div class="badge badge-fuego"><i class="fa-solid fa-fire"></i> Más Vendido</div>
-                <div class="imagen-placeholder"><i class="fa-solid fa-bread-slice"></i></div>
+                <img src="foto-jyq.jpg" alt="Sándwich de Jamón y Queso" class="imagen-producto">
                 <h3>Jamón y Queso</h3>
                 <p>El clásico infalible. Pan de miga extra suave, abundante jamón cocido y queso tybo fundente.</p>
                 <div class="precio">Desde $6.500</div>
@@ -175,8 +179,9 @@ body::before {
                 </select>
                 <button class="btn-seleccionar" id="btn-jyq" data-texto="Elegir" onclick="abrirModal('Sándwich Jamón y Queso', 'cant-jyq', 0, this)">Elegir</button>
             </div>
+            
             <div class="tarjeta-sandwich">
-                <div class="imagen-placeholder"><i class="fa-solid fa-egg"></i></div>
+                <img src="foto-jyqh.jpg" alt="Sándwich de Jamón, Queso y Huevo" class="imagen-producto">
                 <h3>Jamón, Queso y Huevo</h3>
                 <p>El clásico elevado. Nuestro sándwich de JyQ con una generosa capa de huevo duro picado.</p>
                 <div class="precio">Desde $7.000</div>
@@ -187,8 +192,9 @@ body::before {
                 </select>
                 <button class="btn-seleccionar" id="btn-jyqh" data-texto="Elegir" onclick="abrirModal('Sándwich Jamón, Queso y Huevo', 'cant-jyqh', 0, this)">Elegir</button>
             </div>
+            
             <div class="tarjeta-sandwich">
-                <div class="imagen-placeholder"><i class="fa-solid fa-leaf"></i></div>
+                <img src="foto-completo.jpg" alt="Sándwich de JyQ, Tomate, Lechuga y Huevo" class="imagen-producto">
                 <h3>JyQ, Tomate, Lechuga y Huevo</h3>
                 <p>Super completo y fresco. Jamón, queso, huevo duro picado, rodajas de tomate y lechuga crujiente.</p>
                 <div class="precio">Desde $8.500</div>

@@ -7,11 +7,14 @@
     <meta name="keywords" content="sándwiches de miga, comida rápida, Santo Tomé, envío gratis, comida casera, catering, eventos">
     <title>Migas del Cielo - Sandwiches de Miga</title>
     
+    <!-- NUEVO FAVICON (Icono de la pestaña del navegador) -->
     <link rel="icon" type="image/png" href="image_d16724.png">
     
+    <!-- ETIQUETAS PARA COMPARTIR EN REDES Y WHATSAPP -->
     <meta property="og:title" content="Migas del Cielo - Sándwiches de Miga">
     <meta property="og:description" content="Los mejores sándwiches extra suaves de Santo Tomé. ¡Hacé tu pedido online para este finde y aprovechá envío gratis llevando 2 docenas!">
     
+    <!-- NUEVA IMAGEN AL COMPARTIR EL LINK -->
     <meta property="og:image" content="image_d16724.png">
       
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -130,6 +133,7 @@ body::before {
 
     <main>
         <section class="portada">
+            <!-- ACÁ ESTÁ EL TRUCO SECRETO. Al tocar 5 veces se activa el modo admin -->
             <h1 class="titulo-retro fade-in-up" onclick="activarAdminSecreto()" style="cursor: pointer; user-select: none;">MIGAS DEL CIELO</h1>
             <p class="fade-in-up" style="font-family: 'Fredoka', sans-serif; font-size: 1.4rem; color: #fff; background-color: var(--accent-red); padding: 8px 30px; border-radius: 30px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; border: 3px solid var(--text-main); box-shadow: 4px 4px 0px rgba(59, 66, 96, 0.3); margin-top: -15px; margin-bottom: 40px; transform: rotate(-2deg); display: inline-block;">
                 <i class="fa-solid fa-fire" style="margin-right: 8px; color: var(--accent-yellow);"></i> El Pecado Permitido
@@ -206,6 +210,7 @@ body::before {
 
         </section>
 
+        <!-- SECCIÓN: TRAGAPERRAS DEL CASINO -->
         <section class="seccion-casino fade-in-up" style="padding: 0 20px;">
             <div class="casino-container">
                 <h2 style="font-family: 'Fredoka', sans-serif; margin-top: 0; color: #F4C430; font-size: 2rem; position: relative; z-index: 2;"><i class="fa-solid fa-gem"></i> Probá tu Suerte</h2>
@@ -413,7 +418,7 @@ body::before {
             setTimeout(() => { window.contadorAdmin = 0; }, 2000);
         }
 
-        // --- CASINO CON LÍMITE DIARIO Y 3% DE PROBABILIDAD ---
+        // --- CASINO CON LÍMITE DIARIO, 3% DE PROBABILIDAD Y AUDITORÍA ---
         const simbolosCasino = ['🥪', '🧀', '🥓', '🍖', '🥚'];
 
         window.jugarCasino = function() {
@@ -449,7 +454,7 @@ body::before {
             msg.style.color = "";
             slots.forEach(s => s.classList.add('spin-anim'));
 
-            setTimeout(() => {
+            setTimeout(async () => {
                 slots.forEach(s => s.classList.remove('spin-anim'));
                 
                 // 2. Lógica matemática para exactamente 3% de victoria
@@ -472,11 +477,23 @@ body::before {
                 slots[1].innerText = r2;
                 slots[2].innerText = r3;
 
+                // --- NUEVO: GUARDAR ESTADÍSTICA EN FIREBASE ---
+                try {
+                    await addDoc(collection(db, "interacciones_casino"), {
+                        fecha: serverTimestamp(),
+                        intento_numero: casinoData.intentos,
+                        resultado: `${r1} ${r2} ${r3}`,
+                        ganador: esGanador
+                    });
+                } catch (e) {
+                    console.error("Error al registrar métricas de ruleta: ", e);
+                }
+
                 // 3. Resultados y mensajes en pantalla
                 if (esGanador) {
                     msg.innerHTML = `¡JACKPOT! 🎉 Ganaste un 15% de desc. Copiá tu código:<br><span class="codigo-ganador">MIGASJACKPOT</span>`;
                     mostrarToast("¡GANASTE EL PREMIO!", "success");
-                    btn.disabled = true; // Bloquear para que no siga tirando si ya ganó
+                    btn.disabled = true; 
                 } else {
                     if (intentosRestantes > 0) {
                         msg.innerHTML = `¡Casi! Volvé a intentar. 🤞 <br><small style='font-size:0.8rem; color:#aaa;'>(Te quedan ${intentosRestantes} tiros hoy)</small>`;

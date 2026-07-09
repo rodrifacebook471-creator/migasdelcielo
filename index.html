@@ -133,7 +133,8 @@ body::before {
 
     <main>
         <section class="portada">
-            <h1 class="titulo-retro fade-in-up">MIGAS DEL CIELO</h1>
+            <!-- ACÁ ESTÁ EL TRUCO SECRETO. Al tocar 5 veces se activa el modo admin -->
+            <h1 class="titulo-retro fade-in-up" onclick="activarAdminSecreto()" style="cursor: pointer; user-select: none;">MIGAS DEL CIELO</h1>
             <p class="fade-in-up" style="font-family: 'Fredoka', sans-serif; font-size: 1.4rem; color: #fff; background-color: var(--accent-red); padding: 8px 30px; border-radius: 30px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; border: 3px solid var(--text-main); box-shadow: 4px 4px 0px rgba(59, 66, 96, 0.3); margin-top: -15px; margin-bottom: 40px; transform: rotate(-2deg); display: inline-block;">
                 <i class="fa-solid fa-fire" style="margin-right: 8px; color: var(--accent-yellow);"></i> El Pecado Permitido
             </p>
@@ -331,9 +332,9 @@ body::before {
                 </select>
                 <div id="datosTransferencia" style="display: none; background: #E8F5E9; border: 2px solid #4CAF50; color: #1B5E20; padding: 15px; border-radius: 10px; text-align: center;">
                     <p style="margin: 0 0 10px 0; font-size: 0.9rem;"><strong>Pago Digital</strong></p>
-                    <p style="margin: 0; font-size: 1.1rem;">Alias: <strong>MIGAS.CIELO</strong></p>
+                    <p style="margin: 0; font-size: 1.1rem;">Alias: <strong style="text-transform: uppercase;">migas.st</strong></p>
                     <p style="margin: 0; font-size: 1.3rem; font-weight: 800; color: #D32F2F;">Total a transferir: $<span id="total-transferencia">0</span></p>
-                    <button type="button" onclick="copyAlias()" style="margin-top: 10px; background: #4CAF50; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; width: 100%;">Copiar Alias</button>
+                    <button type="button" onclick="copiarAlias()" style="margin-top: 10px; background: #4CAF50; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; width: 100%;">Copiar Alias</button>
                 </div>
                 <button type="button" class="btn-confirmar">Enviar Pedido por WhatsApp</button>
             </form>
@@ -384,12 +385,35 @@ body::before {
             setTimeout(() => { toast.classList.add('anim-out'); setTimeout(() => toast.remove(), 300); }, 3000);
         }
 
+        // Recuperar si ya está en modo admin
         window.esAdmin = localStorage.getItem('mdc_admin_mode') === 'true';
+        
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('modo') === 'admMigas') {
             localStorage.setItem('mdc_admin_mode', 'true'); window.esAdmin = true;
             window.history.replaceState({}, document.title, window.location.pathname); 
-            mostrarToast("Modo Admin activado en este dispositivo.", "success");
+            mostrarToast("Modo Admin activado por link.", "success");
+        }
+
+        // --- MODO ADMIN SECRETO POR CLICS ---
+        window.contadorAdmin = 0;
+        window.activarAdminSecreto = function() {
+            window.contadorAdmin++;
+            if (window.contadorAdmin === 5) {
+                if (window.esAdmin) {
+                    localStorage.setItem('mdc_admin_mode', 'false');
+                    window.esAdmin = false;
+                    mostrarToast("Modo Admin DESACTIVADO.", "error");
+                } else {
+                    localStorage.setItem('mdc_admin_mode', 'true');
+                    window.esAdmin = true;
+                    mostrarToast("Modo Admin ACTIVADO. Vista habilitada.", "success");
+                }
+                window.evaluarEstadoTienda();
+                window.contadorAdmin = 0;
+            }
+            // Resetea el contador si pausas mucho entre clics (2 segundos)
+            setTimeout(() => { window.contadorAdmin = 0; }, 2000);
         }
 
         // --- CASINO CON LÍMITE DIARIO Y 3% DE PROBABILIDAD ---
@@ -508,7 +532,8 @@ body::before {
             }
         }
         
-        window.copiarAlias = function() { navigator.clipboard.writeText('MIGAS.CIELO'); mostrarToast("¡Alias copiado!", "success"); }
+        // --- CAMBIO DE ALIAS AQUÍ ---
+        window.copiarAlias = function() { navigator.clipboard.writeText('migas.st'); mostrarToast("¡Alias copiado!", "success"); }
 
         window.aplicarCupon = function() {
             const inputCupon = document.getElementById('cupon'); const mensajeCupon = document.getElementById('cupon-mensaje');

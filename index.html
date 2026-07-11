@@ -117,7 +117,7 @@ body::before {
         </div>
         <div style="background-color: #f8f9fa; border-bottom: 2px solid #eee; padding: 10px 20px; text-align: center; font-size: 0.95rem; color: #555;">
             <i class="fa-regular fa-clock" style="color: #9A1B22; margin-right: 5px;"></i>
-            <strong>Horarios de Atención:</strong> Jueves a Domingos de 8:00 a 12:00hs y de 16:00 a 22:00hs
+            <strong>Horarios de Atención:</strong> Jueves a Domingos de 8:00 a 22:00 hs
         </div>
     </header>
 
@@ -146,7 +146,7 @@ body::before {
             
         <div class="cartel-horarios" id="cartel-logistica">
             <p><strong><i class="fa-regular fa-clock"></i> Horarios de Atención</strong></p>
-            <p>Jueves a Domingo: 8:00 a 12:00 hs | 16:00 a 22:00 hs</p>
+            <p>Jueves a Domingo: 8:00 a 22:00 hs</p>
             <p style="margin-top: 10px; color: #D32F2F; font-weight: bold;" id="estado-tienda">Calculando estado...</p>
         </div>
 
@@ -235,7 +235,7 @@ body::before {
             <div class="contenedor-faq" style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px;">
                 <details class="pregunta-faq">
                     <summary>¿Cuáles son los días y horarios de atención?</summary>
-                    <p>Estamos tomando pedidos de Jueves a Domingo en dos turnos: por la mañana de 8:00 a 12:00 hs, y por la tarde/noche de 16:00 a 22:00 hs.</p>
+                    <p>Estamos tomando pedidos de Jueves a Domingo de corrido, de 8:00 a 22:00 hs.</p>
                 </details>
                 <details class="pregunta-faq">
                     <summary>¿Hacen envíos a domicilio?</summary>
@@ -284,7 +284,7 @@ body::before {
                 <h4>Atención y Envíos</h4>
                 <p><i class="fa-brands fa-whatsapp"></i> +54 9 3756 433375</p>
                 <p><i class="fa-solid fa-location-dot"></i> Envíos en Santo Tomé y Apóstoles</p>
-                <p><i class="fa-regular fa-clock"></i> Jue a Dom (8 a 12hs y 16 a 22hs)</p>
+                <p><i class="fa-regular fa-clock"></i> Jue a Dom (8 a 22hs)</p>
             </div>
             <div class="footer-col">
                 <h4>Accesos Rápidos</h4>
@@ -678,8 +678,8 @@ body::before {
         window.evaluarEstadoTienda = function() {
             const ahora = new Date(); const dia = ahora.getDay(); const hora = ahora.getHours();
             const esDiaLaboral = (dia === 4 || dia === 5 || dia === 6 || dia === 0);
-            const esHorarioManana = (hora >= 8 && hora < 12); const esHorarioTarde = (hora >= 16 && hora < 22);
-            const enHorario = esDiaLaboral && (esHorarioManana || esHorarioTarde);
+            // ¡NUEVO HORARIO! De corrido desde las 8 hasta las 22.
+            const enHorario = esDiaLaboral && (hora >= 8 && hora < 22);
 
             const barraPanico = document.getElementById('barra-panico'); const estadoTexto = document.getElementById('estado-tienda');
             const selectoresInputs = document.querySelectorAll('.selector-cantidad'); const todosBotones = document.querySelectorAll('.btn-seleccionar');
@@ -693,7 +693,7 @@ body::before {
                 bloquearInterfaz(selectoresInputs, todosBotones, btnConfirmar);
             } 
             else if (!enHorario && !window.esAdmin) {
-                barraPanico.innerHTML = '<i class="fa-solid fa-clock"></i> CERRADO. TOMAMOS PEDIDOS DE JUE. A DOM. (8 A 12HS Y 16 A 22HS)'; barraPanico.style.display = 'block';
+                barraPanico.innerHTML = '<i class="fa-solid fa-clock"></i> CERRADO. TOMAMOS PEDIDOS DE JUE. A DOM. DE 8 A 22HS'; barraPanico.style.display = 'block';
                 if(estadoTexto) estadoTexto.innerHTML = '<i class="fa-solid fa-circle" style="color: #D32F2F; font-size: 0.8rem;"></i> Tienda Cerrada fuera de horario';
                 bloquearInterfaz(selectoresInputs, todosBotones, btnConfirmar);
             }

@@ -418,7 +418,7 @@ body::before {
             setTimeout(() => { window.contadorAdmin = 0; }, 2000);
         }
 
-        // --- CASINO CON LÍMITE DIARIO, 3% DE PROBABILIDAD Y AUDITORÍA ---
+        // --- CASINO CON LÍMITE DIARIO, 0% DE PROBABILIDAD (MODIFICADO TEMPORALMENTE) Y AUDITORÍA ---
         const simbolosCasino = ['🥪', '🧀', '🥓', '🍖', '🥚'];
 
         window.jugarCasino = function() {
@@ -457,8 +457,8 @@ body::before {
             setTimeout(async () => {
                 slots.forEach(s => s.classList.remove('spin-anim'));
                 
-                // 2. Lógica matemática para exactamente 3% de victoria
-                const esGanador = Math.random() < 0.03; 
+                // 2. Lógica matemática (0% de victoria para el día de hoy)
+                const esGanador = false; 
                 let r1, r2, r3;
 
                 if (esGanador) {

@@ -101,6 +101,11 @@ body::before {
         .btn-casino:disabled { background: #ccc; box-shadow: 0 6px 0 #999; cursor: not-allowed; color: #666; transform: none !important; }
         .casino-msg { margin-top: 20px; font-size: 1.15rem; font-weight: bold; min-height: 25px; font-family: 'Nunito', sans-serif; }
         .codigo-ganador { background: #4CAF50; color: white; padding: 6px 15px; border-radius: 8px; font-family: monospace; font-size: 1.4rem; display: inline-block; margin-top: 10px; letter-spacing: 3px; font-weight: 800; border: 2px dashed white; box-shadow: 0 0 15px rgba(76, 175, 80, 0.6); }
+
+        /* BARRA DE PROGRESO ENVÍO GRATIS */
+        .barra-progreso-fondo { background-color: #e9ecef; border-radius: 10px; height: 14px; width: 100%; margin-top: 8px; margin-bottom: 20px; overflow: hidden; border: 2px solid var(--text-dark); }
+        .barra-progreso-relleno { height: 100%; width: 0%; transition: width 0.5s ease-in-out, background-color 0.5s ease; }
+        .texto-progreso { font-size: 0.95rem; color: var(--text-dark); text-align: center; margin-bottom: 5px; font-family: 'Nunito', sans-serif; }
     </style>
 </head>
 <body>
@@ -302,6 +307,15 @@ body::before {
         <div class="modal-contenido">
             <span class="cerrar" onclick="cerrarModal()">×</span>
             <h2 style="margin-top: 0; color: var(--text-dark);">Tu Pedido</h2>
+            
+            <!-- NUEVA BARRA DE PROGRESO DE ENVÍO GRATIS -->
+            <div id="contenedor-barra-envio" style="display: none;">
+                <div id="texto-barra-envio" class="texto-progreso"></div>
+                <div class="barra-progreso-fondo">
+                    <div id="relleno-barra-envio" class="barra-progreso-relleno"></div>
+                </div>
+            </div>
+
             <ul id="listaCarrito" style="list-style: none; padding: 0; margin-bottom: 20px;"></ul>
             <form id="formularioPedido">
                 <input type="text" id="nombre" placeholder="Tu Nombre y Apellido" required>
@@ -375,7 +389,6 @@ body::before {
         
         const app = initializeApp(firebaseConfig); const db = getFirestore(app);
         
-        // ¡CAMBIO APLICADO! El costo fijo ahora es de 2000
         window.COSTO_FIJO_ENVIO = 2000; 
         
         window.carrito = []; window.totalPesosGlobal = 0; let controlRemotoAbierto = true; window.stockGlobal = {};
@@ -387,17 +400,40 @@ body::before {
             setTimeout(() => { toast.classList.add('anim-out'); setTimeout(() => toast.remove(), 300); }, 3000);
         }
 
-        // Recuperar si ya está en modo admin
         window.esAdmin = localStorage.getItem('mdc_admin_mode') === 'true';
         
         const urlParams = new URLSearchParams(window.location.search);
+        
+        // --- LOGICA MODO ADMIN ---
         if (urlParams.get('modo') === 'admMigas') {
             localStorage.setItem('mdc_admin_mode', 'true'); window.esAdmin = true;
             window.history.replaceState({}, document.title, window.location.pathname); 
             mostrarToast("Modo Admin activado por link.", "success");
         }
 
-        // --- MODO ADMIN SECRETO POR CLICS ---
+        // --- NUEVA LÓGICA: PREMIO POR ESCANEAR QR ---
+        if (urlParams.get('premio') === 'qr') {
+            if (localStorage.getItem('cupon_qr_usado') !== 'true') {
+                // AHORA ES UN 10% DE DESCUENTO
+                window.descuentoGlobal = 10;
+                window.cuponAplicado = "QR MISTERIOSO";
+                
+                // Mostrar alerta de fiesta con delay para que la página cargue bien
+                setTimeout(() => {
+                    mostrarToast("🎉 ¡Encontraste el QR Secreto! Tenés 10% de descuento guardado para tu pedido de hoy.", "success");
+                    // Guarda en memoria por si recarga la página
+                    window.guardarMemoria(); 
+                    // Limpia la URL para que no se la puedan copiar y pasar tan fácil a un amigo
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }, 800);
+            } else {
+                setTimeout(() => {
+                    mostrarToast("Ya utilizaste el premio de este código QR. ¡Gracias por participar!", "error");
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }, 800);
+            }
+        }
+
         window.contadorAdmin = 0;
         window.activarAdminSecreto = function() {
             window.contadorAdmin++;
@@ -414,11 +450,9 @@ body::before {
                 window.evaluarEstadoTienda();
                 window.contadorAdmin = 0;
             }
-            // Resetea el contador si pausas mucho entre clics (2 segundos)
             setTimeout(() => { window.contadorAdmin = 0; }, 2000);
         }
 
-        // --- CASINO CON LÍMITE DIARIO, 0% DE PROBABILIDAD (MODIFICADO TEMPORALMENTE) Y AUDITORÍA ---
         const simbolosCasino = ['🥪', '🧀', '🥓', '🍖', '🥚'];
 
         window.jugarCasino = function() {
@@ -426,46 +460,30 @@ body::before {
             const slots = [document.getElementById('slot1'), document.getElementById('slot2'), document.getElementById('slot3')];
             const msg = document.getElementById('casino-msg');
 
-            // 1. Control de límite diario (3 por día por usuario usando localStorage)
             const hoy = new Date().toLocaleDateString();
             let casinoData = JSON.parse(localStorage.getItem('mdc_casino')) || { fecha: hoy, intentos: 0 };
             
-            // Si es un día nuevo, resetear el contador
-            if (casinoData.fecha !== hoy) {
-                casinoData = { fecha: hoy, intentos: 0 };
-            }
-
-            // Si ya tiró 3 veces, bloquear
+            if (casinoData.fecha !== hoy) { casinoData = { fecha: hoy, intentos: 0 }; }
             if (casinoData.intentos >= 3) {
-                msg.innerHTML = "¡Ya usaste tus 3 tiros de hoy! 🛑 Volvé mañana.";
-                msg.style.color = "#D32F2F";
-                btn.disabled = true;
-                return;
+                msg.innerHTML = "¡Ya usaste tus 3 tiros de hoy! 🛑 Volvé mañana."; msg.style.color = "#D32F2F"; btn.disabled = true; return;
             }
 
-            // Sumar un intento y guardar en memoria
             casinoData.intentos++;
             localStorage.setItem('mdc_casino', JSON.stringify(casinoData));
-            
             const intentosRestantes = 3 - casinoData.intentos;
 
-            btn.disabled = true;
-            msg.innerHTML = "Girando... 🎲";
-            msg.style.color = "";
+            btn.disabled = true; msg.innerHTML = "Girando... 🎲"; msg.style.color = "";
             slots.forEach(s => s.classList.add('spin-anim'));
 
             setTimeout(async () => {
                 slots.forEach(s => s.classList.remove('spin-anim'));
                 
-                // 2. Lógica matemática (0% de victoria para el día de hoy)
                 const esGanador = false; 
                 let r1, r2, r3;
 
                 if (esGanador) {
-                    // Forzar que los tres símbolos sean idénticos
                     r1 = r2 = r3 = simbolosCasino[Math.floor(Math.random() * simbolosCasino.length)];
                 } else {
-                    // Generar al azar pero asegurarse de que NO sean los 3 iguales
                     do {
                         r1 = simbolosCasino[Math.floor(Math.random() * simbolosCasino.length)];
                         r2 = simbolosCasino[Math.floor(Math.random() * simbolosCasino.length)];
@@ -473,27 +491,17 @@ body::before {
                     } while (r1 === r2 && r2 === r3);
                 }
 
-                slots[0].innerText = r1;
-                slots[1].innerText = r2;
-                slots[2].innerText = r3;
+                slots[0].innerText = r1; slots[1].innerText = r2; slots[2].innerText = r3;
 
-                // --- NUEVO: GUARDAR ESTADÍSTICA EN FIREBASE ---
                 try {
                     await addDoc(collection(db, "interacciones_casino"), {
-                        fecha: serverTimestamp(),
-                        intento_numero: casinoData.intentos,
-                        resultado: `${r1} ${r2} ${r3}`,
-                        ganador: esGanador
+                        fecha: serverTimestamp(), intento_numero: casinoData.intentos, resultado: `${r1} ${r2} ${r3}`, ganador: esGanador
                     });
-                } catch (e) {
-                    console.error("Error al registrar métricas de ruleta: ", e);
-                }
+                } catch (e) { console.error("Error al registrar métricas de ruleta: ", e); }
 
-                // 3. Resultados y mensajes en pantalla
                 if (esGanador) {
                     msg.innerHTML = `¡JACKPOT! 🎉 Ganaste un 15% de desc. Copiá tu código:<br><span class="codigo-ganador">MIGASJACKPOT</span>`;
-                    mostrarToast("¡GANASTE EL PREMIO!", "success");
-                    btn.disabled = true; 
+                    mostrarToast("¡GANASTE EL PREMIO!", "success"); btn.disabled = true; 
                 } else {
                     if (intentosRestantes > 0) {
                         msg.innerHTML = `¡Casi! Volvé a intentar. 🤞 <br><small style='font-size:0.8rem; color:#aaa;'>(Te quedan ${intentosRestantes} tiros hoy)</small>`;
@@ -577,6 +585,17 @@ body::before {
                 window.descuentoGlobal = 10; window.cuponAplicado = "MIGAS.10"; mensajeCupon.innerText = "¡Cupón MIGAS.10 aplicado! 10% de desc. 🎉";
                 mensajeCupon.style.color = "#4CAF50"; mensajeCupon.style.display = "block"; mostrarToast("¡Cupón aplicado!", "success"); 
                 window.guardarMemoria(); window.abrirCarrito();
+            } else if (codigo === "QRMISTERIOSO") {
+                // Por si el usuario adivina la palabra y la tipea a mano
+                if (localStorage.getItem('cupon_qr_usado') === 'true') {
+                    mensajeCupon.innerText = "Ya usaste el premio del QR."; mensajeCupon.style.color = "#D32F2F"; mensajeCupon.style.display = "block";
+                    mostrarToast("Cupón ya utilizado.", "error"); window.descuentoGlobal = 0; window.cuponAplicado = ""; 
+                    window.guardarMemoria(); window.abrirCarrito(); return;
+                }
+                // AHORA ES UN 10% DE DESCUENTO
+                window.descuentoGlobal = 10; window.cuponAplicado = "QR MISTERIOSO"; mensajeCupon.innerText = "¡QR MISTERIOSO validado! 10% de desc. 🎉";
+                mensajeCupon.style.color = "#4CAF50"; mensajeCupon.style.display = "block"; mostrarToast("¡Premio aplicado!", "success"); 
+                window.guardarMemoria(); window.abrirCarrito();
             } else {
                 mensajeCupon.innerText = "El código ingresado no es válido."; mensajeCupon.style.color = "#D32F2F"; mensajeCupon.style.display = "block";
                 mostrarToast("Cupón inválido.", "error"); window.descuentoGlobal = 0; window.cuponAplicado = ""; 
@@ -614,7 +633,6 @@ body::before {
             
             if (idSelectorCantidad) {
                 let elementoSelector = document.getElementById(idSelectorCantidad);
-                // Si el option tiene el formato "Nombre xCant|Precio|CantidadNum"
                 if (elementoSelector.value.includes('|')) { 
                     let partes = elementoSelector.value.split('|'); 
                     nombreFinal = partes[0]; 
@@ -658,9 +676,37 @@ body::before {
                 subtotalPesos += item.precio; totalCantidadSandwiches += item.cantidadValidaEnvio;
                 lista.innerHTML += `<li style="display:flex; justify-content:space-between; border-bottom:1px dashed #ccc; padding-bottom:5px; margin-bottom:10px;"><span style="font-size:0.9rem;">🛒 ${item.nombre}</span><span><strong style="margin-right:10px;">$${item.precio}</strong><button onclick="eliminarDelCarrito(${index})" style="background:var(--accent-red); color:white; border:none; border-radius:5px; padding:3px 8px; cursor:pointer;">X</button></span></li>`;
             });
+
+            // NUEVA LÓGICA: Barra de progreso
+            const contBarra = document.getElementById('contenedor-barra-envio');
+            const txtBarra = document.getElementById('texto-barra-envio');
+            const rellenoBarra = document.getElementById('relleno-barra-envio');
+
+            if (tipoEntrega === 'domicilio') {
+                contBarra.style.display = 'block';
+                let porcentaje = Math.min((totalCantidadSandwiches / 24) * 100, 100);
+                rellenoBarra.style.width = porcentaje + '%';
+                
+                if (totalCantidadSandwiches >= 24) {
+                    txtBarra.innerHTML = "¡Felicidades! Tenés <strong>ENVÍO GRATIS</strong> 🥳";
+                    rellenoBarra.style.backgroundColor = "#4CAF50"; 
+                } else {
+                    let faltan = 24 - totalCantidadSandwiches;
+                    txtBarra.innerHTML = `Sumá <strong>${faltan} unidades</strong> más para envío gratis 🛵`;
+                    rellenoBarra.style.backgroundColor = (porcentaje >= 50) ? "#F4C430" : "#D32F2F"; 
+                }
+            } else {
+                contBarra.style.display = 'none';
+            }
+
             let costoEnvio = 0; let textoEnvio = "";
-            if (tipoEntrega === 'retiro') { costoEnvio = 0; textoEnvio = "Retiro en local: <span style='color: #4CAF50; font-weight: bold;'>¡GRATIS! 🏪</span>"; } 
-            else { costoEnvio = (totalCantidadSandwiches >= 24) ? 0 : window.COSTO_FIJO_ENVIO; textoEnvio = (costoEnvio === 0) ? "Envío a domicilio: <span style='color: #4CAF50; font-weight: bold;'>¡GRATIS! 🛵</span>" : `Envío a domicilio: $${costoEnvio} 🛵 <br><small style='font-size:0.75rem; color:#888;'>(¡Sumá ${24 - totalCantidadSandwiches} más para envío gratis!)</small>`; }
+            if (tipoEntrega === 'retiro') { 
+                costoEnvio = 0; textoEnvio = "Retiro en local: <span style='color: #4CAF50; font-weight: bold;'>¡GRATIS! 🏪</span>"; 
+            } else { 
+                costoEnvio = (totalCantidadSandwiches >= 24) ? 0 : window.COSTO_FIJO_ENVIO; 
+                textoEnvio = (costoEnvio === 0) ? "Envío a domicilio: <span style='color: #4CAF50; font-weight: bold;'>¡GRATIS! 🛵</span>" : `Envío a domicilio: $${costoEnvio} 🛵`; 
+            }
+            
             lista.innerHTML += `<li style="text-align:right; font-size:0.9rem; margin-top:10px;">${textoEnvio}</li>`;
             let montoDescuento = 0;
             if (window.descuentoGlobal > 0) { montoDescuento = Math.round(subtotalPesos * (window.descuentoGlobal / 100)); lista.innerHTML += `<li style="text-align:right; font-size:0.9rem; color:#4CAF50;">Descuento (${window.cuponAplicado}): -$${montoDescuento} 🎉</li>`; }
@@ -678,7 +724,6 @@ body::before {
         window.evaluarEstadoTienda = function() {
             const ahora = new Date(); const dia = ahora.getDay(); const hora = ahora.getHours();
             const esDiaLaboral = (dia === 4 || dia === 5 || dia === 6 || dia === 0);
-            // ¡NUEVO HORARIO! De corrido desde las 8 hasta las 22.
             const enHorario = esDiaLaboral && (hora >= 8 && hora < 22);
 
             const barraPanico = document.getElementById('barra-panico'); const estadoTexto = document.getElementById('estado-tienda');
@@ -783,6 +828,8 @@ body::before {
                     
                     if (window.cuponAplicado === "MIGAS.10") localStorage.setItem('cupon_migas10_usado', 'true');
                     if (window.cuponAplicado === "MIGASJACKPOT") localStorage.setItem('cupon_migasjackpot_usado', 'true');
+                    // ¡NUEVO! Guardar en memoria que el QR ya se usó para evitar trampas
+                    if (window.cuponAplicado === "QR MISTERIOSO") localStorage.setItem('cupon_qr_usado', 'true');
                     
                     localStorage.removeItem('mdc_carrito'); localStorage.removeItem('mdc_cupon'); localStorage.removeItem('mdc_desc'); 
                     window.descuentoGlobal = 0; window.cuponAplicado = ""; document.getElementById('cupon-mensaje').style.display = "none"; document.getElementById('cupon').value = "";

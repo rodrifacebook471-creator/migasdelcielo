@@ -159,7 +159,10 @@ body::before {
                 <h3>Combo Pecado</h3>
                 <p>La combinación perfecta y completa. Incluye 12 sándwiches en total: 4 de Jamón y Queso + 4 de JyQ con Huevo + 4 de JyQ con Tomate, Lechuga y Huevo.</p>
                 <div class="contenedor-etiqueta-stock"><div id="stock-combo"></div></div>
-                <div class="precio">$17.300</div>
+                <div style="margin-bottom: 15px;">
+                    <span style="text-decoration: line-through; color: #888; font-size: 1.2rem; font-weight: bold; margin-right: 10px;">$22.000</span>
+                    <div class="precio" style="margin-bottom: 0;">$17.300</div>
+                </div>
                 <button class="btn-seleccionar" id="btn-promo-pecado" data-texto="¡Lo quiero!" onclick="abrirModal('Combo Pecado (12 Sándwiches)', null, 17300, this)">¡Lo quiero!</button>
             </div>
         </div>
@@ -586,7 +589,7 @@ body::before {
                 let subtotalPesos = window.carrito.reduce((suma, item) => suma + item.precio, 0); let montoDescuento = window.descuentoGlobal > 0 ? Math.round(subtotalPesos * (window.descuentoGlobal / 100)) : 0; let cuponTextoFirebase = window.cuponAplicado ? `\n- Cupón: ${window.cuponAplicado} (-$${montoDescuento})` : ''; let cuponTextoWpp = window.cuponAplicado ? `\n*Cupón:* ${window.cuponAplicado} (-$${montoDescuento})` : '';
                 try {
                     await addDoc(collection(db, "pedidos"), { producto: pedidoCompletoTexto + "- Envío: " + envioAplicado + cuponTextoFirebase, total: window.totalPesosGlobal, nombre: nombre, telefono: telefono, direccion: direccion, metodo_pago: pago, fecha: serverTimestamp(), estado: "Pendiente", cupon: window.cuponAplicado || "Ninguno" });
-                    const msg = `¡Hola! Acabo de armar un pedido en la web. 🛒\n\n*Nombre:* ${nombre}\n*Teléfono:* ${telefono}\n*Dirección / Método:* ${direccion}\n\n*MI PEDIDO:*\n- ${pedidoCompletoTexto}\n*- Costo Envío: ${envioAplicado}*${cuponTextoWpp}\n\n*TOTAL FINAL: $${window.totalPesosGlobal}*\n\n*Pago:* ${pago === 'efectivo' ? '💵 Efectivo' : '💳 Transferencia'}`;
+                    const msg = `¡Hola! Acabo de armar un pedido en la web. 🛒\n\n*Nombre:* ${nombre}\n*Teléfono:* ${telefono}\n*Dirección / Método:* ${direccion}\n\n*MI PEDIDO:*\n- ${pedidoCompletoTexto}\n*- Costo Envío: ${envioAplicado}*${cuponTextoWpp}\n\n*TOTAL FINAL: $${window.totalPesosGlobal}*\n\n*Pago:* ${pago === 'efectivo' ? '💵 Efectivo' : '💳 Transferencia. (Aguardamos el comprobante por este medio para pasar tu pedido a cocina 🚀)'}`;
                     mostrarToast("¡Pedido registrado! Abriendo WhatsApp...", "success");
                     if (window.cuponAplicado === "MIGAS.10") localStorage.setItem('cupon_migas10_usado', 'true'); if (window.cuponAplicado === "MIGASJACKPOT") localStorage.setItem('cupon_migasjackpot_usado', 'true'); if (window.cuponAplicado === "QR MISTERIOSO") localStorage.setItem('cupon_qr_usado', 'true');
                     localStorage.removeItem('mdc_carrito'); localStorage.removeItem('mdc_cupon'); localStorage.removeItem('mdc_desc'); window.descuentoGlobal = 0; window.cuponAplicado = ""; document.getElementById('cupon-mensaje').style.display = "none"; document.getElementById('cupon').value = ""; document.getElementById('formularioPedido').reset(); window.carrito = []; actualizarBotonCarrito(); window.cerrarModal(); boton.textContent = "Enviar Pedido por WhatsApp";

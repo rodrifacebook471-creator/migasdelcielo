@@ -7,14 +7,10 @@
     <meta name="keywords" content="sándwiches de miga, comida rápida, Santo Tomé, envío gratis, comida casera, catering, eventos">
     <title>Migas del Cielo - Sandwiches de Miga</title>
     
-    <!-- NUEVO FAVICON (Icono de la pestaña del navegador) -->
     <link rel="icon" type="image/png" href="image_d16724.png">
     
-    <!-- ETIQUETAS PARA COMPARTIR EN REDES Y WHATSAPP -->
     <meta property="og:title" content="Migas del Cielo - Sándwiches de Miga">
     <meta property="og:description" content="Los mejores sándwiches extra suaves de Santo Tomé. ¡Hacé tu pedido online para este finde y aprovechá envío gratis llevando 2 docenas!">
-    
-    <!-- NUEVA IMAGEN AL COMPARTIR EL LINK -->
     <meta property="og:image" content="image_d16724.png">
       
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,24 +21,10 @@
     <link rel="stylesheet" href="css/style.css">
 
     <style>
-/* NUEVO: TEXTURA DE FONDO CON TU LOGO */
 body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-image: url('logo-fondo.png');
-    background-size: 200px; 
-    background-repeat: repeat; 
-    opacity: 0.04; /* Nivel de transparencia (4%) */
-    
-    /* ACÁ ESTÁ LA MAGIA: Lo ponemos por encima de todo */
-    z-index: 9999; 
-    
-    /* Y esto evita que el logo invisible bloquee los clics en la pantalla */
-    pointer-events: none; 
+    content: ""; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background-image: url('logo-fondo.png'); background-size: 200px; background-repeat: repeat; 
+    opacity: 0.04; z-index: 9999; pointer-events: none; 
 }
         .boton-agotado { background-color: #6c757d !important; color: #dcdcdc !important; border-color: #2A1111 !important; cursor: not-allowed !important; box-shadow: none !important; transform: none !important; }
         .selector-cantidad:disabled { background-color: #e9ecef; color: #6c757d; border-color: #ccc; cursor: not-allowed; opacity: 0.8; }
@@ -55,7 +37,6 @@ body::before {
 
         .tarjeta-sandwich { position: relative; }
         
-        /* NUEVO ESTILO PARA LAS FOTOS DE LOS SÁNDWICHES */
         .imagen-producto { width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 15px; border: 2px solid var(--text-dark); box-sizing: border-box; }
 
         .badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); padding: 6px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 800; color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 10; white-space: nowrap; letter-spacing: 1px; text-transform: uppercase; font-family: 'Fredoka', sans-serif; }
@@ -89,7 +70,6 @@ body::before {
         .contenido-legales p { margin-top: 0; }
         #barra-panico.admin-mode { background-color: #F4C430; color: #2A1111; border-bottom: 3px solid #2A1111; }
 
-        /* ESTILOS DEL CASINO */
         .casino-container { background: linear-gradient(135deg, #2A1111, #4a1e1e); color: white; padding: 35px 20px; border-radius: 15px; text-align: center; margin: 40px auto; max-width: 600px; border: 4px solid #F4C430; box-shadow: 0 15px 30px rgba(0,0,0,0.3); position: relative; overflow: hidden; }
         .casino-container::before { content: '🎰'; position: absolute; font-size: 8rem; opacity: 0.05; top: -20px; left: -20px; transform: rotate(-15deg); }
         .slots { display: flex; justify-content: center; gap: 15px; margin: 25px 0; font-size: 4.5rem; }
@@ -102,10 +82,23 @@ body::before {
         .casino-msg { margin-top: 20px; font-size: 1.15rem; font-weight: bold; min-height: 25px; font-family: 'Nunito', sans-serif; }
         .codigo-ganador { background: #4CAF50; color: white; padding: 6px 15px; border-radius: 8px; font-family: monospace; font-size: 1.4rem; display: inline-block; margin-top: 10px; letter-spacing: 3px; font-weight: 800; border: 2px dashed white; box-shadow: 0 0 15px rgba(76, 175, 80, 0.6); }
 
-        /* BARRA DE PROGRESO ENVÍO GRATIS */
         .barra-progreso-fondo { background-color: #e9ecef; border-radius: 10px; height: 14px; width: 100%; margin-top: 8px; margin-bottom: 20px; overflow: hidden; border: 2px solid var(--text-dark); }
         .barra-progreso-relleno { height: 100%; width: 0%; transition: width 0.5s ease-in-out, background-color 0.5s ease; }
         .texto-progreso { font-size: 0.95rem; color: var(--text-dark); text-align: center; margin-bottom: 5px; font-family: 'Nunito', sans-serif; }
+        
+        /* NUEVO: ESTILOS VISUALES LLAMATIVOS PARA EL STOCK */
+        .contenedor-etiqueta-stock { text-align: center; margin-bottom: 12px; margin-top: 5px; min-height: 28px; }
+        .badge-stock { display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 800; font-family: 'Nunito', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 3px 6px rgba(0,0,0,0.15); transition: all 0.3s ease; }
+        .stock-alto { background-color: #E8F5E9; color: #2E7D32; border: 1px solid #4CAF50; }
+        .stock-medio { background-color: #FFF3E0; color: #E65100; border: 1px solid #FF9800; }
+        .stock-bajo { background-color: #FFEBEE; color: #C62828; border: 1px solid #F44336; animation: latidoUrgencia 1s infinite alternate; }
+        .stock-agotado { background-color: #EEEEEE; color: #616161; border: 1px solid #9E9E9E; box-shadow: none; }
+        
+        @keyframes latidoUrgencia {
+            0% { transform: scale(1); box-shadow: 0 3px 6px rgba(244, 67, 54, 0.3); }
+            100% { transform: scale(1.08); box-shadow: 0 6px 12px rgba(244, 67, 54, 0.5); }
+        }
+        .badge-stock i { margin-right: 5px; }
     </style>
 </head>
 <body>
@@ -138,7 +131,6 @@ body::before {
 
     <main>
         <section class="portada">
-            <!-- ACÁ ESTÁ EL TRUCO SECRETO. Al tocar 5 veces se activa el modo admin -->
             <h1 class="titulo-retro fade-in-up" onclick="activarAdminSecreto()" style="cursor: pointer; user-select: none;">MIGAS DEL CIELO</h1>
             <p class="fade-in-up" style="font-family: 'Fredoka', sans-serif; font-size: 1.4rem; color: #fff; background-color: var(--accent-red); padding: 8px 30px; border-radius: 30px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; border: 3px solid var(--text-main); box-shadow: 4px 4px 0px rgba(59, 66, 96, 0.3); margin-top: -15px; margin-bottom: 40px; transform: rotate(-2deg); display: inline-block;">
                 <i class="fa-solid fa-fire" style="margin-right: 8px; color: var(--accent-yellow);"></i> El Pecado Permitido
@@ -166,6 +158,7 @@ body::before {
                 <img src="foto-combo.jpg" alt="Combo Pecado Especial" class="imagen-producto">
                 <h3>Combo Pecado</h3>
                 <p>La combinación perfecta y completa. Incluye 12 sándwiches en total: 4 de Jamón y Queso + 4 de JyQ con Huevo + 4 de JyQ con Tomate, Lechuga y Huevo.</p>
+                <div class="contenedor-etiqueta-stock"><div id="stock-combo"></div></div>
                 <div class="precio">$17.300</div>
                 <button class="btn-seleccionar" id="btn-promo-pecado" data-texto="¡Lo quiero!" onclick="abrirModal('Combo Pecado (12 Sándwiches)', null, 17300, this)">¡Lo quiero!</button>
             </div>
@@ -177,6 +170,7 @@ body::before {
                 <img src="foto-jyq.jpg" alt="Sándwich de Jamón y Queso" class="imagen-producto">
                 <h3>Jamón y Queso</h3>
                 <p>El clásico infalible. Pan de miga extra suave, abundante jamón cocido y queso tybo fundente.</p>
+                <div class="contenedor-etiqueta-stock"><div id="stock-jyq"></div></div>
                 <div class="precio">Desde $6.500</div>
                 <select class="selector-cantidad" id="cant-jyq">
                     <option value="Sándwich Jamón y Queso x4|6500|4">x4 unidades - $6.500</option>
@@ -190,6 +184,7 @@ body::before {
                 <img src="foto-jyqh.jpg" alt="Sándwich de Jamón, Queso y Huevo" class="imagen-producto">
                 <h3>Jamón, Queso y Huevo</h3>
                 <p>El clásico elevado. Nuestro sándwich de JyQ con una generosa capa de huevo duro picado.</p>
+                <div class="contenedor-etiqueta-stock"><div id="stock-jyqh"></div></div>
                 <div class="precio">Desde $7.000</div>
                 <select class="selector-cantidad" id="cant-jyqh">
                     <option value="Sándwich Jamón, Queso y Huevo x4|7000|4">x4 unidades - $7.000</option>
@@ -203,6 +198,7 @@ body::before {
                 <img src="foto-completo.jpg" alt="Sándwich de JyQ, Tomate, Lechuga y Huevo" class="imagen-producto">
                 <h3>JyQ, Tomate, Lechuga y Huevo</h3>
                 <p>Super completo y fresco. Jamón, queso, huevo duro picado, rodajas de tomate y lechuga crujiente.</p>
+                <div class="contenedor-etiqueta-stock"><div id="stock-completo"></div></div>
                 <div class="precio">Desde $8.500</div>
                 <select class="selector-cantidad" id="cant-completo">
                     <option value="Sándwich JyQ, Tom. y Lech. x4|8500|4">x4 unidades - $8.500</option>
@@ -215,22 +211,16 @@ body::before {
 
         </section>
 
-        <!-- SECCIÓN: TRAGAPERRAS DEL CASINO -->
         <section class="seccion-casino fade-in-up" style="padding: 0 20px;">
             <div class="casino-container">
                 <h2 style="font-family: 'Fredoka', sans-serif; margin-top: 0; color: #F4C430; font-size: 2rem; position: relative; z-index: 2;"><i class="fa-solid fa-gem"></i> Probá tu Suerte</h2>
                 <p style="position: relative; z-index: 2;">¡Tirá la palanca! Si sacás 3 ingredientes iguales, te regalamos un cupón de <strong>15% de descuento</strong> para tu pedido de hoy.</p>
-                
                 <div class="slots">
                     <div class="slot" id="slot1">🥪</div>
                     <div class="slot" id="slot2">🧀</div>
                     <div class="slot" id="slot3">🥓</div>
                 </div>
-                
-                <button class="btn-casino" id="btn-spin" onclick="jugarCasino()" style="position: relative; z-index: 2;">
-                    🎰 Girar Ruleta 🎰
-                </button>
-                
+                <button class="btn-casino" id="btn-spin" onclick="jugarCasino()" style="position: relative; z-index: 2;">🎰 Girar Ruleta 🎰</button>
                 <div class="casino-msg" id="casino-msg">¡Tenés 3 intentos por día para ganar! ✨</div>
             </div>
         </section>
@@ -238,25 +228,15 @@ body::before {
         <div class="seccion-faq fade-in-up" style="padding: 40px 20px; background-color: transparent; border: none;">
             <h2 style="text-align: center; margin-bottom: 30px; font-family: 'Fredoka', sans-serif; color: #fff; font-weight: 700; font-size: 2.2rem;">Preguntas Frecuentes</h2>
             <div class="contenedor-faq" style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px;">
-                <details class="pregunta-faq">
-                    <summary>¿Cuáles son los días y horarios de atención?</summary>
-                    <p>Estamos tomando pedidos de Jueves a Domingo de corrido, de 8:00 a 22:00 hs.</p>
-                </details>
-                <details class="pregunta-faq">
-                    <summary>¿Hacen envíos a domicilio?</summary>
-                    <p>¡Sí! Hacemos envíos tanto en Apóstoles como en Santo Tomé. Recordá que si llevás 2 docenas o más, el envío en Santo Tomé es totalmente gratuito.</p>
-                </details>
-                <details class="pregunta-faq">
-                    <summary>¿Con cuánto tiempo de anticipación pido para un evento?</summary>
-                    <p>Para pedidos normales del día a día, podés pedir en el momento. Si tenés un cumpleaños, juntada o necesitás varias docenas, te recomendamos escribirnos con al menos 24 a 48 horas de anticipación.</p>
-                </details>
+                <details class="pregunta-faq"><summary>¿Cuáles son los días y horarios de atención?</summary><p>Estamos tomando pedidos de Jueves a Domingo de corrido, de 8:00 a 22:00 hs.</p></details>
+                <details class="pregunta-faq"><summary>¿Hacen envíos a domicilio?</summary><p>¡Sí! Hacemos envíos tanto en Apóstoles como en Santo Tomé. Recordá que si llevás 2 docenas o más, el envío en Santo Tomé es totalmente gratuito.</p></details>
+                <details class="pregunta-faq"><summary>¿Con cuánto tiempo de anticipación pido para un evento?</summary><p>Para pedidos normales del día a día, podés pedir en el momento. Si tenés un cumpleaños, juntada o necesitás varias docenas, te recomendamos escribirnos con al menos 24 a 48 horas de anticipación.</p></details>
             </div>
         </div>
 
         <section class="seccion-testimonios fade-in-up">
             <h2 style="font-family: 'Fredoka', sans-serif; font-size: 2.2rem; margin-top: 0; color: #F4C430;">Lo que dicen nuestros clientes</h2>
             <p style="color: #ccc; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Opiniones reales de la comunidad. ¡Tu comentario aparece al instante!</p>
-            
             <div id="listaReseñas" class="contenedor-reseñas"><p style="color:#ccc; grid-column: 1/-1;">Cargando opiniones reales...</p></div>
 
             <div style="max-width: 500px; margin: 40px auto 0 auto; background: white; padding: 25px; border-radius: 12px; border: 3px solid #2A1111; box-shadow: 5px 5px 0px rgba(0,0,0,0.2); text-align: left;">
@@ -282,8 +262,7 @@ body::before {
     <footer class="footer-sitio">
         <div class="footer-contenedor">
             <div class="footer-col">
-                <h4>Migas del Cielo</h4>
-                <p>El pecado permitido. Elaboramos los sándwiches de miga más suaves y frescos de la región.</p>
+                <h4>Migas del Cielo</h4><p>El pecado permitido. Elaboramos los sándwiches de miga más suaves y frescos de la región.</p>
             </div>
             <div class="footer-col">
                 <h4>Atención y Envíos</h4>
@@ -298,9 +277,7 @@ body::before {
                 <a href="#" onclick="abrirLegales(); return false;"><i class="fa-solid fa-shield-halved"></i> Términos y Privacidad</a>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>© 2026 Migas del Cielo. Todos los derechos reservados.</p>
-        </div>
+        <div class="footer-bottom"><p>© 2026 Migas del Cielo. Todos los derechos reservados.</p></div>
     </footer>
     
     <div id="modalPedido" class="modal">
@@ -308,12 +285,9 @@ body::before {
             <span class="cerrar" onclick="cerrarModal()">×</span>
             <h2 style="margin-top: 0; color: var(--text-dark);">Tu Pedido</h2>
             
-            <!-- NUEVA BARRA DE PROGRESO DE ENVÍO GRATIS -->
             <div id="contenedor-barra-envio" style="display: none;">
                 <div id="texto-barra-envio" class="texto-progreso"></div>
-                <div class="barra-progreso-fondo">
-                    <div id="relleno-barra-envio" class="barra-progreso-relleno"></div>
-                </div>
+                <div class="barra-progreso-fondo"><div id="relleno-barra-envio" class="barra-progreso-relleno"></div></div>
             </div>
 
             <ul id="listaCarrito" style="list-style: none; padding: 0; margin-bottom: 20px;"></ul>
@@ -329,9 +303,7 @@ body::before {
 
                 <div id="grupo-direccion-container" class="grupo-direccion">
                     <input type="text" id="direccion" placeholder="Dirección de envío o referencias" required>
-                    <button type="button" id="btn-gps" class="btn-gps" onclick="obtenerUbicacionGPS()" title="Usar mi ubicación GPS actual">
-                        <i class="fa-solid fa-location-crosshairs"></i>
-                    </button>
+                    <button type="button" id="btn-gps" class="btn-gps" onclick="obtenerUbicacionGPS()" title="Usar mi ubicación GPS actual"><i class="fa-solid fa-location-crosshairs"></i></button>
                 </div>
                 
                 <div style="display: flex; gap: 8px; margin: 12px 0;">
@@ -361,16 +333,11 @@ body::before {
             <span class="cerrar" onclick="cerrarLegales()">×</span>
             <h2 style="color: #9A1B22; font-family: 'Fredoka', sans-serif; margin-top: 0; margin-bottom: 20px;"><i class="fa-solid fa-file-contract"></i> Términos y Privacidad</h2>
             <div class="contenido-legales">
-                <h4>1. Protección de Datos (Ley 25.326)</h4>
-                <p>Los datos personales solicitados en esta plataforma (nombre, teléfono, dirección) son almacenados de forma segura y utilizados exclusivamente para la gestión, preparación y logística de envío de su pedido. Migas del Cielo se compromete a proteger su privacidad y no vender, compartir ni divulgar esta información a terceros bajo ninguna circunstancia.</p>
-                <h4>2. Disponibilidad y Precios</h4>
-                <p>Todos los pedidos están sujetos a la disponibilidad de stock en el momento de la confirmación. Los precios publicados en el menú pueden sufrir modificaciones sin previo aviso.</p>
-                <h4>3. Confirmación de Pedidos</h4>
-                <p>El envío del formulario a través de esta página web funciona como una reserva inicial. La compra se considera confirmada y en preparación únicamente cuando nuestro equipo responde a través de WhatsApp.</p>
-                <h4>4. Pagos Digitales</h4>
-                <p>En caso de seleccionar el método de pago por transferencia, la entrega queda estrictamente supeditada a la verificación del comprobante correspondiente.</p>
-                <h4>5. Logística de Entrega</h4>
-                <p>Nuestra zona de cobertura para envíos a domicilio comprende Santo Tomé y Apóstoles. Los tiempos de demora informados son estimativos.</p>
+                <h4>1. Protección de Datos (Ley 25.326)</h4><p>Los datos personales solicitados en esta plataforma (nombre, teléfono, dirección) son almacenados de forma segura y utilizados exclusivamente para la gestión, preparación y logística de envío de su pedido. Migas del Cielo se compromete a proteger su privacidad y no vender, compartir ni divulgar esta información a terceros bajo ninguna circunstancia.</p>
+                <h4>2. Disponibilidad y Precios</h4><p>Todos los pedidos están sujetos a la disponibilidad de stock en el momento de la confirmación. Los precios publicados en el menú pueden sufrir modificaciones sin previo aviso.</p>
+                <h4>3. Confirmación de Pedidos</h4><p>El envío del formulario a través de esta página web funciona como una reserva inicial. La compra se considera confirmada y en preparación únicamente cuando nuestro equipo responde a través de WhatsApp.</p>
+                <h4>4. Pagos Digitales</h4><p>En caso de seleccionar el método de pago por transferencia, la entrega queda estrictamente supeditada a la verificación del comprobante correspondiente.</p>
+                <h4>5. Logística de Entrega</h4><p>Nuestra zona de cobertura para envíos a domicilio comprende Santo Tomé y Apóstoles. Los tiempos de demora informados son estimativos.</p>
             </div>
             <button onclick="cerrarLegales()" style="background:#9A1B22; color:#F4C430; border:none; padding:12px; width:100%; border-radius:8px; font-weight:bold; cursor:pointer; font-family:'Fredoka', sans-serif; text-transform:uppercase; margin-top: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">Entendido</button>
         </div>
@@ -391,9 +358,7 @@ body::before {
         const app = initializeApp(firebaseConfig); const db = getFirestore(app);
         
         window.COSTO_FIJO_ENVIO = 2000; 
-        
-        window.carrito = []; window.totalPesosGlobal = 0; let controlRemotoAbierto = true; window.stockGlobal = {};
-        window.descuentoGlobal = 0; window.cuponAplicado = "";
+        window.carrito = []; window.totalPesosGlobal = 0; let controlRemotoAbierto = true; window.stockGlobal = {}; window.descuentoGlobal = 0; window.cuponAplicado = "";
         
         window.mostrarToast = function(mensaje, tipo = 'success') {
             const container = document.getElementById('toast-container'); const toast = document.createElement('div');
@@ -402,36 +367,19 @@ body::before {
         }
 
         window.esAdmin = localStorage.getItem('mdc_admin_mode') === 'true';
-        
         const urlParams = new URLSearchParams(window.location.search);
         
-        // --- LOGICA MODO ADMIN ---
         if (urlParams.get('modo') === 'admMigas') {
             localStorage.setItem('mdc_admin_mode', 'true'); window.esAdmin = true;
-            window.history.replaceState({}, document.title, window.location.pathname); 
-            mostrarToast("Modo Admin activado por link.", "success");
+            window.history.replaceState({}, document.title, window.location.pathname); mostrarToast("Modo Admin activado por link.", "success");
         }
 
-        // --- NUEVA LÓGICA: PREMIO POR ESCANEAR QR ---
         if (urlParams.get('premio') === 'qr') {
             if (localStorage.getItem('cupon_qr_usado') !== 'true') {
-                // AHORA ES UN 10% DE DESCUENTO
-                window.descuentoGlobal = 10;
-                window.cuponAplicado = "QR MISTERIOSO";
-                
-                // Mostrar alerta de fiesta con delay para que la página cargue bien
-                setTimeout(() => {
-                    mostrarToast("🎉 ¡Encontraste el QR Secreto! Tenés 10% de descuento guardado para tu pedido de hoy.", "success");
-                    // Guarda en memoria por si recarga la página
-                    window.guardarMemoria(); 
-                    // Limpia la URL para que no se la puedan copiar y pasar tan fácil a un amigo
-                    window.history.replaceState({}, document.title, window.location.pathname);
-                }, 800);
+                window.descuentoGlobal = 10; window.cuponAplicado = "QR MISTERIOSO";
+                setTimeout(() => { mostrarToast("🎉 ¡Encontraste el QR Secreto! Tenés 10% de descuento guardado para tu pedido de hoy.", "success"); window.guardarMemoria(); window.history.replaceState({}, document.title, window.location.pathname); }, 800);
             } else {
-                setTimeout(() => {
-                    mostrarToast("Ya utilizaste el premio de este código QR. ¡Gracias por participar!", "error");
-                    window.history.replaceState({}, document.title, window.location.pathname);
-                }, 800);
+                setTimeout(() => { mostrarToast("Ya utilizaste el premio de este código QR. ¡Gracias por participar!", "error"); window.history.replaceState({}, document.title, window.location.pathname); }, 800);
             }
         }
 
@@ -439,281 +387,119 @@ body::before {
         window.activarAdminSecreto = function() {
             window.contadorAdmin++;
             if (window.contadorAdmin === 5) {
-                if (window.esAdmin) {
-                    localStorage.setItem('mdc_admin_mode', 'false');
-                    window.esAdmin = false;
-                    mostrarToast("Modo Admin DESACTIVADO.", "error");
-                } else {
-                    localStorage.setItem('mdc_admin_mode', 'true');
-                    window.esAdmin = true;
-                    mostrarToast("Modo Admin ACTIVADO. Vista habilitada.", "success");
-                }
-                window.evaluarEstadoTienda();
-                window.contadorAdmin = 0;
+                if (window.esAdmin) { localStorage.setItem('mdc_admin_mode', 'false'); window.esAdmin = false; mostrarToast("Modo Admin DESACTIVADO.", "error"); } else { localStorage.setItem('mdc_admin_mode', 'true'); window.esAdmin = true; mostrarToast("Modo Admin ACTIVADO. Vista habilitada.", "success"); }
+                window.evaluarEstadoTienda(); window.contadorAdmin = 0;
             }
             setTimeout(() => { window.contadorAdmin = 0; }, 2000);
         }
 
         const simbolosCasino = ['🥪', '🧀', '🥓', '🍖', '🥚'];
-
         window.jugarCasino = function() {
-            const btn = document.getElementById('btn-spin');
-            const slots = [document.getElementById('slot1'), document.getElementById('slot2'), document.getElementById('slot3')];
-            const msg = document.getElementById('casino-msg');
-
-            const hoy = new Date().toLocaleDateString();
-            let casinoData = JSON.parse(localStorage.getItem('mdc_casino')) || { fecha: hoy, intentos: 0 };
-            
+            const btn = document.getElementById('btn-spin'); const slots = [document.getElementById('slot1'), document.getElementById('slot2'), document.getElementById('slot3')]; const msg = document.getElementById('casino-msg');
+            const hoy = new Date().toLocaleDateString(); let casinoData = JSON.parse(localStorage.getItem('mdc_casino')) || { fecha: hoy, intentos: 0 };
             if (casinoData.fecha !== hoy) { casinoData = { fecha: hoy, intentos: 0 }; }
-            if (casinoData.intentos >= 3) {
-                msg.innerHTML = "¡Ya usaste tus 3 tiros de hoy! 🛑 Volvé mañana."; msg.style.color = "#D32F2F"; btn.disabled = true; return;
-            }
-
-            casinoData.intentos++;
-            localStorage.setItem('mdc_casino', JSON.stringify(casinoData));
-            const intentosRestantes = 3 - casinoData.intentos;
-
-            btn.disabled = true; msg.innerHTML = "Girando... 🎲"; msg.style.color = "";
-            slots.forEach(s => s.classList.add('spin-anim'));
-
+            if (casinoData.intentos >= 3) { msg.innerHTML = "¡Ya usaste tus 3 tiros de hoy! 🛑 Volvé mañana."; msg.style.color = "#D32F2F"; btn.disabled = true; return; }
+            casinoData.intentos++; localStorage.setItem('mdc_casino', JSON.stringify(casinoData)); const intentosRestantes = 3 - casinoData.intentos;
+            btn.disabled = true; msg.innerHTML = "Girando... 🎲"; msg.style.color = ""; slots.forEach(s => s.classList.add('spin-anim'));
             setTimeout(async () => {
                 slots.forEach(s => s.classList.remove('spin-anim'));
-                
-                const esGanador = false; 
-                let r1, r2, r3;
-
-                if (esGanador) {
-                    r1 = r2 = r3 = simbolosCasino[Math.floor(Math.random() * simbolosCasino.length)];
-                } else {
-                    do {
-                        r1 = simbolosCasino[Math.floor(Math.random() * simbolosCasino.length)];
-                        r2 = simbolosCasino[Math.floor(Math.random() * simbolosCasino.length)];
-                        r3 = simbolosCasino[Math.floor(Math.random() * simbolosCasino.length)];
-                    } while (r1 === r2 && r2 === r3);
-                }
-
+                const esGanador = false; let r1, r2, r3;
+                if (esGanador) { r1 = r2 = r3 = simbolosCasino[Math.floor(Math.random() * simbolosCasino.length)]; } else { do { r1 = simbolosCasino[Math.floor(Math.random() * simbolosCasino.length)]; r2 = simbolosCasino[Math.floor(Math.random() * simbolosCasino.length)]; r3 = simbolosCasino[Math.floor(Math.random() * simbolosCasino.length)]; } while (r1 === r2 && r2 === r3); }
                 slots[0].innerText = r1; slots[1].innerText = r2; slots[2].innerText = r3;
-
-                try {
-                    await addDoc(collection(db, "interacciones_casino"), {
-                        fecha: serverTimestamp(), intento_numero: casinoData.intentos, resultado: `${r1} ${r2} ${r3}`, ganador: esGanador
-                    });
-                } catch (e) { console.error("Error al registrar métricas de ruleta: ", e); }
-
+                try { await addDoc(collection(db, "interacciones_casino"), { fecha: serverTimestamp(), intento_numero: casinoData.intentos, resultado: `${r1} ${r2} ${r3}`, ganador: esGanador }); } catch (e) { console.error("Error al registrar métricas: ", e); }
                 if (esGanador) {
-                    msg.innerHTML = `¡JACKPOT! 🎉 Ganaste un 15% de desc. Copiá tu código:<br><span class="codigo-ganador">MIGASJACKPOT</span>`;
-                    mostrarToast("¡GANASTE EL PREMIO!", "success"); btn.disabled = true; 
+                    msg.innerHTML = `¡JACKPOT! 🎉 Ganaste un 15% de desc. Copiá tu código:<br><span class="codigo-ganador">MIGASJACKPOT</span>`; mostrarToast("¡GANASTE EL PREMIO!", "success"); btn.disabled = true; 
                 } else {
-                    if (intentosRestantes > 0) {
-                        msg.innerHTML = `¡Casi! Volvé a intentar. 🤞 <br><small style='font-size:0.8rem; color:#aaa;'>(Te quedan ${intentosRestantes} tiros hoy)</small>`;
-                        btn.disabled = false;
-                    } else {
-                        msg.innerHTML = `¡Casi! 🤞 <br><small style='font-size:0.8rem; color:#D32F2F;'>(Se acabaron tus tiros. ¡Volvé mañana!)</small>`;
-                        btn.disabled = true;
-                    }
+                    if (intentosRestantes > 0) { msg.innerHTML = `¡Casi! Volvé a intentar. 🤞 <br><small style='font-size:0.8rem; color:#aaa;'>(Te quedan ${intentosRestantes} tiros hoy)</small>`; btn.disabled = false; } else { msg.innerHTML = `¡Casi! 🤞 <br><small style='font-size:0.8rem; color:#D32F2F;'>(Se acabaron tus tiros. ¡Volvé mañana!)</small>`; btn.disabled = true; }
                 }
             }, 1200);
         }
 
         window.guardarMemoria = function() {
-            localStorage.setItem('mdc_carrito', JSON.stringify(window.carrito));
-            localStorage.setItem('mdc_cupon', window.cuponAplicado);
-            localStorage.setItem('mdc_desc', window.descuentoGlobal);
-            localStorage.setItem('mdc_nombre', document.getElementById('nombre').value);
-            localStorage.setItem('mdc_tel', document.getElementById('telefono').value);
-            localStorage.setItem('mdc_dir', document.getElementById('direccion').value);
-            localStorage.setItem('mdc_entrega', document.getElementById('tipo-entrega').value);
+            localStorage.setItem('mdc_carrito', JSON.stringify(window.carrito)); localStorage.setItem('mdc_cupon', window.cuponAplicado); localStorage.setItem('mdc_desc', window.descuentoGlobal);
+            localStorage.setItem('mdc_nombre', document.getElementById('nombre').value); localStorage.setItem('mdc_tel', document.getElementById('telefono').value); localStorage.setItem('mdc_dir', document.getElementById('direccion').value); localStorage.setItem('mdc_entrega', document.getElementById('tipo-entrega').value);
         };
 
         window.cargarMemoria = function() {
             const guardado = localStorage.getItem('mdc_carrito');
             if (guardado) {
-                window.carrito = JSON.parse(guardado);
-                window.cuponAplicado = localStorage.getItem('mdc_cupon') || "";
-                window.descuentoGlobal = parseInt(localStorage.getItem('mdc_desc')) || 0;
-                document.getElementById('nombre').value = localStorage.getItem('mdc_nombre') || "";
-                document.getElementById('telefono').value = localStorage.getItem('mdc_tel') || "";
-                document.getElementById('direccion').value = localStorage.getItem('mdc_dir') || "";
-                const entrega = localStorage.getItem('mdc_entrega');
-                if(entrega) { document.getElementById('tipo-entrega').value = entrega; window.cambiarEntrega(); }
-                if(window.cuponAplicado) {
-                    document.getElementById('cupon-mensaje').innerText = `Cupón recuperado: ${window.cuponAplicado} 🎉`;
-                    document.getElementById('cupon-mensaje').style.display = "block";
-                    document.getElementById('cupon-mensaje').style.color = "#4CAF50";
-                }
+                window.carrito = JSON.parse(guardado); window.cuponAplicado = localStorage.getItem('mdc_cupon') || ""; window.descuentoGlobal = parseInt(localStorage.getItem('mdc_desc')) || 0;
+                document.getElementById('nombre').value = localStorage.getItem('mdc_nombre') || ""; document.getElementById('telefono').value = localStorage.getItem('mdc_tel') || ""; document.getElementById('direccion').value = localStorage.getItem('mdc_dir') || "";
+                const entrega = localStorage.getItem('mdc_entrega'); if(entrega) { document.getElementById('tipo-entrega').value = entrega; window.cambiarEntrega(); }
+                if(window.cuponAplicado) { document.getElementById('cupon-mensaje').innerText = `Cupón recuperado: ${window.cuponAplicado} 🎉`; document.getElementById('cupon-mensaje').style.display = "block"; document.getElementById('cupon-mensaje').style.color = "#4CAF50"; }
                 window.actualizarBotonCarrito();
             }
         };
 
         window.animarInteraccion = function(botonElement) {
-            const btnCarrito = document.getElementById('btn-carrito');
-            if (btnCarrito) { btnCarrito.classList.remove('animar-carrito'); void btnCarrito.offsetWidth; btnCarrito.classList.add('animar-carrito'); }
-            if (botonElement) {
-                const textoOriginal = botonElement.getAttribute('data-texto') || botonElement.innerText;
-                botonElement.classList.add('btn-exito'); botonElement.innerHTML = '<i class="fa-solid fa-check"></i> ¡Listo!';
-                setTimeout(() => { botonElement.classList.remove('btn-exito'); botonElement.innerText = textoOriginal; }, 1000);
-            }
+            const btnCarrito = document.getElementById('btn-carrito'); if (btnCarrito) { btnCarrito.classList.remove('animar-carrito'); void btnCarrito.offsetWidth; btnCarrito.classList.add('animar-carrito'); }
+            if (botonElement) { const textoOriginal = botonElement.getAttribute('data-texto') || botonElement.innerText; botonElement.classList.add('btn-exito'); botonElement.innerHTML = '<i class="fa-solid fa-check"></i> ¡Listo!'; setTimeout(() => { botonElement.classList.remove('btn-exito'); botonElement.innerText = textoOriginal; }, 1000); }
         }
         
         window.copiarAlias = function() { navigator.clipboard.writeText('migas.st'); mostrarToast("¡Alias copiado!", "success"); }
 
         window.aplicarCupon = function() {
-            const inputCupon = document.getElementById('cupon'); const mensajeCupon = document.getElementById('cupon-mensaje');
-            const codigo = inputCupon.value.trim().toUpperCase();
+            const inputCupon = document.getElementById('cupon'); const mensajeCupon = document.getElementById('cupon-mensaje'); const codigo = inputCupon.value.trim().toUpperCase();
             if (codigo === "") { mostrarToast("Ingresá un código.", "error"); return; }
-            
             if (codigo === "MIGASJACKPOT") {
-                if (localStorage.getItem('cupon_migasjackpot_usado') === 'true') {
-                    mensajeCupon.innerText = "Este premio ya fue reclamado."; mensajeCupon.style.color = "#D32F2F"; mensajeCupon.style.display = "block";
-                    mostrarToast("Premio ya utilizado.", "error"); window.descuentoGlobal = 0; window.cuponAplicado = ""; 
-                    window.guardarMemoria(); window.abrirCarrito(); return;
-                }
-                window.descuentoGlobal = 15; window.cuponAplicado = "MIGASJACKPOT"; 
-                mensajeCupon.innerText = "¡Cupón de Casino aplicado! 15% de desc. 🎰";
-                mensajeCupon.style.color = "#4CAF50"; mensajeCupon.style.display = "block"; mostrarToast("¡Premio aplicado!", "success"); 
-                window.guardarMemoria(); window.abrirCarrito(); 
-            }
-            else if (codigo === "MESSIMIGAS10") {
-                window.descuentoGlobal = 10; window.cuponAplicado = "MESSIMIGAS10"; mensajeCupon.innerText = "¡Cupón MESSIMIGAS10 aplicado! 10% de desc. ⚽";
-                mensajeCupon.style.color = "#4CAF50"; mensajeCupon.style.display = "block"; mostrarToast("¡Cupón aplicado!", "success"); 
-                window.guardarMemoria(); window.abrirCarrito(); 
+                if (localStorage.getItem('cupon_migasjackpot_usado') === 'true') { mensajeCupon.innerText = "Este premio ya fue reclamado."; mensajeCupon.style.color = "#D32F2F"; mensajeCupon.style.display = "block"; mostrarToast("Premio ya utilizado.", "error"); window.descuentoGlobal = 0; window.cuponAplicado = ""; window.guardarMemoria(); window.abrirCarrito(); return; }
+                window.descuentoGlobal = 15; window.cuponAplicado = "MIGASJACKPOT"; mensajeCupon.innerText = "¡Cupón de Casino aplicado! 15% de desc. 🎰"; mensajeCupon.style.color = "#4CAF50"; mensajeCupon.style.display = "block"; mostrarToast("¡Premio aplicado!", "success"); window.guardarMemoria(); window.abrirCarrito(); 
+            } else if (codigo === "MESSIMIGAS10") {
+                window.descuentoGlobal = 10; window.cuponAplicado = "MESSIMIGAS10"; mensajeCupon.innerText = "¡Cupón MESSIMIGAS10 aplicado! 10% de desc. ⚽"; mensajeCupon.style.color = "#4CAF50"; mensajeCupon.style.display = "block"; mostrarToast("¡Cupón aplicado!", "success"); window.guardarMemoria(); window.abrirCarrito(); 
             } else if (codigo === "MIGAS.10") {
-                if (localStorage.getItem('cupon_migas10_usado') === 'true') {
-                    mensajeCupon.innerText = "Este cupón ya fue utilizado."; mensajeCupon.style.color = "#D32F2F"; mensajeCupon.style.display = "block";
-                    mostrarToast("Cupón ya utilizado.", "error"); window.descuentoGlobal = 0; window.cuponAplicado = ""; 
-                    window.guardarMemoria(); window.abrirCarrito(); return;
-                }
-                window.descuentoGlobal = 10; window.cuponAplicado = "MIGAS.10"; mensajeCupon.innerText = "¡Cupón MIGAS.10 aplicado! 10% de desc. 🎉";
-                mensajeCupon.style.color = "#4CAF50"; mensajeCupon.style.display = "block"; mostrarToast("¡Cupón aplicado!", "success"); 
-                window.guardarMemoria(); window.abrirCarrito();
+                if (localStorage.getItem('cupon_migas10_usado') === 'true') { mensajeCupon.innerText = "Este cupón ya fue utilizado."; mensajeCupon.style.color = "#D32F2F"; mensajeCupon.style.display = "block"; mostrarToast("Cupón ya utilizado.", "error"); window.descuentoGlobal = 0; window.cuponAplicado = ""; window.guardarMemoria(); window.abrirCarrito(); return; }
+                window.descuentoGlobal = 10; window.cuponAplicado = "MIGAS.10"; mensajeCupon.innerText = "¡Cupón MIGAS.10 aplicado! 10% de desc. 🎉"; mensajeCupon.style.color = "#4CAF50"; mensajeCupon.style.display = "block"; mostrarToast("¡Cupón aplicado!", "success"); window.guardarMemoria(); window.abrirCarrito();
             } else if (codigo === "QRMISTERIOSO") {
-                // Por si el usuario adivina la palabra y la tipea a mano
-                if (localStorage.getItem('cupon_qr_usado') === 'true') {
-                    mensajeCupon.innerText = "Ya usaste el premio del QR."; mensajeCupon.style.color = "#D32F2F"; mensajeCupon.style.display = "block";
-                    mostrarToast("Cupón ya utilizado.", "error"); window.descuentoGlobal = 0; window.cuponAplicado = ""; 
-                    window.guardarMemoria(); window.abrirCarrito(); return;
-                }
-                // AHORA ES UN 10% DE DESCUENTO
-                window.descuentoGlobal = 10; window.cuponAplicado = "QR MISTERIOSO"; mensajeCupon.innerText = "¡QR MISTERIOSO validado! 10% de desc. 🎉";
-                mensajeCupon.style.color = "#4CAF50"; mensajeCupon.style.display = "block"; mostrarToast("¡Premio aplicado!", "success"); 
-                window.guardarMemoria(); window.abrirCarrito();
-            } else {
-                mensajeCupon.innerText = "El código ingresado no es válido."; mensajeCupon.style.color = "#D32F2F"; mensajeCupon.style.display = "block";
-                mostrarToast("Cupón inválido.", "error"); window.descuentoGlobal = 0; window.cuponAplicado = ""; 
-                window.guardarMemoria(); window.abrirCarrito();
-            }
+                if (localStorage.getItem('cupon_qr_usado') === 'true') { mensajeCupon.innerText = "Ya usaste el premio del QR."; mensajeCupon.style.color = "#D32F2F"; mensajeCupon.style.display = "block"; mostrarToast("Cupón ya utilizado.", "error"); window.descuentoGlobal = 0; window.cuponAplicado = ""; window.guardarMemoria(); window.abrirCarrito(); return; }
+                window.descuentoGlobal = 10; window.cuponAplicado = "QR MISTERIOSO"; mensajeCupon.innerText = "¡QR MISTERIOSO validado! 10% de desc. 🎉"; mensajeCupon.style.color = "#4CAF50"; mensajeCupon.style.display = "block"; mostrarToast("¡Premio aplicado!", "success"); window.guardarMemoria(); window.abrirCarrito();
+            } else { mensajeCupon.innerText = "El código ingresado no es válido."; mensajeCupon.style.color = "#D32F2F"; mensajeCupon.style.display = "block"; mostrarToast("Cupón inválido.", "error"); window.descuentoGlobal = 0; window.cuponAplicado = ""; window.guardarMemoria(); window.abrirCarrito(); }
         }
 
         window.obtenerUbicacionGPS = function() {
-            const btnGPS = document.getElementById('btn-gps'); const inputDir = document.getElementById('direccion');
-            if (!navigator.geolocation) { mostrarToast("Tu dispositivo no soporta geolocalización.", "error"); return; }
-            btnGPS.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-            navigator.geolocation.getCurrentPosition(
+            const btnGPS = document.getElementById('btn-gps'); const inputDir = document.getElementById('direccion'); if (!navigator.geolocation) { mostrarToast("Tu dispositivo no soporta geolocalización.", "error"); return; }
+            btnGPS.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>'; navigator.geolocation.getCurrentPosition(
                 (posicion) => {
-                    const lat = posicion.coords.latitude; const lon = posicion.coords.longitude;
-                    const linkGoogleMaps = `https://maps.google.com/?q=${lat},${lon}`;
+                    const lat = posicion.coords.latitude; const lon = posicion.coords.longitude; const linkGoogleMaps = `https://maps.google.com/?q=${lat},${lon}`;
                     if(inputDir.value.trim() !== "") { inputDir.value = inputDir.value + " | Mapa: " + linkGoogleMaps; } else { inputDir.value = linkGoogleMaps; }
-                    btnGPS.innerHTML = '<i class="fa-solid fa-check"></i>'; btnGPS.style.backgroundColor = '#4CAF50'; btnGPS.style.color = '#fff';
-                    mostrarToast("¡Ubicación cargada!", "success"); window.guardarMemoria();
+                    btnGPS.innerHTML = '<i class="fa-solid fa-check"></i>'; btnGPS.style.backgroundColor = '#4CAF50'; btnGPS.style.color = '#fff'; mostrarToast("¡Ubicación cargada!", "success"); window.guardarMemoria();
                     setTimeout(() => { btnGPS.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i>'; btnGPS.style.backgroundColor = '#F4C430'; btnGPS.style.color = '#2A1111'; }, 3500);
-                },
-                (error) => { btnGPS.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i>'; mostrarToast("Permiso denegado.", "error"); },
-                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+                }, (error) => { btnGPS.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i>'; mostrarToast("Permiso denegado.", "error"); }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
             );
         }
         
-        window.cambiarCategoria = function(idCategoria, boton) {
-            document.querySelectorAll('.contenedor-menu').forEach(cat => { cat.classList.add('categoria-oculta'); cat.classList.remove('fade-in-up'); });
-            const catActiva = document.getElementById(idCategoria); catActiva.classList.remove('categoria-oculta'); void catActiva.offsetWidth; catActiva.classList.add('fade-in-up');
-            document.querySelectorAll('.btn-filtro').forEach(btn => btn.classList.remove('activo')); boton.classList.add('activo');
-        }
+        window.cambiarCategoria = function(idCategoria, boton) { document.querySelectorAll('.contenedor-menu').forEach(cat => { cat.classList.add('categoria-oculta'); cat.classList.remove('fade-in-up'); }); const catActiva = document.getElementById(idCategoria); catActiva.classList.remove('categoria-oculta'); void catActiva.offsetWidth; catActiva.classList.add('fade-in-up'); document.querySelectorAll('.btn-filtro').forEach(btn => btn.classList.remove('activo')); boton.classList.add('activo'); }
         
         window.abrirModal = function(nombreProducto, idSelectorCantidad = null, precioUnitario = 0, botonElement = null) {
             if(!controlRemotoAbierto && !(window.esAdmin && !document.getElementById('barra-panico').innerText.includes('MANTENIMIENTO'))) { mostrarToast("Tienda cerrada.", "error"); return; }
             let cantidadSandwiches = 0; let nombreFinal = nombreProducto; let subtotal = precioUnitario;
-            
             if (idSelectorCantidad) {
                 let elementoSelector = document.getElementById(idSelectorCantidad);
-                if (elementoSelector.value.includes('|')) { 
-                    let partes = elementoSelector.value.split('|'); 
-                    nombreFinal = partes[0]; 
-                    subtotal = parseInt(partes[1]); 
-                    if(partes.length > 2) cantidadSandwiches = parseInt(partes[2]);
-                } 
-                else { 
-                    let cant = parseInt(elementoSelector.value); 
-                    nombreFinal = nombreProducto + " x" + cant; 
-                    subtotal = precioUnitario * cant; 
-                    cantidadSandwiches = cant; 
-                }
-            } else { 
-                if(nombreProducto.includes('12')) cantidadSandwiches = 12; 
-                if(nombreProducto.includes('24')) cantidadSandwiches = 24; 
-            }
-            
-            window.carrito.push({ nombre: nombreFinal, precio: subtotal, cantidadValidaEnvio: cantidadSandwiches }); 
-            window.guardarMemoria();
-            actualizarBotonCarrito(); 
-            window.animarInteraccion(botonElement);
+                if (elementoSelector.value.includes('|')) { let partes = elementoSelector.value.split('|'); nombreFinal = partes[0]; subtotal = parseInt(partes[1]); if(partes.length > 2) cantidadSandwiches = parseInt(partes[2]); } else { let cant = parseInt(elementoSelector.value); nombreFinal = nombreProducto + " x" + cant; subtotal = precioUnitario * cant; cantidadSandwiches = cant; }
+            } else { if(nombreProducto.includes('12')) cantidadSandwiches = 12; if(nombreProducto.includes('24')) cantidadSandwiches = 24; }
+            window.carrito.push({ nombre: nombreFinal, precio: subtotal, cantidadValidaEnvio: cantidadSandwiches }); window.guardarMemoria(); actualizarBotonCarrito(); window.animarInteraccion(botonElement);
         }
         
-        window.actualizarBotonCarrito = function() {
-            const botonCarrito = document.getElementById('btn-carrito');
-            if (window.carrito.length > 0 && (controlRemotoAbierto || window.esAdmin)) { botonCarrito.style.display = 'flex'; document.getElementById('contador-carrito').innerText = window.carrito.length; } 
-            else { botonCarrito.style.display = 'none'; }
-        }
-
-        window.cambiarEntrega = function() {
-            const tipo = document.getElementById('tipo-entrega').value; const divDir = document.getElementById('grupo-direccion-container'); const inputDir = document.getElementById('direccion');
-            if (tipo === 'retiro') { divDir.style.display = 'none'; inputDir.removeAttribute('required'); inputDir.value = "Retiro en el local"; } 
-            else { divDir.style.display = 'flex'; inputDir.setAttribute('required', 'true'); if(inputDir.value === "Retiro en el local") inputDir.value = ""; }
-            window.guardarMemoria(); if (window.carrito.length > 0) window.abrirCarrito();
-        }
+        window.actualizarBotonCarrito = function() { const botonCarrito = document.getElementById('btn-carrito'); if (window.carrito.length > 0 && (controlRemotoAbierto || window.esAdmin)) { botonCarrito.style.display = 'flex'; document.getElementById('contador-carrito').innerText = window.carrito.length; } else { botonCarrito.style.display = 'none'; } }
+        window.cambiarEntrega = function() { const tipo = document.getElementById('tipo-entrega').value; const divDir = document.getElementById('grupo-direccion-container'); const inputDir = document.getElementById('direccion'); if (tipo === 'retiro') { divDir.style.display = 'none'; inputDir.removeAttribute('required'); inputDir.value = "Retiro en el local"; } else { divDir.style.display = 'flex'; inputDir.setAttribute('required', 'true'); if(inputDir.value === "Retiro en el local") inputDir.value = ""; } window.guardarMemoria(); if (window.carrito.length > 0) window.abrirCarrito(); }
         
         window.abrirCarrito = function() {
             if (window.carrito.length === 0) return mostrarToast("El carrito está vacío.", "error");
             const lista = document.getElementById('listaCarrito'); lista.innerHTML = ""; let subtotalPesos = 0; let totalCantidadSandwiches = 0; const tipoEntrega = document.getElementById('tipo-entrega').value;
-            window.carrito.forEach((item, index) => {
-                subtotalPesos += item.precio; totalCantidadSandwiches += item.cantidadValidaEnvio;
-                lista.innerHTML += `<li style="display:flex; justify-content:space-between; border-bottom:1px dashed #ccc; padding-bottom:5px; margin-bottom:10px;"><span style="font-size:0.9rem;">🛒 ${item.nombre}</span><span><strong style="margin-right:10px;">$${item.precio}</strong><button onclick="eliminarDelCarrito(${index})" style="background:var(--accent-red); color:white; border:none; border-radius:5px; padding:3px 8px; cursor:pointer;">X</button></span></li>`;
-            });
+            window.carrito.forEach((item, index) => { subtotalPesos += item.precio; totalCantidadSandwiches += item.cantidadValidaEnvio; lista.innerHTML += `<li style="display:flex; justify-content:space-between; border-bottom:1px dashed #ccc; padding-bottom:5px; margin-bottom:10px;"><span style="font-size:0.9rem;">🛒 ${item.nombre}</span><span><strong style="margin-right:10px;">$${item.precio}</strong><button onclick="eliminarDelCarrito(${index})" style="background:var(--accent-red); color:white; border:none; border-radius:5px; padding:3px 8px; cursor:pointer;">X</button></span></li>`; });
 
-            // NUEVA LÓGICA: Barra de progreso
-            const contBarra = document.getElementById('contenedor-barra-envio');
-            const txtBarra = document.getElementById('texto-barra-envio');
-            const rellenoBarra = document.getElementById('relleno-barra-envio');
-
+            const contBarra = document.getElementById('contenedor-barra-envio'); const txtBarra = document.getElementById('texto-barra-envio'); const rellenoBarra = document.getElementById('relleno-barra-envio');
             if (tipoEntrega === 'domicilio') {
-                contBarra.style.display = 'block';
-                let porcentaje = Math.min((totalCantidadSandwiches / 24) * 100, 100);
-                rellenoBarra.style.width = porcentaje + '%';
-                
-                if (totalCantidadSandwiches >= 24) {
-                    txtBarra.innerHTML = "¡Felicidades! Tenés <strong>ENVÍO GRATIS</strong> 🥳";
-                    rellenoBarra.style.backgroundColor = "#4CAF50"; 
-                } else {
-                    let faltan = 24 - totalCantidadSandwiches;
-                    txtBarra.innerHTML = `Sumá <strong>${faltan} unidades</strong> más para envío gratis 🛵`;
-                    rellenoBarra.style.backgroundColor = (porcentaje >= 50) ? "#F4C430" : "#D32F2F"; 
-                }
-            } else {
-                contBarra.style.display = 'none';
-            }
+                contBarra.style.display = 'block'; let porcentaje = Math.min((totalCantidadSandwiches / 24) * 100, 100); rellenoBarra.style.width = porcentaje + '%';
+                if (totalCantidadSandwiches >= 24) { txtBarra.innerHTML = "¡Felicidades! Tenés <strong>ENVÍO GRATIS</strong> 🥳"; rellenoBarra.style.backgroundColor = "#4CAF50"; } else { let faltan = 24 - totalCantidadSandwiches; txtBarra.innerHTML = `Sumá <strong>${faltan} unidades</strong> más para envío gratis 🛵`; rellenoBarra.style.backgroundColor = (porcentaje >= 50) ? "#F4C430" : "#D32F2F"; }
+            } else { contBarra.style.display = 'none'; }
 
             let costoEnvio = 0; let textoEnvio = "";
-            if (tipoEntrega === 'retiro') { 
-                costoEnvio = 0; textoEnvio = "Retiro en local: <span style='color: #4CAF50; font-weight: bold;'>¡GRATIS! 🏪</span>"; 
-            } else { 
-                costoEnvio = (totalCantidadSandwiches >= 24) ? 0 : window.COSTO_FIJO_ENVIO; 
-                textoEnvio = (costoEnvio === 0) ? "Envío a domicilio: <span style='color: #4CAF50; font-weight: bold;'>¡GRATIS! 🛵</span>" : `Envío a domicilio: $${costoEnvio} 🛵`; 
-            }
+            if (tipoEntrega === 'retiro') { costoEnvio = 0; textoEnvio = "Retiro en local: <span style='color: #4CAF50; font-weight: bold;'>¡GRATIS! 🏪</span>"; } else { costoEnvio = (totalCantidadSandwiches >= 24) ? 0 : window.COSTO_FIJO_ENVIO; textoEnvio = (costoEnvio === 0) ? "Envío a domicilio: <span style='color: #4CAF50; font-weight: bold;'>¡GRATIS! 🛵</span>" : `Envío a domicilio: $${costoEnvio} 🛵`; }
             
-            lista.innerHTML += `<li style="text-align:right; font-size:0.9rem; margin-top:10px;">${textoEnvio}</li>`;
-            let montoDescuento = 0;
+            lista.innerHTML += `<li style="text-align:right; font-size:0.9rem; margin-top:10px;">${textoEnvio}</li>`; let montoDescuento = 0;
             if (window.descuentoGlobal > 0) { montoDescuento = Math.round(subtotalPesos * (window.descuentoGlobal / 100)); lista.innerHTML += `<li style="text-align:right; font-size:0.9rem; color:#4CAF50;">Descuento (${window.cuponAplicado}): -$${montoDescuento} 🎉</li>`; }
             window.totalPesosGlobal = (subtotalPesos - montoDescuento) + costoEnvio;
-            lista.innerHTML += `<li style="text-align:right; font-size:1.3rem; color:var(--accent-red); margin-top:15px;"><strong>TOTAL FINAL: $${window.totalPesosGlobal}</strong></li>`;
-            document.getElementById('total-transferencia').innerText = window.totalPesosGlobal; window.mostrarAlias(); document.getElementById('modalPedido').style.display = 'flex';
+            lista.innerHTML += `<li style="text-align:right; font-size:1.3rem; color:var(--accent-red); margin-top:15px;"><strong>TOTAL FINAL: $${window.totalPesosGlobal}</strong></li>`; document.getElementById('total-transferencia').innerText = window.totalPesosGlobal; window.mostrarAlias(); document.getElementById('modalPedido').style.display = 'flex';
         }
         
         window.eliminarDelCarrito = function(index) { window.carrito.splice(index, 1); window.guardarMemoria(); actualizarBotonCarrito(); window.carrito.length === 0 ? window.cerrarModal() : abrirCarrito(); }
@@ -722,120 +508,88 @@ body::before {
         window.abrirLegales = function() { document.getElementById('modalLegales').style.display = 'flex'; }
         window.cerrarLegales = function() { document.getElementById('modalLegales').style.display = 'none'; }
         
+        // --- LOGICA STOCK VISUAL LLAMATIVO ---
+        function parseStock(val) { if (typeof val === 'number') return val; if (val === true) return 999; if (val === false || val === undefined) return 0; let parsed = parseInt(val); return isNaN(parsed) ? 0 : parsed; }
+
+        window.actualizarStockVisual = function() {
+            const stockJyq = parseStock(window.stockGlobal.jyq); const stockJyqh = parseStock(window.stockGlobal.jyqh); const stockCompleto = parseStock(window.stockGlobal.completo);
+            actualizarGondola('jyq', stockJyq); actualizarGondola('jyqh', stockJyqh); actualizarGondola('completo', stockCompleto);
+
+            const btnCombo = document.getElementById('btn-promo-pecado'); const txtCombo = document.getElementById('stock-combo'); const promo12Val = parseStock(window.stockGlobal.promo12);
+            const maxCombosPorSabor = Math.floor(Math.min(stockJyq, stockJyqh, stockCompleto) / 4); const combosDisponibles = Math.min(maxCombosPorSabor, promo12Val);
+
+            if (txtCombo) {
+                txtCombo.className = 'badge-stock'; // Resetea las clases
+                if (combosDisponibles > 900) { txtCombo.innerHTML = `<i class="fa-solid fa-check-circle"></i> Stock Disponible`; txtCombo.classList.add('stock-alto'); } 
+                else if (combosDisponibles > 4) { txtCombo.innerHTML = `<i class="fa-solid fa-box-open"></i> Quedan ${combosDisponibles} combos`; txtCombo.classList.add('stock-alto'); } 
+                else if (combosDisponibles > 1) { txtCombo.innerHTML = `<i class="fa-solid fa-clock"></i> ¡Solo quedan ${combosDisponibles}!`; txtCombo.classList.add('stock-medio'); } 
+                else if (combosDisponibles === 1) { txtCombo.innerHTML = `<i class="fa-solid fa-fire"></i> ¡ÚLTIMO COMBO! 🔥`; txtCombo.classList.add('stock-bajo'); } 
+                else { txtCombo.innerHTML = `<i class="fa-solid fa-ban"></i> Agotado`; txtCombo.classList.add('stock-agotado'); }
+            }
+
+            if (btnCombo) { if (combosDisponibles > 0) { btnCombo.disabled = false; btnCombo.classList.remove('boton-agotado'); btnCombo.innerText = btnCombo.getAttribute('data-texto'); } else { btnCombo.disabled = true; btnCombo.classList.add('boton-agotado'); btnCombo.innerText = "Agotado"; } }
+        }
+
+        function actualizarGondola(idBase, cantidad) {
+            const txtEl = document.getElementById(`stock-${idBase}`); const selectEl = document.getElementById(`cant-${idBase}`); const btnEl = document.getElementById(`btn-${idBase}`);
+            if (txtEl) {
+                txtEl.className = 'badge-stock'; // Resetea las clases
+                if (cantidad > 900) { txtEl.innerHTML = `<i class="fa-solid fa-check-circle"></i> Stock Disponible`; txtEl.classList.add('stock-alto'); } 
+                else if (cantidad > 12) { txtEl.innerHTML = `<i class="fa-solid fa-box-open"></i> Quedan ${cantidad} unid.`; txtEl.classList.add('stock-alto'); } 
+                else if (cantidad > 4) { txtEl.innerHTML = `<i class="fa-solid fa-clock"></i> ¡Solo quedan ${cantidad}!`; txtEl.classList.add('stock-medio'); } 
+                else if (cantidad > 0) { txtEl.innerHTML = `<i class="fa-solid fa-fire"></i> ¡ÚLTIMAS ${cantidad}! 🔥`; txtEl.classList.add('stock-bajo'); } 
+                else { txtEl.innerHTML = `<i class="fa-solid fa-ban"></i> Agotado`; txtEl.classList.add('stock-agotado'); }
+            }
+
+            if (selectEl) {
+                const options = selectEl.options; let hayOpciones = false;
+                for (let i = 0; i < options.length; i++) {
+                    const opt = options[i]; let partes = opt.value.split('|'); let cantRequerida = parseInt(partes[2]) || 0;
+                    if (cantRequerida > cantidad) { opt.disabled = true; if (!opt.text.includes('Sin stock')) opt.text += ' (Sin stock)'; } 
+                    else { opt.disabled = false; opt.text = opt.text.replace(' (Sin stock)', ''); hayOpciones = true; }
+                }
+                if (selectEl.options[selectEl.selectedIndex].disabled) { for(let i=0; i<options.length; i++){ if(!options[i].disabled){ selectEl.selectedIndex = i; break; } } }
+                if (!hayOpciones || cantidad < 4) { btnEl.disabled = true; btnEl.classList.add('boton-agotado'); btnEl.innerText = "Agotado"; selectEl.disabled = true; } 
+                else { btnEl.disabled = false; btnEl.classList.remove('boton-agotado'); btnEl.innerText = btnEl.getAttribute('data-texto'); selectEl.disabled = false; }
+            }
+        }
+        
         window.evaluarEstadoTienda = function() {
             const ahora = new Date(); const dia = ahora.getDay(); const hora = ahora.getHours();
-            const esDiaLaboral = (dia === 4 || dia === 5 || dia === 6 || dia === 0);
-            const enHorario = esDiaLaboral && (hora >= 8 && hora < 22);
-
-            const barraPanico = document.getElementById('barra-panico'); const estadoTexto = document.getElementById('estado-tienda');
-            const selectoresInputs = document.querySelectorAll('.selector-cantidad'); const todosBotones = document.querySelectorAll('.btn-seleccionar');
-            const btnConfirmar = document.querySelector('.btn-confirmar');
+            const esDiaLaboral = (dia === 4 || dia === 5 || dia === 6 || dia === 0); const enHorario = esDiaLaboral && (hora >= 8 && hora < 22);
+            const barraPanico = document.getElementById('barra-panico'); const estadoTexto = document.getElementById('estado-tienda'); const selectoresInputs = document.querySelectorAll('.selector-cantidad'); const todosBotones = document.querySelectorAll('.btn-seleccionar'); const btnConfirmar = document.querySelector('.btn-confirmar');
 
             barraPanico.classList.remove('admin-mode'); 
-
-            if (!controlRemotoAbierto) {
-                barraPanico.innerHTML = '<i class="fa-solid fa-store-slash"></i> TIENDA CERRADA TEMPORALMENTE (MANTENIMIENTO)'; barraPanico.style.display = 'block';
-                if(estadoTexto) estadoTexto.innerHTML = '<i class="fa-solid fa-circle" style="color: #D32F2F; font-size: 0.8rem;"></i> Cerrado por producción o mantenimiento';
-                bloquearInterfaz(selectoresInputs, todosBotones, btnConfirmar);
-            } 
-            else if (!enHorario && !window.esAdmin) {
-                barraPanico.innerHTML = '<i class="fa-solid fa-clock"></i> CERRADO. TOMAMOS PEDIDOS DE JUE. A DOM. DE 8 A 22HS'; barraPanico.style.display = 'block';
-                if(estadoTexto) estadoTexto.innerHTML = '<i class="fa-solid fa-circle" style="color: #D32F2F; font-size: 0.8rem;"></i> Tienda Cerrada fuera de horario';
-                bloquearInterfaz(selectoresInputs, todosBotones, btnConfirmar);
-            }
-            else {
-                if (!enHorario && window.esAdmin) {
-                    barraPanico.classList.add('admin-mode');
-                    barraPanico.innerHTML = '<i class="fa-solid fa-user-shield"></i> VISTA DE ADMINISTRADOR (FUERA DE HORARIO)';
-                    barraPanico.style.display = 'block';
-                } else {
-                    barraPanico.style.display = 'none';
-                }
-                if(estadoTexto) estadoTexto.innerHTML = '<i class="fa-solid fa-circle" style="color: #4CAF50; font-size: 0.8rem;"></i> ¡Estamos abiertos! Tomando pedidos';
-                desbloquearInterfaz(selectoresInputs, todosBotones, btnConfirmar);
-            }
+            if (!controlRemotoAbierto) { barraPanico.innerHTML = '<i class="fa-solid fa-store-slash"></i> TIENDA CERRADA TEMPORALMENTE (MANTENIMIENTO)'; barraPanico.style.display = 'block'; if(estadoTexto) estadoTexto.innerHTML = '<i class="fa-solid fa-circle" style="color: #D32F2F; font-size: 0.8rem;"></i> Cerrado por producción o mantenimiento'; bloquearInterfaz(selectoresInputs, todosBotones, btnConfirmar); } 
+            else if (!enHorario && !window.esAdmin) { barraPanico.innerHTML = '<i class="fa-solid fa-clock"></i> CERRADO. TOMAMOS PEDIDOS DE JUE. A DOM. DE 8 A 22HS'; barraPanico.style.display = 'block'; if(estadoTexto) estadoTexto.innerHTML = '<i class="fa-solid fa-circle" style="color: #D32F2F; font-size: 0.8rem;"></i> Tienda Cerrada fuera de horario'; bloquearInterfaz(selectoresInputs, todosBotones, btnConfirmar); }
+            else { if (!enHorario && window.esAdmin) { barraPanico.classList.add('admin-mode'); barraPanico.innerHTML = '<i class="fa-solid fa-user-shield"></i> VISTA DE ADMINISTRADOR (FUERA DE HORARIO)'; barraPanico.style.display = 'block'; } else { barraPanico.style.display = 'none'; } if(estadoTexto) estadoTexto.innerHTML = '<i class="fa-solid fa-circle" style="color: #4CAF50; font-size: 0.8rem;"></i> ¡Estamos abiertos! Tomando pedidos'; desbloquearInterfaz(selectoresInputs, todosBotones, btnConfirmar); }
         }
 
-        function bloquearInterfaz(inputs, botones, btnConfirmar) {
-            inputs.forEach(input => input.disabled = true);
-            botones.forEach(btn => { btn.disabled = true; btn.classList.add('boton-agotado'); btn.innerText = "CERRADO"; });
-            if(btnConfirmar) btnConfirmar.disabled = true; document.getElementById('btn-carrito').style.display = 'none'; 
-        window.carrito = []; 
-        }
+        function bloquearInterfaz(inputs, botones, btnConfirmar) { inputs.forEach(input => input.disabled = true); botones.forEach(btn => { btn.disabled = true; btn.classList.add('boton-agotado'); btn.innerText = "CERRADO"; }); if(btnConfirmar) btnConfirmar.disabled = true; document.getElementById('btn-carrito').style.display = 'none'; window.carrito = []; }
+        function desbloquearInterfaz(inputs, botones, btnConfirmar) { if(btnConfirmar) btnConfirmar.disabled = false; inputs.forEach(input => input.disabled = false); botones.forEach(btn => { btn.disabled = false; btn.classList.remove('boton-agotado'); btn.innerText = btn.getAttribute('data-texto'); }); window.actualizarStockVisual(); if(window.carrito.length === 0) window.cargarMemoria(); actualizarBotonCarrito(); }
 
-        function desbloquearInterfaz(inputs, botones, btnConfirmar) {
-            if(btnConfirmar) btnConfirmar.disabled = false;
-            inputs.forEach(input => input.disabled = false);
-            botones.forEach(btn => { btn.disabled = false; btn.classList.remove('boton-agotado'); btn.innerText = btn.getAttribute('data-texto'); });
-            evaluarBotonStock('btn-promo-pecado', window.stockGlobal.promo12); 
-            evaluarBotonStock('btn-jyq', window.stockGlobal.jyq); evaluarBotonStock('btn-jyqh', window.stockGlobal.jyqh);
-            evaluarBotonStock('btn-completo', window.stockGlobal.completo); 
-            if(window.carrito.length === 0) window.cargarMemoria(); actualizarBotonCarrito();
-        }
-
-        onSnapshot(doc(db, "config", "tienda"), (snapshot) => {
-            if (snapshot.exists()) { const config = snapshot.data(); controlRemotoAbierto = config.abierta !== false; window.stockGlobal = config.stock || {}; evaluarEstadoTienda(); }
-        });
-        function evaluarBotonStock(idBtn, disponible) { const el = document.getElementById(idBtn); if(!el) return; if(disponible === false) { el.disabled = true; el.classList.add('boton-agotado'); el.innerText = "Agotado"; } }
+        onSnapshot(doc(db, "config", "tienda"), (snapshot) => { if (snapshot.exists()) { const config = snapshot.data(); controlRemotoAbierto = config.abierta !== false; window.stockGlobal = config.stock || {}; evaluarEstadoTienda(); } });
         setInterval(window.evaluarEstadoTienda, 60000);
 
         const consultaReseñas = query(collection(db, "resenas"), orderBy("fecha", "desc"), limit(6));
-        onSnapshot(consultaReseñas, (snapshot) => {
-            const divReseñas = document.getElementById('listaReseñas'); divReseñas.innerHTML = "";
-            if (snapshot.empty) { divReseñas.innerHTML = `<p style="color:#ccc; grid-column: 1 / -1; font-size:1.1rem; margin:20px 0;">¡Nadie opinó todavía! Sé el primero en calificar los sándwiches abajo.</p>`; return; }
-            snapshot.forEach((documentoDoc) => {
-                const r = documentoDoc.data(); let estrellasEstéticas = ""; const cantEstrellas = parseInt(r.estrellas) || 5;
-                for (let i = 0; i < cantEstrellas; i++) estrellasEstéticas += '<i class="fa-solid fa-star"></i>';
-                divReseñas.innerHTML += `<div class="tarjeta-reseña"><div class="estrellas">${estrellasEstéticas}</div><p class="texto-reseña">"${r.comentario}"</p><p class="autor-reseña">- ${r.nombre}</p></div>`;
-            });
-        });
+        onSnapshot(consultaReseñas, (snapshot) => { const divReseñas = document.getElementById('listaReseñas'); divReseñas.innerHTML = ""; if (snapshot.empty) { divReseñas.innerHTML = `<p style="color:#ccc; grid-column: 1 / -1; font-size:1.1rem; margin:20px 0;">¡Nadie opinó todavía! Sé el primero en calificar los sándwiches abajo.</p>`; return; } snapshot.forEach((documentoDoc) => { const r = documentoDoc.data(); let estrellasEstéticas = ""; const cantEstrellas = parseInt(r.estrellas) || 5; for (let i = 0; i < cantEstrellas; i++) estrellasEstéticas += '<i class="fa-solid fa-star"></i>'; divReseñas.innerHTML += `<div class="tarjeta-reseña"><div class="estrellas">${estrellasEstéticas}</div><p class="texto-reseña">"${r.comentario}"</p><p class="autor-reseña">- ${r.nombre}</p></div>`; }); });
 
-        document.getElementById('formularioReseña').addEventListener('submit', async function(e) {
-            e.preventDefault(); const btnPublicar = this.querySelector('button[type="submit"]');
-            const nom = document.getElementById('reseña-nombre').value.trim(); const est = document.getElementById('reseña-estrellas').value; const com = document.getElementById('reseña-comentario').value.trim();
-            btnPublicar.disabled = true; btnPublicar.textContent = "Publicando...";
-            try {
-                await addDoc(collection(db, "resenas"), { nombre: nom, estrellas: parseInt(est), comentario: com, fecha: serverTimestamp() });
-                mostrarToast("¡Gracias por tu reseña! Ya se ve en la web.", "success"); this.reset();
-            } catch (error) { mostrarToast("Hubo un problema al guardar tu opinión.", "error"); } finally { btnPublicar.disabled = false; btnPublicar.textContent = "Publicar Calificación"; }
-        });
+        document.getElementById('formularioReseña').addEventListener('submit', async function(e) { e.preventDefault(); const btnPublicar = this.querySelector('button[type="submit"]'); const nom = document.getElementById('reseña-nombre').value.trim(); const est = document.getElementById('reseña-estrellas').value; const com = document.getElementById('reseña-comentario').value.trim(); btnPublicar.disabled = true; btnPublicar.textContent = "Publicando..."; try { await addDoc(collection(db, "resenas"), { nombre: nom, estrellas: parseInt(est), comentario: com, fecha: serverTimestamp() }); mostrarToast("¡Gracias por tu reseña! Ya se ve en la web.", "success"); this.reset(); } catch (error) { mostrarToast("Hubo un problema al guardar tu opinión.", "error"); } finally { btnPublicar.disabled = false; btnPublicar.textContent = "Publicar Calificación"; } });
         
         document.addEventListener('DOMContentLoaded', () => {
-            ['nombre', 'telefono', 'direccion'].forEach(id => { document.getElementById(id).addEventListener('input', window.guardarMemoria); });
-            window.cargarMemoria();
+            ['nombre', 'telefono', 'direccion'].forEach(id => { document.getElementById(id).addEventListener('input', window.guardarMemoria); }); window.cargarMemoria();
             document.querySelector('.btn-confirmar').addEventListener('click', async function() {
                 if(!controlRemotoAbierto && !(window.esAdmin && !document.getElementById('barra-panico').innerText.includes('MANTENIMIENTO'))) return;
-                const boton = this;
-                const nombre = document.getElementById('nombre').value.trim(); const telefono = document.getElementById('telefono').value.trim();
-                const direccion = document.getElementById('direccion').value.trim(); const pago = document.getElementById('pago').value; const tipoEntrega = document.getElementById('tipo-entrega').value;
-                if(nombre === "" || telefono === "" || (tipoEntrega === 'domicilio' && direccion === "")) { mostrarToast("Completá tus datos.", "error"); return; }
-                if(telefono.length < 8) { mostrarToast("El número de teléfono parece muy corto.", "error"); return; }
-                boton.textContent = "Procesando...";
-                const pedidoCompletoTexto = window.carrito.map(item => `${item.nombre} ($${item.precio})`).join('- ');
-                let cantS = window.carrito.reduce((suma, item) => suma + item.cantidadValidaEnvio, 0);
-                let costoEnvioCalculado = (cantS >= 24) ? 0 : window.COSTO_FIJO_ENVIO;
-                let envioAplicado = "Retiro por local"; if(tipoEntrega === 'domicilio') { envioAplicado = (costoEnvioCalculado === 0) ? "¡GRATIS!" : `\$${costoEnvioCalculado}`; }
-                let subtotalPesos = window.carrito.reduce((suma, item) => suma + item.precio, 0);
-                let montoDescuento = window.descuentoGlobal > 0 ? Math.round(subtotalPesos * (window.descuentoGlobal / 100)) : 0;
-                let cuponTextoFirebase = window.cuponAplicado ? `\n- Cupón: ${window.cuponAplicado} (-$${montoDescuento})` : '';
-                let cuponTextoWpp = window.cuponAplicado ? `\n*Cupón:* ${window.cuponAplicado} (-$${montoDescuento})` : '';
+                const boton = this; const nombre = document.getElementById('nombre').value.trim(); const telefono = document.getElementById('telefono').value.trim(); const direccion = document.getElementById('direccion').value.trim(); const pago = document.getElementById('pago').value; const tipoEntrega = document.getElementById('tipo-entrega').value;
+                if(nombre === "" || telefono === "" || (tipoEntrega === 'domicilio' && direccion === "")) { mostrarToast("Completá tus datos.", "error"); return; } if(telefono.length < 8) { mostrarToast("El número de teléfono parece muy corto.", "error"); return; }
+                boton.textContent = "Procesando..."; const pedidoCompletoTexto = window.carrito.map(item => `${item.nombre} ($${item.precio})`).join('- '); let cantS = window.carrito.reduce((suma, item) => suma + item.cantidadValidaEnvio, 0); let costoEnvioCalculado = (cantS >= 24) ? 0 : window.COSTO_FIJO_ENVIO; let envioAplicado = "Retiro por local"; if(tipoEntrega === 'domicilio') { envioAplicado = (costoEnvioCalculado === 0) ? "¡GRATIS!" : `\$${costoEnvioCalculado}`; }
+                let subtotalPesos = window.carrito.reduce((suma, item) => suma + item.precio, 0); let montoDescuento = window.descuentoGlobal > 0 ? Math.round(subtotalPesos * (window.descuentoGlobal / 100)) : 0; let cuponTextoFirebase = window.cuponAplicado ? `\n- Cupón: ${window.cuponAplicado} (-$${montoDescuento})` : ''; let cuponTextoWpp = window.cuponAplicado ? `\n*Cupón:* ${window.cuponAplicado} (-$${montoDescuento})` : '';
                 try {
-                    await addDoc(collection(db, "pedidos"), {
-                        producto: pedidoCompletoTexto + "- Envío: " + envioAplicado + cuponTextoFirebase,
-                        total: window.totalPesosGlobal, nombre: nombre, telefono: telefono, direccion: direccion, metodo_pago: pago, fecha: serverTimestamp(), estado: "Pendiente", cupon: window.cuponAplicado || "Ninguno"
-                    });
+                    await addDoc(collection(db, "pedidos"), { producto: pedidoCompletoTexto + "- Envío: " + envioAplicado + cuponTextoFirebase, total: window.totalPesosGlobal, nombre: nombre, telefono: telefono, direccion: direccion, metodo_pago: pago, fecha: serverTimestamp(), estado: "Pendiente", cupon: window.cuponAplicado || "Ninguno" });
                     const msg = `¡Hola! Acabo de armar un pedido en la web. 🛒\n\n*Nombre:* ${nombre}\n*Teléfono:* ${telefono}\n*Dirección / Método:* ${direccion}\n\n*MI PEDIDO:*\n- ${pedidoCompletoTexto}\n*- Costo Envío: ${envioAplicado}*${cuponTextoWpp}\n\n*TOTAL FINAL: $${window.totalPesosGlobal}*\n\n*Pago:* ${pago === 'efectivo' ? '💵 Efectivo' : '💳 Transferencia'}`;
                     mostrarToast("¡Pedido registrado! Abriendo WhatsApp...", "success");
-                    
-                    if (window.cuponAplicado === "MIGAS.10") localStorage.setItem('cupon_migas10_usado', 'true');
-                    if (window.cuponAplicado === "MIGASJACKPOT") localStorage.setItem('cupon_migasjackpot_usado', 'true');
-                    // ¡NUEVO! Guardar en memoria que el QR ya se usó para evitar trampas
-                    if (window.cuponAplicado === "QR MISTERIOSO") localStorage.setItem('cupon_qr_usado', 'true');
-                    
-                    localStorage.removeItem('mdc_carrito'); localStorage.removeItem('mdc_cupon'); localStorage.removeItem('mdc_desc'); 
-                    window.descuentoGlobal = 0; window.cuponAplicado = ""; document.getElementById('cupon-mensaje').style.display = "none"; document.getElementById('cupon').value = "";
-                    document.getElementById('formularioPedido').reset(); 
-        window.carrito = []; actualizarBotonCarrito(); window.cerrarModal(); boton.textContent = "Enviar Pedido por WhatsApp";
+                    if (window.cuponAplicado === "MIGAS.10") localStorage.setItem('cupon_migas10_usado', 'true'); if (window.cuponAplicado === "MIGASJACKPOT") localStorage.setItem('cupon_migasjackpot_usado', 'true'); if (window.cuponAplicado === "QR MISTERIOSO") localStorage.setItem('cupon_qr_usado', 'true');
+                    localStorage.removeItem('mdc_carrito'); localStorage.removeItem('mdc_cupon'); localStorage.removeItem('mdc_desc'); window.descuentoGlobal = 0; window.cuponAplicado = ""; document.getElementById('cupon-mensaje').style.display = "none"; document.getElementById('cupon').value = ""; document.getElementById('formularioPedido').reset(); window.carrito = []; actualizarBotonCarrito(); window.cerrarModal(); boton.textContent = "Enviar Pedido por WhatsApp";
                     setTimeout(() => { window.location.href = `https://wa.me/5493756433375?text=${encodeURIComponent(msg)}`; }, 1500);
                 } catch (error) { mostrarToast("Error.", "error"); boton.textContent = "Enviar Pedido por WhatsApp"; }
             });

@@ -8,7 +8,6 @@
     <title>Migas del Cielo - Sandwiches de Miga</title>
     
     <link rel="icon" type="image/png" href="image_d16724.png">
-    
     <meta property="og:title" content="Migas del Cielo - Sándwiches de Miga">
     <meta property="og:description" content="Los mejores sándwiches extra suaves de Santo Tomé. ¡Hacé tu pedido online para este finde y aprovechá envío gratis llevando 2 docenas!">
     <meta property="og:image" content="image_d16724.png">
@@ -18,6 +17,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
+    <!-- LIBRERÍA DE CONFETI VIRTUAL -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <link rel="stylesheet" href="css/style.css">
 
     <style>
@@ -30,20 +32,27 @@ body::before {
         .selector-cantidad:disabled { background-color: #e9ecef; color: #6c757d; border-color: #ccc; cursor: not-allowed; opacity: 0.8; }
         #barra-panico { display: none; background-color: #2A1111; color: #FFFDD0; text-align: center; padding: 12px; font-weight: bold; font-family: 'Fredoka', sans-serif; font-size: 1.1rem; position: fixed; top: 0; left: 0; width: 100%; z-index: 10001; border-bottom: 3px solid #F4C430; }
         
-        .grupo-direccion { display: flex; gap: 8px; margin: 12px 0; }
-        .grupo-direccion input { margin: 0 !important; flex: 1; }
-        .btn-gps { background-color: #F4C430; color: #2A1111; border: 2px solid #2A1111; border-radius: 8px; padding: 0 15px; cursor: pointer; font-size: 1.1rem; transition: 0.3s; display: flex; align-items: center; justify-content: center; box-shadow: 3px 3px 0px rgba(0,0,0,0.2); }
+        /* ESTILOS DEL FORMULARIO ANTI-ESTRÉS */
+        .input-con-icono { position: relative; width: 100%; margin-bottom: 12px; display: flex; align-items: center; }
+        .input-con-icono i { position: absolute; left: 14px; color: #9A1B22; font-size: 1.1rem; pointer-events: none; z-index: 2; }
+        .input-con-icono input { width: 100%; padding: 12px 12px 12px 42px !important; margin: 0 !important; border: 2px solid #ccc; border-radius: 8px; font-size: 1rem; transition: all 0.3s ease; box-sizing: border-box; font-family: 'Nunito', sans-serif; }
+        
+        .grupo-direccion { margin-bottom: 12px; }
+        .input-con-icono input:focus, select:focus, textarea:focus { border-color: #F4C430 !important; outline: none !important; box-shadow: 0 0 10px rgba(244, 196, 48, 0.4) !important; background-color: #fffdf5 !important; }
+
+        .btn-gps { background-color: #F4C430; color: #2A1111; border: 2px solid #2A1111; border-radius: 8px; padding: 0 15px; cursor: pointer; font-size: 1.1rem; transition: 0.3s; display: flex; align-items: center; justify-content: center; box-shadow: 3px 3px 0px rgba(0,0,0,0.2); margin-left: 8px; }
         .btn-gps:hover { background-color: #fff; transform: translate(-1px, -1px); box-shadow: 4px 4px 0px rgba(0,0,0,0.2); }
 
         .tarjeta-sandwich { position: relative; }
         
-        .imagen-producto { width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 15px; border: 2px solid var(--text-dark); box-sizing: border-box; }
+        /* IMAGEN CON HOVER PARA MODO CINE */
+        .imagen-producto { width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 15px; border: 2px solid var(--text-dark); box-sizing: border-box; cursor: pointer; transition: transform 0.3s ease; }
+        .imagen-producto:hover { transform: scale(1.03); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 
         .badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); padding: 6px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 800; color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 10; white-space: nowrap; letter-spacing: 1px; text-transform: uppercase; font-family: 'Fredoka', sans-serif; }
         .badge-oro { background: linear-gradient(45deg, #F4C430, #f9a825); color: #2A1111; border: 2px solid #fff; }
         .badge-fuego { background: linear-gradient(45deg, #e53935, #c62828); border: 2px solid #fff; }
-        .badge-azul { background: linear-gradient(45deg, #1e88e5, #1565c0); border: 2px solid #fff; }
-
+        
         .seccion-testimonios { background-color: var(--text-dark); padding: 50px 20px; margin: 40px 0 0 0; text-align: center; border-top: 4px dashed #F4C430; }
         .contenedor-reseñas { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; max-width: 1000px; margin: 30px auto 0 auto; }
         .tarjeta-reseña { background-color: white; color: #333; padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); position: relative; text-align: left; }
@@ -61,7 +70,7 @@ body::before {
         .footer-col a:hover { color: #F4C430; transform: translateX(5px); }
         .footer-bottom { text-align: center; border-top: 1px solid #3d1a1a; margin-top: 40px; padding-top: 20px; font-size: 0.85rem; color: #777; }
 
-        @keyframes latidoCarrito { 0% { transform: scale(1); } 30% { transform: scale(1.3) rotate(-10deg); } 50% { transform: scale(1.1) rotate(5deg); } 70% { transform: scale(1.2) rotate(-5deg); } 100% { transform: scale(1); } }
+        @keyframes latidoCarrito { 0% { transform: scale(1); } 30% { transform: scale(1.1) rotate(-3deg); } 50% { transform: scale(1.05) rotate(3deg); } 70% { transform: scale(1.1) rotate(-3deg); } 100% { transform: scale(1); } }
         .animar-carrito { animation: latidoCarrito 0.5s ease-in-out; }
         .btn-exito { background-color: #4CAF50 !important; color: white !important; border-color: #388E3C !important; transform: scale(1.05) !important; box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4) !important; transition: all 0.2s ease !important; }
 
@@ -86,7 +95,6 @@ body::before {
         .barra-progreso-relleno { height: 100%; width: 0%; transition: width 0.5s ease-in-out, background-color 0.5s ease; }
         .texto-progreso { font-size: 0.95rem; color: var(--text-dark); text-align: center; margin-bottom: 5px; font-family: 'Nunito', sans-serif; }
         
-        /* NUEVO: ESTILOS VISUALES LLAMATIVOS PARA EL STOCK */
         .contenedor-etiqueta-stock { text-align: center; margin-bottom: 12px; margin-top: 5px; min-height: 28px; }
         .badge-stock { display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 800; font-family: 'Nunito', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 3px 6px rgba(0,0,0,0.15); transition: all 0.3s ease; }
         .stock-alto { background-color: #E8F5E9; color: #2E7D32; border: 1px solid #4CAF50; }
@@ -94,11 +102,64 @@ body::before {
         .stock-bajo { background-color: #FFEBEE; color: #C62828; border: 1px solid #F44336; animation: latidoUrgencia 1s infinite alternate; }
         .stock-agotado { background-color: #EEEEEE; color: #616161; border: 1px solid #9E9E9E; box-shadow: none; }
         
-        @keyframes latidoUrgencia {
-            0% { transform: scale(1); box-shadow: 0 3px 6px rgba(244, 67, 54, 0.3); }
-            100% { transform: scale(1.08); box-shadow: 0 6px 12px rgba(244, 67, 54, 0.5); }
-        }
+        @keyframes latidoUrgencia { 0% { transform: scale(1); box-shadow: 0 3px 6px rgba(244, 67, 54, 0.3); } 100% { transform: scale(1.08); box-shadow: 0 6px 12px rgba(244, 67, 54, 0.5); } }
         .badge-stock i { margin-right: 5px; }
+
+        /* DISEÑO ROBUSTO DEL BOTÓN FLOTANTE */
+        .btn-carrito-nuevo { 
+            position: fixed !important;
+            bottom: 25px !important;
+            right: 25px !important;
+            background: linear-gradient(45deg, #9A1B22, #c62828) !important; 
+            border: 2px solid #F4C430 !important;
+            border-radius: 50px !important; 
+            padding: 10px 20px !important; 
+            width: auto !important; 
+            height: auto !important; 
+            display: flex !important; 
+            align-items: center !important; 
+            gap: 10px !important; 
+            z-index: 10000 !important; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4) !important;
+            cursor: pointer;
+            transition: transform 0.2s ease !important;
+            text-decoration: none !important;
+        }
+        .btn-carrito-nuevo:hover { transform: scale(1.05) !important; }
+        .btn-carrito-nuevo i { color: #fff !important; font-size: 1.3rem !important; margin-right: -2px !important;}
+        
+        #contador-carrito { 
+            background: #F4C430 !important; 
+            color: #9A1B22 !important; 
+            border-radius: 50% !important; 
+            padding: 0 !important;
+            width: 24px !important; 
+            height: 24px !important; 
+            display: flex !important; 
+            align-items: center !important; 
+            justify-content: center !important; 
+            font-size: 0.95rem !important; 
+            font-weight: 900 !important; 
+            font-family: 'Fredoka', sans-serif !important;
+            position: static !important; 
+        }
+        
+        #total-flotante { 
+            border-left: 2px solid rgba(255,255,255,0.3) !important; 
+            padding-left: 10px !important; 
+            font-weight: 800 !important; 
+            color: #F4C430 !important; 
+            font-family: 'Nunito', sans-serif !important; 
+            letter-spacing: 0.5px !important; 
+            font-size: 1.25rem !important;
+        }
+
+        /* LIGHTBOX (MODO CINE) */
+        .lightbox { display: none; position: fixed; z-index: 10005; padding-top: 5vh; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.9); backdrop-filter: blur(5px); }
+        .lightbox-content { margin: auto; display: block; max-width: 90%; max-height: 80vh; border-radius: 12px; box-shadow: 0 0 30px rgba(244, 196, 48, 0.4); animation: zoomLightbox 0.3s ease; border: 3px solid #F4C430; }
+        .cerrar-lightbox { position: absolute; top: 20px; right: 35px; color: #f1f1f1; font-size: 45px; font-weight: bold; transition: 0.3s; cursor: pointer; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+        .cerrar-lightbox:hover { color: #F4C430; transform: scale(1.1); }
+        @keyframes zoomLightbox { from {transform:scale(0.8); opacity: 0;} to {transform:scale(1); opacity: 1;} }
     </style>
 </head>
 <body>
@@ -124,13 +185,16 @@ body::before {
         <a href="https://www.instagram.com/migasdelcielo.st" target="_blank" class="btn-red btn-ig"><i class="fa-brands fa-instagram"></i></a>
     </div>
     
-    <button id="btn-carrito" aria-label="Ver carrito de compras" class="btn-red btn-carrito-nuevo" onclick="abrirCarrito()" style="display: none; cursor: pointer;">
+    <button id="btn-carrito" aria-label="Ver carrito de compras" class="btn-carrito-nuevo" onclick="abrirCarrito()" style="display: none;">
         <i class="fa-solid fa-cart-shopping"></i>
         <span id="contador-carrito">0</span>
+        <span id="total-flotante">$0</span>
     </button>
 
     <main>
         <section class="portada">
+            <div id="saludo-dinamico" class="fade-in-up" style="color: #F4C430; font-family: 'Nunito', sans-serif; font-size: 1.2rem; font-weight: 800; margin-bottom: -5px; letter-spacing: 1px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">¡Bienvenidos!</div>
+            
             <h1 class="titulo-retro fade-in-up" onclick="activarAdminSecreto()" style="cursor: pointer; user-select: none;">MIGAS DEL CIELO</h1>
             <p class="fade-in-up" style="font-family: 'Fredoka', sans-serif; font-size: 1.4rem; color: #fff; background-color: var(--accent-red); padding: 8px 30px; border-radius: 30px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; border: 3px solid var(--text-main); box-shadow: 4px 4px 0px rgba(59, 66, 96, 0.3); margin-top: -15px; margin-bottom: 40px; transform: rotate(-2deg); display: inline-block;">
                 <i class="fa-solid fa-fire" style="margin-right: 8px; color: var(--accent-yellow);"></i> El Pecado Permitido
@@ -155,14 +219,11 @@ body::before {
         <div id="cat-combos" class="contenedor-menu categoria-oculta">
             <div class="tarjeta-sandwich">
                 <div class="badge badge-oro"><i class="fa-solid fa-star"></i> Combo Especial</div>
-                <img src="foto-combo.jpg" alt="Combo Pecado Especial" class="imagen-producto">
+                <img src="foto-combo.jpg" alt="Combo Pecado Especial" class="imagen-producto" onclick="abrirLightbox(this.src)">
                 <h3>Combo Pecado</h3>
                 <p>La combinación perfecta y completa. Incluye 12 sándwiches en total: 4 de Jamón y Queso + 4 de JyQ con Huevo + 4 de JyQ con Tomate, Lechuga y Huevo.</p>
                 <div class="contenedor-etiqueta-stock"><div id="stock-combo"></div></div>
-                <div style="margin-bottom: 15px;">
-                    <span style="text-decoration: line-through; color: #888; font-size: 1.2rem; font-weight: bold; margin-right: 10px;">$22.000</span>
-                    <div class="precio" style="margin-bottom: 0;">$17.300</div>
-                </div>
+                <div class="precio">$17.300</div>
                 <button class="btn-seleccionar" id="btn-promo-pecado" data-texto="¡Lo quiero!" onclick="abrirModal('Combo Pecado (12 Sándwiches)', null, 17300, this)">¡Lo quiero!</button>
             </div>
         </div>
@@ -170,7 +231,7 @@ body::before {
         <div id="cat-sabores" class="contenedor-menu fade-in-up">
             <div class="tarjeta-sandwich">
                 <div class="badge badge-fuego"><i class="fa-solid fa-fire"></i> Más Vendido</div>
-                <img src="foto-jyq.jpg" alt="Sándwich de Jamón y Queso" class="imagen-producto">
+                <img src="foto-jyq.jpg" alt="Sándwich de Jamón y Queso" class="imagen-producto" onclick="abrirLightbox(this.src)">
                 <h3>Jamón y Queso</h3>
                 <p>El clásico infalible. Pan de miga extra suave, abundante jamón cocido y queso tybo fundente.</p>
                 <div class="contenedor-etiqueta-stock"><div id="stock-jyq"></div></div>
@@ -184,7 +245,7 @@ body::before {
             </div>
             
             <div class="tarjeta-sandwich">
-                <img src="foto-jyqh.jpg" alt="Sándwich de Jamón, Queso y Huevo" class="imagen-producto">
+                <img src="foto-jyqh.jpg" alt="Sándwich de Jamón, Queso y Huevo" class="imagen-producto" onclick="abrirLightbox(this.src)">
                 <h3>Jamón, Queso y Huevo</h3>
                 <p>El clásico elevado. Nuestro sándwich de JyQ con una generosa capa de huevo duro picado.</p>
                 <div class="contenedor-etiqueta-stock"><div id="stock-jyqh"></div></div>
@@ -198,7 +259,7 @@ body::before {
             </div>
             
             <div class="tarjeta-sandwich">
-                <img src="foto-completo.jpg" alt="Sándwich de JyQ, Tomate, Lechuga y Huevo" class="imagen-producto">
+                <img src="foto-completo.jpg" alt="Sándwich de JyQ, Tomate, Lechuga y Huevo" class="imagen-producto" onclick="abrirLightbox(this.src)">
                 <h3>JyQ, Tomate, Lechuga y Huevo</h3>
                 <p>Super completo y fresco. Jamón, queso, huevo duro picado, rodajas de tomate y lechuga crujiente.</p>
                 <div class="contenedor-etiqueta-stock"><div id="stock-completo"></div></div>
@@ -245,16 +306,19 @@ body::before {
             <div style="max-width: 500px; margin: 40px auto 0 auto; background: white; padding: 25px; border-radius: 12px; border: 3px solid #2A1111; box-shadow: 5px 5px 0px rgba(0,0,0,0.2); text-align: left;">
                 <h3 style="margin-top:0; color:#9A1B22; font-family:'Fredoka', sans-serif; font-size:1.3rem;"><i class="fa-solid fa-pen-to-square"></i> ¿Ya nos compraste? ¡Dejanos tu opinión!</h3>
                 <form id="formularioReseña">
-                    <input type="text" id="reseña-nombre" placeholder="Tu Nombre o Apodo" style="width:100%; padding:11px; margin-bottom:12px; border:2px solid #ccc; border-radius:8px; font-size:1rem;" required>
+                    <div class="input-con-icono">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="reseña-nombre" placeholder="Tu Nombre o Apodo" required>
+                    </div>
                     <label style="font-weight:bold; display:block; margin-bottom:5px; color:#2A1111;">¿Cuántas estrellas nos das?</label>
-                    <select id="reseña-estrellas" style="width:100%; padding:11px; margin-bottom:12px; border:2px solid #ccc; border-radius:8px; font-size:1rem;" required>
+                    <select id="reseña-estrellas" style="width:100%; padding:11px; margin-bottom:12px; border:2px solid #ccc; border-radius:8px; font-size:1rem; font-family:'Nunito', sans-serif;" required>
                         <option value="5">⭐⭐⭐⭐⭐ Excelente (5 estrellas)</option>
                         <option value="4">⭐⭐⭐⭐ Muy bueno (4 estrellas)</option>
                         <option value="3">⭐⭐⭐ Bueno (3 estrellas)</option>
                         <option value="2">⭐⭐ Regular (2 estrellas)</option>
                         <option value="1">⭐ Malo (1 estrella)</option>
                     </select>
-                    <textarea id="reseña-comentario" placeholder="Contanos tu experiencia..." rows="3" style="width:100%; padding:11px; margin-bottom:12px; border:2px solid #ccc; border-radius:8px; font-size:1rem; resize:none;" required></textarea>
+                    <textarea id="reseña-comentario" placeholder="Contanos tu experiencia..." rows="3" style="width:100%; padding:11px; margin-bottom:12px; border:2px solid #ccc; border-radius:8px; font-size:1rem; resize:none; font-family:'Nunito', sans-serif;" required></textarea>
                     <button type="submit" style="background:#9A1B22; color:#F4C430; border:2px solid #2A1111; padding:12px; width:100%; border-radius:8px; font-weight:bold; cursor:pointer; font-family:'Fredoka', sans-serif; text-transform:uppercase; box-shadow: 3px 3px 0px rgba(0,0,0,0.1); font-size:1rem; letter-spacing:1px;">Publicar Calificación</button>
                 </form>
             </div>
@@ -295,8 +359,15 @@ body::before {
 
             <ul id="listaCarrito" style="list-style: none; padding: 0; margin-bottom: 20px;"></ul>
             <form id="formularioPedido">
-                <input type="text" id="nombre" placeholder="Tu Nombre y Apellido" required>
-                <input type="tel" id="telefono" placeholder="Tu Número de WhatsApp" required>
+                <div class="input-con-icono">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="nombre" placeholder="Tu Nombre y Apellido" required>
+                </div>
+                
+                <div class="input-con-icono">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <input type="tel" id="telefono" placeholder="Tu Número de WhatsApp" required>
+                </div>
                 
                 <label style="font-weight:bold; display:block; margin-top:10px; color:#2A1111;">Método de Entrega:</label>
                 <select id="tipo-entrega" style="width:100%; padding:11px; margin-bottom:12px; border:2px solid #ccc; border-radius:8px; font-size:1rem; font-family:'Nunito', sans-serif;" onchange="window.cambiarEntrega()">
@@ -304,27 +375,33 @@ body::before {
                     <option value="retiro">🏪 Retiro por el Local</option>
                 </select>
 
-                <div id="grupo-direccion-container" class="grupo-direccion">
-                    <input type="text" id="direccion" placeholder="Dirección de envío o referencias" required>
+                <div id="grupo-direccion-container" class="grupo-direccion" style="display: flex;">
+                    <div class="input-con-icono" style="margin-bottom: 0; flex: 1;">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <input type="text" id="direccion" placeholder="Dirección de envío o referencias" required>
+                    </div>
                     <button type="button" id="btn-gps" class="btn-gps" onclick="obtenerUbicacionGPS()" title="Usar mi ubicación GPS actual"><i class="fa-solid fa-location-crosshairs"></i></button>
                 </div>
                 
                 <div style="display: flex; gap: 8px; margin: 12px 0;">
-                    <input type="text" id="cupon" placeholder="¿Tienes un cupón de descuento?" style="margin:0 !important; flex:1; text-transform: uppercase;">
-                    <button type="button" onclick="window.aplicarCupon()" style="background:#F4C430; color:#2A1111; border:2px solid #2A1111; padding:0 15px; border-radius:8px; font-weight:bold; cursor:pointer; font-family:'Nunito', sans-serif;">Aplicar</button>
+                    <div class="input-con-icono" style="margin-bottom: 0; flex: 1;">
+                        <i class="fa-solid fa-ticket"></i>
+                        <input type="text" id="cupon" placeholder="Cupón de descuento" style="text-transform: uppercase;">
+                    </div>
+                    <button type="button" onclick="window.aplicarCupon()" style="background:#F4C430; color:#2A1111; border:2px solid #2A1111; padding:0 15px; border-radius:8px; font-weight:bold; cursor:pointer; font-family:'Nunito', sans-serif; height: 50px;">Aplicar</button>
                 </div>
                 <p id="cupon-mensaje" style="margin: -5px 0 10px 0; font-size: 0.85rem; font-weight: bold; color: #4CAF50; display: none; text-align: left;"></p>
                 
-                <select id="pago" onchange="mostrarAlias()">
+                <select id="pago" onchange="mostrarAlias()" style="width:100%; padding:11px; margin-bottom:12px; border:2px solid #ccc; border-radius:8px; font-size:1rem; font-family:'Nunito', sans-serif;">
                     <option value="efectivo">Pago en Efectivo</option>
                     <option value="transferencia">Transferencia / MercadoPago</option>
                 </select>
-                <div id="datosTransferencia" style="display: none; background: #E8F5E9; border: 2px solid #4CAF50; color: #1B5E20; padding: 15px; border-radius: 10px; text-align: center;">
+                <div id="datosTransferencia" style="display: none; background: #E8F5E9; border: 2px solid #4CAF50; color: #1B5E20; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 15px;">
                     <p style="margin: 0 0 10px 0; font-size: 0.9rem;"><strong>Pago Digital</strong></p>
                     <p style="margin: 0; font-size: 1.1rem;">Alias: <strong style="text-transform: uppercase;">migas.st</strong></p>
                     <p style="margin: 5px 0 10px 0; font-size: 0.95rem;">Titular: <strong>Rodrigo José Agustín Almeida</strong></p>
                     <p style="margin: 0; font-size: 1.3rem; font-weight: 800; color: #D32F2F;">Total a transferir: $<span id="total-transferencia">0</span></p>
-                    <button type="button" onclick="copiarAlias()" style="margin-top: 10px; background: #4CAF50; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; width: 100%;">Copiar Alias</button>
+                    <button type="button" onclick="copiarAlias()" style="margin-top: 10px; background: #4CAF50; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; width: 100%; font-family: 'Nunito', sans-serif; font-weight: bold;">Copiar Alias</button>
                 </div>
                 <button type="button" class="btn-confirmar">Enviar Pedido por WhatsApp</button>
             </form>
@@ -346,6 +423,12 @@ body::before {
         </div>
     </div>
 
+    <!-- VISOR DE IMÁGENES (LIGHTBOX) -->
+    <div id="lightbox" class="lightbox" onclick="cerrarLightbox()">
+        <span class="cerrar-lightbox" onclick="cerrarLightbox()">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+    </div>
+
     <div id="toast-container"></div>
 
     <script type="module">
@@ -362,7 +445,19 @@ body::before {
         
         window.COSTO_FIJO_ENVIO = 2000; 
         window.carrito = []; window.totalPesosGlobal = 0; let controlRemotoAbierto = true; window.stockGlobal = {}; window.descuentoGlobal = 0; window.cuponAplicado = "";
+        window.confetiEnvioLanzado = false; 
         
+        window.abrirLightbox = function(src) { document.getElementById('lightbox').style.display = "block"; document.getElementById('lightbox-img').src = src; }
+        window.cerrarLightbox = function() { document.getElementById('lightbox').style.display = "none"; }
+
+        function establecerSaludo() {
+            const hora = new Date().getHours(); let mensaje = "¡Bienvenidos!";
+            if (hora >= 5 && hora < 12) mensaje = "☀️ ¡Buen día! ¿Sale un almuerzo suave?";
+            else if (hora >= 12 && hora < 19) mensaje = "🧉 ¡Buenas tardes! Ideal para acompañar el mate.";
+            else mensaje = "🌙 ¡Buenas noches! Date el gusto de cenar rico y sin cocinar.";
+            document.getElementById('saludo-dinamico').innerText = mensaje;
+        }
+
         window.mostrarToast = function(mensaje, tipo = 'success') {
             const container = document.getElementById('toast-container'); const toast = document.createElement('div');
             toast.className = `toast ${tipo}`; toast.innerHTML = `<span>${mensaje}</span>`; container.appendChild(toast);
@@ -371,29 +466,21 @@ body::before {
 
         window.esAdmin = localStorage.getItem('mdc_admin_mode') === 'true';
         const urlParams = new URLSearchParams(window.location.search);
-        
-        if (urlParams.get('modo') === 'admMigas') {
-            localStorage.setItem('mdc_admin_mode', 'true'); window.esAdmin = true;
-            window.history.replaceState({}, document.title, window.location.pathname); mostrarToast("Modo Admin activado por link.", "success");
-        }
-
+        if (urlParams.get('modo') === 'admMigas') { localStorage.setItem('mdc_admin_mode', 'true'); window.esAdmin = true; window.history.replaceState({}, document.title, window.location.pathname); window.mostrarToast("Modo Admin activado por link.", "success"); }
         if (urlParams.get('premio') === 'qr') {
             if (localStorage.getItem('cupon_qr_usado') !== 'true') {
                 window.descuentoGlobal = 10; window.cuponAplicado = "QR MISTERIOSO";
-                setTimeout(() => { mostrarToast("🎉 ¡Encontraste el QR Secreto! Tenés 10% de descuento guardado para tu pedido de hoy.", "success"); window.guardarMemoria(); window.history.replaceState({}, document.title, window.location.pathname); }, 800);
-            } else {
-                setTimeout(() => { mostrarToast("Ya utilizaste el premio de este código QR. ¡Gracias por participar!", "error"); window.history.replaceState({}, document.title, window.location.pathname); }, 800);
-            }
+                setTimeout(() => { window.mostrarToast("🎉 ¡Encontraste el QR Secreto! Tenés 10% de descuento.", "success"); confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } }); window.guardarMemoria(); window.history.replaceState({}, document.title, window.location.pathname); }, 800);
+            } else { setTimeout(() => { window.mostrarToast("Ya utilizaste el premio de este QR.", "error"); window.history.replaceState({}, document.title, window.location.pathname); }, 800); }
         }
 
         window.contadorAdmin = 0;
         window.activarAdminSecreto = function() {
             window.contadorAdmin++;
             if (window.contadorAdmin === 5) {
-                if (window.esAdmin) { localStorage.setItem('mdc_admin_mode', 'false'); window.esAdmin = false; mostrarToast("Modo Admin DESACTIVADO.", "error"); } else { localStorage.setItem('mdc_admin_mode', 'true'); window.esAdmin = true; mostrarToast("Modo Admin ACTIVADO. Vista habilitada.", "success"); }
+                if (window.esAdmin) { localStorage.setItem('mdc_admin_mode', 'false'); window.esAdmin = false; window.mostrarToast("Modo Admin DESACTIVADO.", "error"); } else { localStorage.setItem('mdc_admin_mode', 'true'); window.esAdmin = true; window.mostrarToast("Modo Admin ACTIVADO.", "success"); }
                 window.evaluarEstadoTienda(); window.contadorAdmin = 0;
-            }
-            setTimeout(() => { window.contadorAdmin = 0; }, 2000);
+            } setTimeout(() => { window.contadorAdmin = 0; }, 2000);
         }
 
         const simbolosCasino = ['🥪', '🧀', '🥓', '🍖', '🥚'];
@@ -405,96 +492,81 @@ body::before {
             casinoData.intentos++; localStorage.setItem('mdc_casino', JSON.stringify(casinoData)); const intentosRestantes = 3 - casinoData.intentos;
             btn.disabled = true; msg.innerHTML = "Girando... 🎲"; msg.style.color = ""; slots.forEach(s => s.classList.add('spin-anim'));
             setTimeout(async () => {
-                slots.forEach(s => s.classList.remove('spin-anim'));
-                const esGanador = false; let r1, r2, r3;
+                slots.forEach(s => s.classList.remove('spin-anim')); const esGanador = false; let r1, r2, r3;
                 if (esGanador) { r1 = r2 = r3 = simbolosCasino[Math.floor(Math.random() * simbolosCasino.length)]; } else { do { r1 = simbolosCasino[Math.floor(Math.random() * simbolosCasino.length)]; r2 = simbolosCasino[Math.floor(Math.random() * simbolosCasino.length)]; r3 = simbolosCasino[Math.floor(Math.random() * simbolosCasino.length)]; } while (r1 === r2 && r2 === r3); }
                 slots[0].innerText = r1; slots[1].innerText = r2; slots[2].innerText = r3;
-                try { await addDoc(collection(db, "interacciones_casino"), { fecha: serverTimestamp(), intento_numero: casinoData.intentos, resultado: `${r1} ${r2} ${r3}`, ganador: esGanador }); } catch (e) { console.error("Error al registrar métricas: ", e); }
-                if (esGanador) {
-                    msg.innerHTML = `¡JACKPOT! 🎉 Ganaste un 15% de desc. Copiá tu código:<br><span class="codigo-ganador">MIGASJACKPOT</span>`; mostrarToast("¡GANASTE EL PREMIO!", "success"); btn.disabled = true; 
-                } else {
-                    if (intentosRestantes > 0) { msg.innerHTML = `¡Casi! Volvé a intentar. 🤞 <br><small style='font-size:0.8rem; color:#aaa;'>(Te quedan ${intentosRestantes} tiros hoy)</small>`; btn.disabled = false; } else { msg.innerHTML = `¡Casi! 🤞 <br><small style='font-size:0.8rem; color:#D32F2F;'>(Se acabaron tus tiros. ¡Volvé mañana!)</small>`; btn.disabled = true; }
-                }
+                try { await addDoc(collection(db, "interacciones_casino"), { fecha: serverTimestamp(), intento_numero: casinoData.intentos, resultado: `${r1} ${r2} ${r3}`, ganador: esGanador }); } catch (e) {}
+                if (esGanador) { msg.innerHTML = `¡JACKPOT! 🎉 Ganaste un 15% de desc. Copiá tu código:<br><span class="codigo-ganador">MIGASJACKPOT</span>`; window.mostrarToast("¡GANASTE EL PREMIO!", "success"); btn.disabled = true; confetti({ particleCount: 200, spread: 100, origin: { y: 0.6 } }); } 
+                else { if (intentosRestantes > 0) { msg.innerHTML = `¡Casi! Volvé a intentar. 🤞 <br><small style='font-size:0.8rem; color:#aaa;'>(Te quedan ${intentosRestantes} tiros hoy)</small>`; btn.disabled = false; } else { msg.innerHTML = `¡Casi! 🤞 <br><small style='font-size:0.8rem; color:#D32F2F;'>(Se acabaron tus tiros. ¡Volvé mañana!)</small>`; btn.disabled = true; } }
             }, 1200);
         }
 
-        window.guardarMemoria = function() {
-            localStorage.setItem('mdc_carrito', JSON.stringify(window.carrito)); localStorage.setItem('mdc_cupon', window.cuponAplicado); localStorage.setItem('mdc_desc', window.descuentoGlobal);
-            localStorage.setItem('mdc_nombre', document.getElementById('nombre').value); localStorage.setItem('mdc_tel', document.getElementById('telefono').value); localStorage.setItem('mdc_dir', document.getElementById('direccion').value); localStorage.setItem('mdc_entrega', document.getElementById('tipo-entrega').value);
-        };
-
-        window.cargarMemoria = function() {
-            const guardado = localStorage.getItem('mdc_carrito');
-            if (guardado) {
-                window.carrito = JSON.parse(guardado); window.cuponAplicado = localStorage.getItem('mdc_cupon') || ""; window.descuentoGlobal = parseInt(localStorage.getItem('mdc_desc')) || 0;
-                document.getElementById('nombre').value = localStorage.getItem('mdc_nombre') || ""; document.getElementById('telefono').value = localStorage.getItem('mdc_tel') || ""; document.getElementById('direccion').value = localStorage.getItem('mdc_dir') || "";
-                const entrega = localStorage.getItem('mdc_entrega'); if(entrega) { document.getElementById('tipo-entrega').value = entrega; window.cambiarEntrega(); }
-                if(window.cuponAplicado) { document.getElementById('cupon-mensaje').innerText = `Cupón recuperado: ${window.cuponAplicado} 🎉`; document.getElementById('cupon-mensaje').style.display = "block"; document.getElementById('cupon-mensaje').style.color = "#4CAF50"; }
-                window.actualizarBotonCarrito();
-            }
-        };
-
-        window.animarInteraccion = function(botonElement) {
-            const btnCarrito = document.getElementById('btn-carrito'); if (btnCarrito) { btnCarrito.classList.remove('animar-carrito'); void btnCarrito.offsetWidth; btnCarrito.classList.add('animar-carrito'); }
-            if (botonElement) { const textoOriginal = botonElement.getAttribute('data-texto') || botonElement.innerText; botonElement.classList.add('btn-exito'); botonElement.innerHTML = '<i class="fa-solid fa-check"></i> ¡Listo!'; setTimeout(() => { botonElement.classList.remove('btn-exito'); botonElement.innerText = textoOriginal; }, 1000); }
-        }
+        window.guardarMemoria = function() { localStorage.setItem('mdc_carrito', JSON.stringify(window.carrito)); localStorage.setItem('mdc_cupon', window.cuponAplicado); localStorage.setItem('mdc_desc', window.descuentoGlobal); localStorage.setItem('mdc_nombre', document.getElementById('nombre').value); localStorage.setItem('mdc_tel', document.getElementById('telefono').value); localStorage.setItem('mdc_dir', document.getElementById('direccion').value); localStorage.setItem('mdc_entrega', document.getElementById('tipo-entrega').value); };
         
-        window.copiarAlias = function() { navigator.clipboard.writeText('migas.st'); mostrarToast("¡Alias copiado!", "success"); }
+        window.cargarMemoria = function() { const guardado = localStorage.getItem('mdc_carrito'); if (guardado) { window.carrito = JSON.parse(guardado); window.cuponAplicado = localStorage.getItem('mdc_cupon') || ""; window.descuentoGlobal = parseInt(localStorage.getItem('mdc_desc')) || 0; document.getElementById('nombre').value = localStorage.getItem('mdc_nombre') || ""; document.getElementById('telefono').value = localStorage.getItem('mdc_tel') || ""; document.getElementById('direccion').value = localStorage.getItem('mdc_dir') || ""; const entrega = localStorage.getItem('mdc_entrega'); if(entrega) { document.getElementById('tipo-entrega').value = entrega; window.cambiarEntrega(); } if(window.cuponAplicado) { document.getElementById('cupon-mensaje').innerText = `Cupón recuperado: ${window.cuponAplicado} 🎉`; document.getElementById('cupon-mensaje').style.display = "block"; document.getElementById('cupon-mensaje').style.color = "#4CAF50"; } window.actualizarBotonCarrito(); } };
+        
+        window.animarInteraccion = function(botonElement) { const btnCarrito = document.getElementById('btn-carrito'); if (btnCarrito) { btnCarrito.classList.remove('animar-carrito'); void btnCarrito.offsetWidth; btnCarrito.classList.add('animar-carrito'); } if (botonElement) { const textoOriginal = botonElement.getAttribute('data-texto') || botonElement.innerText; botonElement.classList.add('btn-exito'); botonElement.innerHTML = '<i class="fa-solid fa-check"></i> ¡Listo!'; setTimeout(() => { botonElement.classList.remove('btn-exito'); botonElement.innerText = textoOriginal; }, 1000); } }
+        
+        window.copiarAlias = function() { navigator.clipboard.writeText('migas.st'); window.mostrarToast("¡Alias copiado!", "success"); }
 
         window.aplicarCupon = function() {
             const inputCupon = document.getElementById('cupon'); const mensajeCupon = document.getElementById('cupon-mensaje'); const codigo = inputCupon.value.trim().toUpperCase();
-            if (codigo === "") { mostrarToast("Ingresá un código.", "error"); return; }
-            if (codigo === "MIGASJACKPOT") {
-                if (localStorage.getItem('cupon_migasjackpot_usado') === 'true') { mensajeCupon.innerText = "Este premio ya fue reclamado."; mensajeCupon.style.color = "#D32F2F"; mensajeCupon.style.display = "block"; mostrarToast("Premio ya utilizado.", "error"); window.descuentoGlobal = 0; window.cuponAplicado = ""; window.guardarMemoria(); window.abrirCarrito(); return; }
-                window.descuentoGlobal = 15; window.cuponAplicado = "MIGASJACKPOT"; mensajeCupon.innerText = "¡Cupón de Casino aplicado! 15% de desc. 🎰"; mensajeCupon.style.color = "#4CAF50"; mensajeCupon.style.display = "block"; mostrarToast("¡Premio aplicado!", "success"); window.guardarMemoria(); window.abrirCarrito(); 
-            } else if (codigo === "MESSIMIGAS10") {
-                window.descuentoGlobal = 10; window.cuponAplicado = "MESSIMIGAS10"; mensajeCupon.innerText = "¡Cupón MESSIMIGAS10 aplicado! 10% de desc. ⚽"; mensajeCupon.style.color = "#4CAF50"; mensajeCupon.style.display = "block"; mostrarToast("¡Cupón aplicado!", "success"); window.guardarMemoria(); window.abrirCarrito(); 
-            } else if (codigo === "MIGAS.10") {
-                if (localStorage.getItem('cupon_migas10_usado') === 'true') { mensajeCupon.innerText = "Este cupón ya fue utilizado."; mensajeCupon.style.color = "#D32F2F"; mensajeCupon.style.display = "block"; mostrarToast("Cupón ya utilizado.", "error"); window.descuentoGlobal = 0; window.cuponAplicado = ""; window.guardarMemoria(); window.abrirCarrito(); return; }
-                window.descuentoGlobal = 10; window.cuponAplicado = "MIGAS.10"; mensajeCupon.innerText = "¡Cupón MIGAS.10 aplicado! 10% de desc. 🎉"; mensajeCupon.style.color = "#4CAF50"; mensajeCupon.style.display = "block"; mostrarToast("¡Cupón aplicado!", "success"); window.guardarMemoria(); window.abrirCarrito();
-            } else if (codigo === "QRMISTERIOSO") {
-                if (localStorage.getItem('cupon_qr_usado') === 'true') { mensajeCupon.innerText = "Ya usaste el premio del QR."; mensajeCupon.style.color = "#D32F2F"; mensajeCupon.style.display = "block"; mostrarToast("Cupón ya utilizado.", "error"); window.descuentoGlobal = 0; window.cuponAplicado = ""; window.guardarMemoria(); window.abrirCarrito(); return; }
-                window.descuentoGlobal = 10; window.cuponAplicado = "QR MISTERIOSO"; mensajeCupon.innerText = "¡QR MISTERIOSO validado! 10% de desc. 🎉"; mensajeCupon.style.color = "#4CAF50"; mensajeCupon.style.display = "block"; mostrarToast("¡Premio aplicado!", "success"); window.guardarMemoria(); window.abrirCarrito();
-            } else { mensajeCupon.innerText = "El código ingresado no es válido."; mensajeCupon.style.color = "#D32F2F"; mensajeCupon.style.display = "block"; mostrarToast("Cupón inválido.", "error"); window.descuentoGlobal = 0; window.cuponAplicado = ""; window.guardarMemoria(); window.abrirCarrito(); }
+            if (codigo === "") { window.mostrarToast("Ingresá un código.", "error"); return; }
+            if (codigo === "MIGASJACKPOT") { if (localStorage.getItem('cupon_migasjackpot_usado') === 'true') { mensajeCupon.innerText = "Este premio ya fue reclamado."; mensajeCupon.style.color = "#D32F2F"; mensajeCupon.style.display = "block"; window.mostrarToast("Premio ya utilizado.", "error"); window.descuentoGlobal = 0; window.cuponAplicado = ""; window.guardarMemoria(); window.abrirCarrito(); return; } window.descuentoGlobal = 15; window.cuponAplicado = "MIGASJACKPOT"; mensajeCupon.innerText = "¡Cupón de Casino aplicado! 15% de desc. 🎰"; mensajeCupon.style.color = "#4CAF50"; mensajeCupon.style.display = "block"; window.mostrarToast("¡Premio aplicado!", "success"); window.guardarMemoria(); window.abrirCarrito(); } 
+            else if (codigo === "MESSIMIGAS10") { window.descuentoGlobal = 10; window.cuponAplicado = "MESSIMIGAS10"; mensajeCupon.innerText = "¡Cupón MESSIMIGAS10 aplicado! 10% de desc. ⚽"; mensajeCupon.style.color = "#4CAF50"; mensajeCupon.style.display = "block"; window.mostrarToast("¡Cupón aplicado!", "success"); window.guardarMemoria(); window.abrirCarrito(); } 
+            else if (codigo === "MIGAS.10") { if (localStorage.getItem('cupon_migas10_usado') === 'true') { mensajeCupon.innerText = "Este cupón ya fue utilizado."; mensajeCupon.style.color = "#D32F2F"; mensajeCupon.style.display = "block"; window.mostrarToast("Cupón ya utilizado.", "error"); window.descuentoGlobal = 0; window.cuponAplicado = ""; window.guardarMemoria(); window.abrirCarrito(); return; } window.descuentoGlobal = 10; window.cuponAplicado = "MIGAS.10"; mensajeCupon.innerText = "¡Cupón MIGAS.10 aplicado! 10% de desc. 🎉"; mensajeCupon.style.color = "#4CAF50"; mensajeCupon.style.display = "block"; window.mostrarToast("¡Cupón aplicado!", "success"); window.guardarMemoria(); window.abrirCarrito(); } 
+            else if (codigo === "QRMISTERIOSO") { if (localStorage.getItem('cupon_qr_usado') === 'true') { mensajeCupon.innerText = "Ya usaste el premio del QR."; mensajeCupon.style.color = "#D32F2F"; mensajeCupon.style.display = "block"; window.mostrarToast("Cupón ya utilizado.", "error"); window.descuentoGlobal = 0; window.cuponAplicado = ""; window.guardarMemoria(); window.abrirCarrito(); return; } window.descuentoGlobal = 10; window.cuponAplicado = "QR MISTERIOSO"; mensajeCupon.innerText = "¡QR MISTERIOSO validado! 10% de desc. 🎉"; mensajeCupon.style.color = "#4CAF50"; mensajeCupon.style.display = "block"; window.mostrarToast("¡Premio aplicado!", "success"); window.guardarMemoria(); window.abrirCarrito(); } 
+            else { mensajeCupon.innerText = "El código ingresado no es válido."; mensajeCupon.style.color = "#D32F2F"; mensajeCupon.style.display = "block"; window.mostrarToast("Cupón inválido.", "error"); window.descuentoGlobal = 0; window.cuponAplicado = ""; window.guardarMemoria(); window.abrirCarrito(); }
         }
 
         window.obtenerUbicacionGPS = function() {
-            const btnGPS = document.getElementById('btn-gps'); const inputDir = document.getElementById('direccion'); if (!navigator.geolocation) { mostrarToast("Tu dispositivo no soporta geolocalización.", "error"); return; }
-            btnGPS.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>'; navigator.geolocation.getCurrentPosition(
-                (posicion) => {
-                    const lat = posicion.coords.latitude; const lon = posicion.coords.longitude; const linkGoogleMaps = `https://maps.google.com/?q=${lat},${lon}`;
-                    if(inputDir.value.trim() !== "") { inputDir.value = inputDir.value + " | Mapa: " + linkGoogleMaps; } else { inputDir.value = linkGoogleMaps; }
-                    btnGPS.innerHTML = '<i class="fa-solid fa-check"></i>'; btnGPS.style.backgroundColor = '#4CAF50'; btnGPS.style.color = '#fff'; mostrarToast("¡Ubicación cargada!", "success"); window.guardarMemoria();
-                    setTimeout(() => { btnGPS.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i>'; btnGPS.style.backgroundColor = '#F4C430'; btnGPS.style.color = '#2A1111'; }, 3500);
-                }, (error) => { btnGPS.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i>'; mostrarToast("Permiso denegado.", "error"); }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-            );
+            const btnGPS = document.getElementById('btn-gps'); const inputDir = document.getElementById('direccion'); if (!navigator.geolocation) { window.mostrarToast("Tu dispositivo no soporta geolocalización.", "error"); return; }
+            btnGPS.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>'; navigator.geolocation.getCurrentPosition((posicion) => { const lat = posicion.coords.latitude; const lon = posicion.coords.longitude; const linkGoogleMaps = `https://maps.google.com/?q=${lat},${lon}`; if(inputDir.value.trim() !== "") { inputDir.value = inputDir.value + " | Mapa: " + linkGoogleMaps; } else { inputDir.value = linkGoogleMaps; } btnGPS.innerHTML = '<i class="fa-solid fa-check"></i>'; btnGPS.style.backgroundColor = '#4CAF50'; btnGPS.style.color = '#fff'; window.mostrarToast("¡Ubicación cargada!", "success"); window.guardarMemoria(); setTimeout(() => { btnGPS.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i>'; btnGPS.style.backgroundColor = '#F4C430'; btnGPS.style.color = '#2A1111'; }, 3500); }, (error) => { btnGPS.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i>'; window.mostrarToast("Permiso denegado.", "error"); }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
         }
         
         window.cambiarCategoria = function(idCategoria, boton) { document.querySelectorAll('.contenedor-menu').forEach(cat => { cat.classList.add('categoria-oculta'); cat.classList.remove('fade-in-up'); }); const catActiva = document.getElementById(idCategoria); catActiva.classList.remove('categoria-oculta'); void catActiva.offsetWidth; catActiva.classList.add('fade-in-up'); document.querySelectorAll('.btn-filtro').forEach(btn => btn.classList.remove('activo')); boton.classList.add('activo'); }
         
         window.abrirModal = function(nombreProducto, idSelectorCantidad = null, precioUnitario = 0, botonElement = null) {
-            if(!controlRemotoAbierto && !(window.esAdmin && !document.getElementById('barra-panico').innerText.includes('MANTENIMIENTO'))) { mostrarToast("Tienda cerrada.", "error"); return; }
+            if(!controlRemotoAbierto && !(window.esAdmin && !document.getElementById('barra-panico').innerText.includes('MANTENIMIENTO'))) { window.mostrarToast("Tienda cerrada.", "error"); return; }
             let cantidadSandwiches = 0; let nombreFinal = nombreProducto; let subtotal = precioUnitario;
             if (idSelectorCantidad) {
                 let elementoSelector = document.getElementById(idSelectorCantidad);
                 if (elementoSelector.value.includes('|')) { let partes = elementoSelector.value.split('|'); nombreFinal = partes[0]; subtotal = parseInt(partes[1]); if(partes.length > 2) cantidadSandwiches = parseInt(partes[2]); } else { let cant = parseInt(elementoSelector.value); nombreFinal = nombreProducto + " x" + cant; subtotal = precioUnitario * cant; cantidadSandwiches = cant; }
             } else { if(nombreProducto.includes('12')) cantidadSandwiches = 12; if(nombreProducto.includes('24')) cantidadSandwiches = 24; }
-            window.carrito.push({ nombre: nombreFinal, precio: subtotal, cantidadValidaEnvio: cantidadSandwiches }); window.guardarMemoria(); actualizarBotonCarrito(); window.animarInteraccion(botonElement);
+            window.carrito.push({ nombre: nombreFinal, precio: subtotal, cantidadValidaEnvio: cantidadSandwiches }); window.guardarMemoria(); window.actualizarBotonCarrito(); window.animarInteraccion(botonElement);
         }
         
-        window.actualizarBotonCarrito = function() { const botonCarrito = document.getElementById('btn-carrito'); if (window.carrito.length > 0 && (controlRemotoAbierto || window.esAdmin)) { botonCarrito.style.display = 'flex'; document.getElementById('contador-carrito').innerText = window.carrito.length; } else { botonCarrito.style.display = 'none'; } }
+        window.actualizarBotonCarrito = function() { 
+            const botonCarrito = document.getElementById('btn-carrito'); 
+            if (window.carrito.length > 0 && (controlRemotoAbierto || window.esAdmin)) { 
+                botonCarrito.style.display = 'flex'; 
+                document.getElementById('contador-carrito').innerText = window.carrito.length; 
+                let subtotalPesos = window.carrito.reduce((suma, item) => suma + item.precio, 0);
+                let montoDescuento = window.descuentoGlobal > 0 ? Math.round(subtotalPesos * (window.descuentoGlobal / 100)) : 0;
+                let totalVisual = subtotalPesos - montoDescuento;
+                document.getElementById('total-flotante').innerText = `$${totalVisual}`;
+            } else { 
+                botonCarrito.style.display = 'none'; 
+            } 
+        }
+
         window.cambiarEntrega = function() { const tipo = document.getElementById('tipo-entrega').value; const divDir = document.getElementById('grupo-direccion-container'); const inputDir = document.getElementById('direccion'); if (tipo === 'retiro') { divDir.style.display = 'none'; inputDir.removeAttribute('required'); inputDir.value = "Retiro en el local"; } else { divDir.style.display = 'flex'; inputDir.setAttribute('required', 'true'); if(inputDir.value === "Retiro en el local") inputDir.value = ""; } window.guardarMemoria(); if (window.carrito.length > 0) window.abrirCarrito(); }
         
         window.abrirCarrito = function() {
-            if (window.carrito.length === 0) return mostrarToast("El carrito está vacío.", "error");
+            if (window.carrito.length === 0) return window.mostrarToast("El carrito está vacío.", "error");
             const lista = document.getElementById('listaCarrito'); lista.innerHTML = ""; let subtotalPesos = 0; let totalCantidadSandwiches = 0; const tipoEntrega = document.getElementById('tipo-entrega').value;
-            window.carrito.forEach((item, index) => { subtotalPesos += item.precio; totalCantidadSandwiches += item.cantidadValidaEnvio; lista.innerHTML += `<li style="display:flex; justify-content:space-between; border-bottom:1px dashed #ccc; padding-bottom:5px; margin-bottom:10px;"><span style="font-size:0.9rem;">🛒 ${item.nombre}</span><span><strong style="margin-right:10px;">$${item.precio}</strong><button onclick="eliminarDelCarrito(${index})" style="background:var(--accent-red); color:white; border:none; border-radius:5px; padding:3px 8px; cursor:pointer;">X</button></span></li>`; });
+            window.carrito.forEach((item, index) => { subtotalPesos += item.precio; totalCantidadSandwiches += item.cantidadValidaEnvio; lista.innerHTML += `<li style="display:flex; justify-content:space-between; border-bottom:1px dashed #ccc; padding-bottom:5px; margin-bottom:10px;"><span style="font-size:0.9rem;">🛒 ${item.nombre}</span><span><strong style="margin-right:10px;">$${item.precio}</strong><button onclick="window.eliminarDelCarrito(${index})" style="background:var(--accent-red); color:white; border:none; border-radius:5px; padding:3px 8px; cursor:pointer;">X</button></span></li>`; });
 
             const contBarra = document.getElementById('contenedor-barra-envio'); const txtBarra = document.getElementById('texto-barra-envio'); const rellenoBarra = document.getElementById('relleno-barra-envio');
             if (tipoEntrega === 'domicilio') {
                 contBarra.style.display = 'block'; let porcentaje = Math.min((totalCantidadSandwiches / 24) * 100, 100); rellenoBarra.style.width = porcentaje + '%';
-                if (totalCantidadSandwiches >= 24) { txtBarra.innerHTML = "¡Felicidades! Tenés <strong>ENVÍO GRATIS</strong> 🥳"; rellenoBarra.style.backgroundColor = "#4CAF50"; } else { let faltan = 24 - totalCantidadSandwiches; txtBarra.innerHTML = `Sumá <strong>${faltan} unidades</strong> más para envío gratis 🛵`; rellenoBarra.style.backgroundColor = (porcentaje >= 50) ? "#F4C430" : "#D32F2F"; }
-            } else { contBarra.style.display = 'none'; }
+                if (totalCantidadSandwiches >= 24) { 
+                    txtBarra.innerHTML = "¡Felicidades! Tenés <strong>ENVÍO GRATIS</strong> 🥳"; rellenoBarra.style.backgroundColor = "#4CAF50"; 
+                    if(!window.confetiEnvioLanzado) { confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } }); window.confetiEnvioLanzado = true; }
+                } else { 
+                    let faltan = 24 - totalCantidadSandwiches; txtBarra.innerHTML = `Sumá <strong>${faltan} unidades</strong> más para envío gratis 🛵`; rellenoBarra.style.backgroundColor = (porcentaje >= 50) ? "#F4C430" : "#D32F2F"; window.confetiEnvioLanzado = false; 
+                }
+            } else { contBarra.style.display = 'none'; window.confetiEnvioLanzado = false; }
 
             let costoEnvio = 0; let textoEnvio = "";
             if (tipoEntrega === 'retiro') { costoEnvio = 0; textoEnvio = "Retiro en local: <span style='color: #4CAF50; font-weight: bold;'>¡GRATIS! 🏪</span>"; } else { costoEnvio = (totalCantidadSandwiches >= 24) ? 0 : window.COSTO_FIJO_ENVIO; textoEnvio = (costoEnvio === 0) ? "Envío a domicilio: <span style='color: #4CAF50; font-weight: bold;'>¡GRATIS! 🛵</span>" : `Envío a domicilio: $${costoEnvio} 🛵`; }
@@ -505,13 +577,18 @@ body::before {
             lista.innerHTML += `<li style="text-align:right; font-size:1.3rem; color:var(--accent-red); margin-top:15px;"><strong>TOTAL FINAL: $${window.totalPesosGlobal}</strong></li>`; document.getElementById('total-transferencia').innerText = window.totalPesosGlobal; window.mostrarAlias(); document.getElementById('modalPedido').style.display = 'flex';
         }
         
-        window.eliminarDelCarrito = function(index) { window.carrito.splice(index, 1); window.guardarMemoria(); actualizarBotonCarrito(); window.carrito.length === 0 ? window.cerrarModal() : abrirCarrito(); }
+        window.eliminarDelCarrito = function(index) { 
+            window.carrito.splice(index, 1); 
+            window.guardarMemoria(); 
+            window.actualizarBotonCarrito(); 
+            window.carrito.length === 0 ? window.cerrarModal() : window.abrirCarrito(); 
+        }
+        
         window.cerrarModal = function() { document.getElementById('modalPedido').style.display = 'none'; }
         window.mostrarAlias = function() { document.getElementById('datosTransferencia').style.display = (document.getElementById('pago').value === 'transferencia') ? 'block' : 'none'; }
         window.abrirLegales = function() { document.getElementById('modalLegales').style.display = 'flex'; }
         window.cerrarLegales = function() { document.getElementById('modalLegales').style.display = 'none'; }
         
-        // --- LOGICA STOCK VISUAL LLAMATIVO ---
         function parseStock(val) { if (typeof val === 'number') return val; if (val === true) return 999; if (val === false || val === undefined) return 0; let parsed = parseInt(val); return isNaN(parsed) ? 0 : parsed; }
 
         window.actualizarStockVisual = function() {
@@ -522,38 +599,34 @@ body::before {
             const maxCombosPorSabor = Math.floor(Math.min(stockJyq, stockJyqh, stockCompleto) / 4); const combosDisponibles = Math.min(maxCombosPorSabor, promo12Val);
 
             if (txtCombo) {
-                txtCombo.className = 'badge-stock'; // Resetea las clases
+                txtCombo.className = 'badge-stock'; 
                 if (combosDisponibles > 900) { txtCombo.innerHTML = `<i class="fa-solid fa-check-circle"></i> Stock Disponible`; txtCombo.classList.add('stock-alto'); } 
                 else if (combosDisponibles > 4) { txtCombo.innerHTML = `<i class="fa-solid fa-box-open"></i> Quedan ${combosDisponibles} combos`; txtCombo.classList.add('stock-alto'); } 
                 else if (combosDisponibles > 1) { txtCombo.innerHTML = `<i class="fa-solid fa-clock"></i> ¡Solo quedan ${combosDisponibles}!`; txtCombo.classList.add('stock-medio'); } 
                 else if (combosDisponibles === 1) { txtCombo.innerHTML = `<i class="fa-solid fa-fire"></i> ¡ÚLTIMO COMBO! 🔥`; txtCombo.classList.add('stock-bajo'); } 
                 else { txtCombo.innerHTML = `<i class="fa-solid fa-ban"></i> Agotado`; txtCombo.classList.add('stock-agotado'); }
             }
-
             if (btnCombo) { if (combosDisponibles > 0) { btnCombo.disabled = false; btnCombo.classList.remove('boton-agotado'); btnCombo.innerText = btnCombo.getAttribute('data-texto'); } else { btnCombo.disabled = true; btnCombo.classList.add('boton-agotado'); btnCombo.innerText = "Agotado"; } }
         }
 
         function actualizarGondola(idBase, cantidad) {
             const txtEl = document.getElementById(`stock-${idBase}`); const selectEl = document.getElementById(`cant-${idBase}`); const btnEl = document.getElementById(`btn-${idBase}`);
             if (txtEl) {
-                txtEl.className = 'badge-stock'; // Resetea las clases
+                txtEl.className = 'badge-stock'; 
                 if (cantidad > 900) { txtEl.innerHTML = `<i class="fa-solid fa-check-circle"></i> Stock Disponible`; txtEl.classList.add('stock-alto'); } 
                 else if (cantidad > 12) { txtEl.innerHTML = `<i class="fa-solid fa-box-open"></i> Quedan ${cantidad} unid.`; txtEl.classList.add('stock-alto'); } 
                 else if (cantidad > 4) { txtEl.innerHTML = `<i class="fa-solid fa-clock"></i> ¡Solo quedan ${cantidad}!`; txtEl.classList.add('stock-medio'); } 
                 else if (cantidad > 0) { txtEl.innerHTML = `<i class="fa-solid fa-fire"></i> ¡ÚLTIMAS ${cantidad}! 🔥`; txtEl.classList.add('stock-bajo'); } 
                 else { txtEl.innerHTML = `<i class="fa-solid fa-ban"></i> Agotado`; txtEl.classList.add('stock-agotado'); }
             }
-
             if (selectEl) {
                 const options = selectEl.options; let hayOpciones = false;
                 for (let i = 0; i < options.length; i++) {
                     const opt = options[i]; let partes = opt.value.split('|'); let cantRequerida = parseInt(partes[2]) || 0;
-                    if (cantRequerida > cantidad) { opt.disabled = true; if (!opt.text.includes('Sin stock')) opt.text += ' (Sin stock)'; } 
-                    else { opt.disabled = false; opt.text = opt.text.replace(' (Sin stock)', ''); hayOpciones = true; }
+                    if (cantRequerida > cantidad) { opt.disabled = true; if (!opt.text.includes('Sin stock')) opt.text += ' (Sin stock)'; } else { opt.disabled = false; opt.text = opt.text.replace(' (Sin stock)', ''); hayOpciones = true; }
                 }
                 if (selectEl.options[selectEl.selectedIndex].disabled) { for(let i=0; i<options.length; i++){ if(!options[i].disabled){ selectEl.selectedIndex = i; break; } } }
-                if (!hayOpciones || cantidad < 4) { btnEl.disabled = true; btnEl.classList.add('boton-agotado'); btnEl.innerText = "Agotado"; selectEl.disabled = true; } 
-                else { btnEl.disabled = false; btnEl.classList.remove('boton-agotado'); btnEl.innerText = btnEl.getAttribute('data-texto'); selectEl.disabled = false; }
+                if (!hayOpciones || cantidad < 4) { btnEl.disabled = true; btnEl.classList.add('boton-agotado'); btnEl.innerText = "Agotado"; selectEl.disabled = true; } else { btnEl.disabled = false; btnEl.classList.remove('boton-agotado'); btnEl.innerText = btnEl.getAttribute('data-texto'); selectEl.disabled = false; }
             }
         }
         
@@ -569,32 +642,32 @@ body::before {
         }
 
         function bloquearInterfaz(inputs, botones, btnConfirmar) { inputs.forEach(input => input.disabled = true); botones.forEach(btn => { btn.disabled = true; btn.classList.add('boton-agotado'); btn.innerText = "CERRADO"; }); if(btnConfirmar) btnConfirmar.disabled = true; document.getElementById('btn-carrito').style.display = 'none'; window.carrito = []; }
-        function desbloquearInterfaz(inputs, botones, btnConfirmar) { if(btnConfirmar) btnConfirmar.disabled = false; inputs.forEach(input => input.disabled = false); botones.forEach(btn => { btn.disabled = false; btn.classList.remove('boton-agotado'); btn.innerText = btn.getAttribute('data-texto'); }); window.actualizarStockVisual(); if(window.carrito.length === 0) window.cargarMemoria(); actualizarBotonCarrito(); }
+        function desbloquearInterfaz(inputs, botones, btnConfirmar) { if(btnConfirmar) btnConfirmar.disabled = false; inputs.forEach(input => input.disabled = false); botones.forEach(btn => { btn.disabled = false; btn.classList.remove('boton-agotado'); btn.innerText = btn.getAttribute('data-texto'); }); window.actualizarStockVisual(); if(window.carrito.length === 0) window.cargarMemoria(); window.actualizarBotonCarrito(); }
 
-        onSnapshot(doc(db, "config", "tienda"), (snapshot) => { if (snapshot.exists()) { const config = snapshot.data(); controlRemotoAbierto = config.abierta !== false; window.stockGlobal = config.stock || {}; evaluarEstadoTienda(); } });
+        onSnapshot(doc(db, "config", "tienda"), (snapshot) => { if (snapshot.exists()) { const config = snapshot.data(); controlRemotoAbierto = config.abierta !== false; window.stockGlobal = config.stock || {}; window.evaluarEstadoTienda(); } });
         setInterval(window.evaluarEstadoTienda, 60000);
 
         const consultaReseñas = query(collection(db, "resenas"), orderBy("fecha", "desc"), limit(6));
         onSnapshot(consultaReseñas, (snapshot) => { const divReseñas = document.getElementById('listaReseñas'); divReseñas.innerHTML = ""; if (snapshot.empty) { divReseñas.innerHTML = `<p style="color:#ccc; grid-column: 1 / -1; font-size:1.1rem; margin:20px 0;">¡Nadie opinó todavía! Sé el primero en calificar los sándwiches abajo.</p>`; return; } snapshot.forEach((documentoDoc) => { const r = documentoDoc.data(); let estrellasEstéticas = ""; const cantEstrellas = parseInt(r.estrellas) || 5; for (let i = 0; i < cantEstrellas; i++) estrellasEstéticas += '<i class="fa-solid fa-star"></i>'; divReseñas.innerHTML += `<div class="tarjeta-reseña"><div class="estrellas">${estrellasEstéticas}</div><p class="texto-reseña">"${r.comentario}"</p><p class="autor-reseña">- ${r.nombre}</p></div>`; }); });
 
-        document.getElementById('formularioReseña').addEventListener('submit', async function(e) { e.preventDefault(); const btnPublicar = this.querySelector('button[type="submit"]'); const nom = document.getElementById('reseña-nombre').value.trim(); const est = document.getElementById('reseña-estrellas').value; const com = document.getElementById('reseña-comentario').value.trim(); btnPublicar.disabled = true; btnPublicar.textContent = "Publicando..."; try { await addDoc(collection(db, "resenas"), { nombre: nom, estrellas: parseInt(est), comentario: com, fecha: serverTimestamp() }); mostrarToast("¡Gracias por tu reseña! Ya se ve en la web.", "success"); this.reset(); } catch (error) { mostrarToast("Hubo un problema al guardar tu opinión.", "error"); } finally { btnPublicar.disabled = false; btnPublicar.textContent = "Publicar Calificación"; } });
+        document.getElementById('formularioReseña').addEventListener('submit', async function(e) { e.preventDefault(); const btnPublicar = this.querySelector('button[type="submit"]'); const nom = document.getElementById('reseña-nombre').value.trim(); const est = document.getElementById('reseña-estrellas').value; const com = document.getElementById('reseña-comentario').value.trim(); btnPublicar.disabled = true; btnPublicar.textContent = "Publicando..."; try { await addDoc(collection(db, "resenas"), { nombre: nom, estrellas: parseInt(est), comentario: com, fecha: serverTimestamp() }); window.mostrarToast("¡Gracias por tu reseña! Ya se ve en la web.", "success"); this.reset(); } catch (error) { window.mostrarToast("Hubo un problema al guardar tu opinión.", "error"); } finally { btnPublicar.disabled = false; btnPublicar.textContent = "Publicar Calificación"; } });
         
         document.addEventListener('DOMContentLoaded', () => {
-            ['nombre', 'telefono', 'direccion'].forEach(id => { document.getElementById(id).addEventListener('input', window.guardarMemoria); }); window.cargarMemoria();
+            establecerSaludo(); ['nombre', 'telefono', 'direccion'].forEach(id => { document.getElementById(id).addEventListener('input', window.guardarMemoria); }); window.cargarMemoria();
             document.querySelector('.btn-confirmar').addEventListener('click', async function() {
                 if(!controlRemotoAbierto && !(window.esAdmin && !document.getElementById('barra-panico').innerText.includes('MANTENIMIENTO'))) return;
                 const boton = this; const nombre = document.getElementById('nombre').value.trim(); const telefono = document.getElementById('telefono').value.trim(); const direccion = document.getElementById('direccion').value.trim(); const pago = document.getElementById('pago').value; const tipoEntrega = document.getElementById('tipo-entrega').value;
-                if(nombre === "" || telefono === "" || (tipoEntrega === 'domicilio' && direccion === "")) { mostrarToast("Completá tus datos.", "error"); return; } if(telefono.length < 8) { mostrarToast("El número de teléfono parece muy corto.", "error"); return; }
+                if(nombre === "" || telefono === "" || (tipoEntrega === 'domicilio' && direccion === "")) { window.mostrarToast("Completá tus datos.", "error"); return; } if(telefono.length < 8) { window.mostrarToast("El número de teléfono parece muy corto.", "error"); return; }
                 boton.textContent = "Procesando..."; const pedidoCompletoTexto = window.carrito.map(item => `${item.nombre} ($${item.precio})`).join('- '); let cantS = window.carrito.reduce((suma, item) => suma + item.cantidadValidaEnvio, 0); let costoEnvioCalculado = (cantS >= 24) ? 0 : window.COSTO_FIJO_ENVIO; let envioAplicado = "Retiro por local"; if(tipoEntrega === 'domicilio') { envioAplicado = (costoEnvioCalculado === 0) ? "¡GRATIS!" : `\$${costoEnvioCalculado}`; }
                 let subtotalPesos = window.carrito.reduce((suma, item) => suma + item.precio, 0); let montoDescuento = window.descuentoGlobal > 0 ? Math.round(subtotalPesos * (window.descuentoGlobal / 100)) : 0; let cuponTextoFirebase = window.cuponAplicado ? `\n- Cupón: ${window.cuponAplicado} (-$${montoDescuento})` : ''; let cuponTextoWpp = window.cuponAplicado ? `\n*Cupón:* ${window.cuponAplicado} (-$${montoDescuento})` : '';
                 try {
                     await addDoc(collection(db, "pedidos"), { producto: pedidoCompletoTexto + "- Envío: " + envioAplicado + cuponTextoFirebase, total: window.totalPesosGlobal, nombre: nombre, telefono: telefono, direccion: direccion, metodo_pago: pago, fecha: serverTimestamp(), estado: "Pendiente", cupon: window.cuponAplicado || "Ninguno" });
-                    const msg = `¡Hola! Acabo de armar un pedido en la web. 🛒\n\n*Nombre:* ${nombre}\n*Teléfono:* ${telefono}\n*Dirección / Método:* ${direccion}\n\n*MI PEDIDO:*\n- ${pedidoCompletoTexto}\n*- Costo Envío: ${envioAplicado}*${cuponTextoWpp}\n\n*TOTAL FINAL: $${window.totalPesosGlobal}*\n\n*Pago:* ${pago === 'efectivo' ? '💵 Efectivo' : '💳 Transferencia. (Aguardamos el comprobante por este medio para pasar tu pedido a cocina 🚀)'}`;
-                    mostrarToast("¡Pedido registrado! Abriendo WhatsApp...", "success");
+                    const msg = `¡Hola! Acabo de armar un pedido en la web. 🛒\n\n*Nombre:* ${nombre}\n*Teléfono:* ${telefono}\n*Dirección / Método:* ${direccion}\n\n*MI PEDIDO:*\n- ${pedidoCompletoTexto}\n*- Costo Envío: ${envioAplicado}*${cuponTextoWpp}\n\n*TOTAL FINAL: $${window.totalPesosGlobal}*\n\n*Pago:* ${pago === 'efectivo' ? '💵 Efectivo' : '💳 Transferencia'}`;
+                    window.mostrarToast("¡Pedido registrado! Abriendo WhatsApp...", "success");
                     if (window.cuponAplicado === "MIGAS.10") localStorage.setItem('cupon_migas10_usado', 'true'); if (window.cuponAplicado === "MIGASJACKPOT") localStorage.setItem('cupon_migasjackpot_usado', 'true'); if (window.cuponAplicado === "QR MISTERIOSO") localStorage.setItem('cupon_qr_usado', 'true');
-                    localStorage.removeItem('mdc_carrito'); localStorage.removeItem('mdc_cupon'); localStorage.removeItem('mdc_desc'); window.descuentoGlobal = 0; window.cuponAplicado = ""; document.getElementById('cupon-mensaje').style.display = "none"; document.getElementById('cupon').value = ""; document.getElementById('formularioPedido').reset(); window.carrito = []; actualizarBotonCarrito(); window.cerrarModal(); boton.textContent = "Enviar Pedido por WhatsApp";
+                    localStorage.removeItem('mdc_carrito'); localStorage.removeItem('mdc_cupon'); localStorage.removeItem('mdc_desc'); window.descuentoGlobal = 0; window.cuponAplicado = ""; document.getElementById('cupon-mensaje').style.display = "none"; document.getElementById('cupon').value = ""; document.getElementById('formularioPedido').reset(); window.carrito = []; window.confetiEnvioLanzado = false; window.actualizarBotonCarrito(); window.cerrarModal(); boton.textContent = "Enviar Pedido por WhatsApp";
                     setTimeout(() => { window.location.href = `https://wa.me/5493756433375?text=${encodeURIComponent(msg)}`; }, 1500);
-                } catch (error) { mostrarToast("Error.", "error"); boton.textContent = "Enviar Pedido por WhatsApp"; }
+                } catch (error) { window.mostrarToast("Error.", "error"); boton.textContent = "Enviar Pedido por WhatsApp"; }
             });
         });
     </script>

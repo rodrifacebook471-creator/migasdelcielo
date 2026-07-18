@@ -105,7 +105,7 @@ body::before {
         @keyframes latidoUrgencia { 0% { transform: scale(1); box-shadow: 0 3px 6px rgba(244, 67, 54, 0.3); } 100% { transform: scale(1.08); box-shadow: 0 6px 12px rgba(244, 67, 54, 0.5); } }
         .badge-stock i { margin-right: 5px; }
 
-        /* DISEÑO ROBUSTO DEL BOTÓN FLOTANTE */
+        /* DISEÑO DEL BOTÓN FLOTANTE (ESCRITORIO) */
         .btn-carrito-nuevo { 
             position: fixed !important;
             bottom: 25px !important;
@@ -116,7 +116,7 @@ body::before {
             padding: 10px 20px !important; 
             width: auto !important; 
             height: auto !important; 
-            display: flex !important; 
+            display: flex; /* Sin !important para que el JS pueda ocultarlo */
             align-items: center !important; 
             gap: 10px !important; 
             z-index: 10000 !important; 
@@ -152,6 +152,29 @@ body::before {
             font-family: 'Nunito', sans-serif !important; 
             letter-spacing: 0.5px !important; 
             font-size: 1.25rem !important;
+        }
+
+        /* NUEVO: MODO CELULAR ESTILO APP (Rappi/PedidosYa) */
+        @media (max-width: 768px) {
+            body { 
+                padding-bottom: 80px; /* Crea espacio al final para que los sándwiches no queden tapados */
+            }
+            .btn-carrito-nuevo {
+                bottom: 0 !important;
+                right: 0 !important;
+                left: 0 !important;
+                width: 100% !important;
+                border-radius: 20px 20px 0 0 !important; /* Bordes curvos solo arriba */
+                border-left: none !important;
+                border-right: none !important;
+                border-bottom: none !important;
+                justify-content: center !important;
+                padding: 16px 20px !important;
+                gap: 15px !important;
+            }
+            .redes-flotantes {
+                bottom: 80px !important; /* Sube los iconos de WhatsApp/Instagram para que no choquen */
+            }
         }
 
         /* LIGHTBOX (MODO CINE) */

@@ -116,7 +116,7 @@ body::before {
             padding: 10px 20px !important; 
             width: auto !important; 
             height: auto !important; 
-            display: flex; /* Sin !important para que el JS pueda ocultarlo */
+            display: flex; 
             align-items: center !important; 
             gap: 10px !important; 
             z-index: 10000 !important; 
@@ -154,27 +154,15 @@ body::before {
             font-size: 1.25rem !important;
         }
 
-        /* NUEVO: MODO CELULAR ESTILO APP (Rappi/PedidosYa) */
+        /* MODO CELULAR ESTILO APP (Rappi/PedidosYa) */
         @media (max-width: 768px) {
-            body { 
-                padding-bottom: 80px; /* Crea espacio al final para que los sándwiches no queden tapados */
-            }
+            body { padding-bottom: 80px; }
             .btn-carrito-nuevo {
-                bottom: 0 !important;
-                right: 0 !important;
-                left: 0 !important;
-                width: 100% !important;
-                border-radius: 20px 20px 0 0 !important; /* Bordes curvos solo arriba */
-                border-left: none !important;
-                border-right: none !important;
-                border-bottom: none !important;
-                justify-content: center !important;
-                padding: 16px 20px !important;
-                gap: 15px !important;
+                bottom: 0 !important; right: 0 !important; left: 0 !important; width: 100% !important;
+                border-radius: 20px 20px 0 0 !important; border-left: none !important; border-right: none !important; border-bottom: none !important;
+                justify-content: center !important; padding: 16px 20px !important; gap: 15px !important;
             }
-            .redes-flotantes {
-                bottom: 80px !important; /* Sube los iconos de WhatsApp/Instagram para que no choquen */
-            }
+            .redes-flotantes { bottom: 80px !important; }
         }
 
         /* LIGHTBOX (MODO CINE) */
@@ -199,7 +187,7 @@ body::before {
         </div>
         <div style="background-color: #f8f9fa; border-bottom: 2px solid #eee; padding: 10px 20px; text-align: center; font-size: 0.95rem; color: #555;">
             <i class="fa-regular fa-clock" style="color: #9A1B22; margin-right: 5px;"></i>
-            <strong>Horarios de Atención:</strong> Jueves a Domingos de 8:00 a 22:00 hs
+            <strong>Horarios de Atención:</strong> ¡Abierto 24/7! Tomamos tu pedido a toda hora.
         </div>
     </header>
 
@@ -230,7 +218,7 @@ body::before {
             
         <div class="cartel-horarios" id="cartel-logistica">
             <p><strong><i class="fa-regular fa-clock"></i> Horarios de Atención</strong></p>
-            <p>Jueves a Domingo: 8:00 a 22:00 hs</p>
+            <p>¡Abierto las 24 horas, todos los días!</p>
             <p style="margin-top: 10px; color: #D32F2F; font-weight: bold;" id="estado-tienda">Calculando estado...</p>
         </div>
 
@@ -315,7 +303,7 @@ body::before {
         <div class="seccion-faq fade-in-up" style="padding: 40px 20px; background-color: transparent; border: none;">
             <h2 style="text-align: center; margin-bottom: 30px; font-family: 'Fredoka', sans-serif; color: #fff; font-weight: 700; font-size: 2.2rem;">Preguntas Frecuentes</h2>
             <div class="contenedor-faq" style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px;">
-                <details class="pregunta-faq"><summary>¿Cuáles son los días y horarios de atención?</summary><p>Estamos tomando pedidos de Jueves a Domingo de corrido, de 8:00 a 22:00 hs.</p></details>
+                <details class="pregunta-faq"><summary>¿Cuáles son los días y horarios de atención?</summary><p>¡Estamos tomando pedidos las 24 horas, los 7 días de la semana!</p></details>
                 <details class="pregunta-faq"><summary>¿Hacen envíos a domicilio?</summary><p>¡Sí! Hacemos envíos tanto en Apóstoles como en Santo Tomé. Recordá que si llevás 2 docenas o más, el envío en Santo Tomé es totalmente gratuito.</p></details>
                 <details class="pregunta-faq"><summary>¿Con cuánto tiempo de anticipación pido para un evento?</summary><p>Para pedidos normales del día a día, podés pedir en el momento. Si tenés un cumpleaños, juntada o necesitás varias docenas, te recomendamos escribirnos con al menos 24 a 48 horas de anticipación.</p></details>
             </div>
@@ -358,7 +346,7 @@ body::before {
                 <h4>Atención y Envíos</h4>
                 <p><i class="fa-brands fa-whatsapp"></i> +54 9 3756 433375</p>
                 <p><i class="fa-solid fa-location-dot"></i> Envíos en Santo Tomé y Apóstoles</p>
-                <p><i class="fa-regular fa-clock"></i> Jue a Dom (8 a 22hs)</p>
+                <p><i class="fa-regular fa-clock"></i> ¡Abierto 24/7!</p>
             </div>
             <div class="footer-col">
                 <h4>Accesos Rápidos</h4>
@@ -550,7 +538,7 @@ body::before {
         window.cambiarCategoria = function(idCategoria, boton) { document.querySelectorAll('.contenedor-menu').forEach(cat => { cat.classList.add('categoria-oculta'); cat.classList.remove('fade-in-up'); }); const catActiva = document.getElementById(idCategoria); catActiva.classList.remove('categoria-oculta'); void catActiva.offsetWidth; catActiva.classList.add('fade-in-up'); document.querySelectorAll('.btn-filtro').forEach(btn => btn.classList.remove('activo')); boton.classList.add('activo'); }
         
         window.abrirModal = function(nombreProducto, idSelectorCantidad = null, precioUnitario = 0, botonElement = null) {
-            if(!controlRemotoAbierto && !(window.esAdmin && !document.getElementById('barra-panico').innerText.includes('MANTENIMIENTO'))) { window.mostrarToast("Tienda cerrada.", "error"); return; }
+            if (!controlRemotoAbierto && !window.esAdmin) { window.mostrarToast("Tienda cerrada temporalmente.", "error"); return; }
             let cantidadSandwiches = 0; let nombreFinal = nombreProducto; let subtotal = precioUnitario;
             if (idSelectorCantidad) {
                 let elementoSelector = document.getElementById(idSelectorCantidad);
@@ -654,14 +642,16 @@ body::before {
         }
         
         window.evaluarEstadoTienda = function() {
-            const ahora = new Date(); const dia = ahora.getDay(); const hora = ahora.getHours();
-            const esDiaLaboral = (dia === 4 || dia === 5 || dia === 6 || dia === 0); const enHorario = esDiaLaboral && (hora >= 8 && hora < 22);
             const barraPanico = document.getElementById('barra-panico'); const estadoTexto = document.getElementById('estado-tienda'); const selectoresInputs = document.querySelectorAll('.selector-cantidad'); const todosBotones = document.querySelectorAll('.btn-seleccionar'); const btnConfirmar = document.querySelector('.btn-confirmar');
 
             barraPanico.classList.remove('admin-mode'); 
-            if (!controlRemotoAbierto) { barraPanico.innerHTML = '<i class="fa-solid fa-store-slash"></i> TIENDA CERRADA TEMPORALMENTE (MANTENIMIENTO)'; barraPanico.style.display = 'block'; if(estadoTexto) estadoTexto.innerHTML = '<i class="fa-solid fa-circle" style="color: #D32F2F; font-size: 0.8rem;"></i> Cerrado por producción o mantenimiento'; bloquearInterfaz(selectoresInputs, todosBotones, btnConfirmar); } 
-            else if (!enHorario && !window.esAdmin) { barraPanico.innerHTML = '<i class="fa-solid fa-clock"></i> CERRADO. TOMAMOS PEDIDOS DE JUE. A DOM. DE 8 A 22HS'; barraPanico.style.display = 'block'; if(estadoTexto) estadoTexto.innerHTML = '<i class="fa-solid fa-circle" style="color: #D32F2F; font-size: 0.8rem;"></i> Tienda Cerrada fuera de horario'; bloquearInterfaz(selectoresInputs, todosBotones, btnConfirmar); }
-            else { if (!enHorario && window.esAdmin) { barraPanico.classList.add('admin-mode'); barraPanico.innerHTML = '<i class="fa-solid fa-user-shield"></i> VISTA DE ADMINISTRADOR (FUERA DE HORARIO)'; barraPanico.style.display = 'block'; } else { barraPanico.style.display = 'none'; } if(estadoTexto) estadoTexto.innerHTML = '<i class="fa-solid fa-circle" style="color: #4CAF50; font-size: 0.8rem;"></i> ¡Estamos abiertos! Tomando pedidos'; desbloquearInterfaz(selectoresInputs, todosBotones, btnConfirmar); }
+            if (!controlRemotoAbierto && !window.esAdmin) { 
+                barraPanico.innerHTML = '<i class="fa-solid fa-store-slash"></i> TIENDA CERRADA TEMPORALMENTE'; barraPanico.style.display = 'block'; if(estadoTexto) estadoTexto.innerHTML = '<i class="fa-solid fa-circle" style="color: #D32F2F; font-size: 0.8rem;"></i> Cerrado temporalmente'; bloquearInterfaz(selectoresInputs, todosBotones, btnConfirmar); 
+            } else if (!controlRemotoAbierto && window.esAdmin) { 
+                barraPanico.classList.add('admin-mode'); barraPanico.innerHTML = '<i class="fa-solid fa-user-shield"></i> VISTA DE ADMINISTRADOR (TIENDA CERRADA PARA CLIENTES)'; barraPanico.style.display = 'block'; if(estadoTexto) estadoTexto.innerHTML = '<i class="fa-solid fa-circle" style="color: #F4C430; font-size: 0.8rem;"></i> Modo Admin Activo'; desbloquearInterfaz(selectoresInputs, todosBotones, btnConfirmar); 
+            } else { 
+                barraPanico.style.display = 'none'; if(estadoTexto) estadoTexto.innerHTML = '<i class="fa-solid fa-circle" style="color: #4CAF50; font-size: 0.8rem;"></i> ¡Estamos abiertos! Tomando pedidos'; desbloquearInterfaz(selectoresInputs, todosBotones, btnConfirmar); 
+            }
         }
 
         function bloquearInterfaz(inputs, botones, btnConfirmar) { inputs.forEach(input => input.disabled = true); botones.forEach(btn => { btn.disabled = true; btn.classList.add('boton-agotado'); btn.innerText = "CERRADO"; }); if(btnConfirmar) btnConfirmar.disabled = true; document.getElementById('btn-carrito').style.display = 'none'; window.carrito = []; }
@@ -678,7 +668,7 @@ body::before {
         document.addEventListener('DOMContentLoaded', () => {
             establecerSaludo(); ['nombre', 'telefono', 'direccion'].forEach(id => { document.getElementById(id).addEventListener('input', window.guardarMemoria); }); window.cargarMemoria();
             document.querySelector('.btn-confirmar').addEventListener('click', async function() {
-                if(!controlRemotoAbierto && !(window.esAdmin && !document.getElementById('barra-panico').innerText.includes('MANTENIMIENTO'))) return;
+                if (!controlRemotoAbierto && !window.esAdmin) return;
                 const boton = this; const nombre = document.getElementById('nombre').value.trim(); const telefono = document.getElementById('telefono').value.trim(); const direccion = document.getElementById('direccion').value.trim(); const pago = document.getElementById('pago').value; const tipoEntrega = document.getElementById('tipo-entrega').value;
                 if(nombre === "" || telefono === "" || (tipoEntrega === 'domicilio' && direccion === "")) { window.mostrarToast("Completá tus datos.", "error"); return; } if(telefono.length < 8) { window.mostrarToast("El número de teléfono parece muy corto.", "error"); return; }
                 boton.textContent = "Procesando..."; const pedidoCompletoTexto = window.carrito.map(item => `${item.nombre} ($${item.precio})`).join('- '); let cantS = window.carrito.reduce((suma, item) => suma + item.cantidadValidaEnvio, 0); let costoEnvioCalculado = (cantS >= 24) ? 0 : window.COSTO_FIJO_ENVIO; let envioAplicado = "Retiro por local"; if(tipoEntrega === 'domicilio') { envioAplicado = (costoEnvioCalculado === 0) ? "¡GRATIS!" : `\$${costoEnvioCalculado}`; }

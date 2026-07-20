@@ -154,7 +154,7 @@ body::before {
             font-size: 1.25rem !important;
         }
 
-        /* MODO CELULAR ESTILO APP (Rappi/PedidosYa) */
+        /* MODO CELULAR ESTILO APP */
         @media (max-width: 768px) {
             body { padding-bottom: 80px; }
             .btn-carrito-nuevo {
@@ -446,13 +446,24 @@ body::before {
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
         import { getFirestore, collection, addDoc, serverTimestamp, doc, onSnapshot, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
         
+        // NUEVO: Importamos Analytics de Firebase
+        import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-analytics.js";
+        
         const firebaseConfig = {
-            apiKey: "AIzaSyDaRDRdeqcWpjioECt0t7MVGi2sFomd_Vk", authDomain: "migas-del-cielo.firebaseapp.com",
-            projectId: "migas-del-cielo", storageBucket: "migas-del-cielo.firebasestorage.app",
-            messagingSenderId: "320905334675", appId: "1:320905334675:web:492d16adbae75a73fc2266"
+            apiKey: "AIzaSyDaRDRdeqcWpjioECt0t7MVGi2sFomd_Vk", 
+            authDomain: "migas-del-cielo.firebaseapp.com",
+            projectId: "migas-del-cielo", 
+            storageBucket: "migas-del-cielo.firebasestorage.app",
+            messagingSenderId: "320905334675", 
+            appId: "1:320905334675:web:492d16adbae75a73fc2266",
+            measurementId: "G-ZXTBQW4887" // <--- CAMBIAR POR TU ID DE ANALYTICS
         };
         
-        const app = initializeApp(firebaseConfig); const db = getFirestore(app);
+        const app = initializeApp(firebaseConfig); 
+        const db = getFirestore(app);
+        
+        // NUEVO: Inicializamos Analytics
+        const analytics = getAnalytics(app);
         
         window.COSTO_FIJO_ENVIO = 2000; 
         window.carrito = []; window.totalPesosGlobal = 0; let controlRemotoAbierto = true; window.stockGlobal = {}; window.descuentoGlobal = 0; window.cuponAplicado = "";
@@ -544,7 +555,12 @@ body::before {
                 let elementoSelector = document.getElementById(idSelectorCantidad);
                 if (elementoSelector.value.includes('|')) { let partes = elementoSelector.value.split('|'); nombreFinal = partes[0]; subtotal = parseInt(partes[1]); if(partes.length > 2) cantidadSandwiches = parseInt(partes[2]); } else { let cant = parseInt(elementoSelector.value); nombreFinal = nombreProducto + " x" + cant; subtotal = precioUnitario * cant; cantidadSandwiches = cant; }
             } else { if(nombreProducto.includes('12')) cantidadSandwiches = 12; if(nombreProducto.includes('24')) cantidadSandwiches = 24; }
-            window.carrito.push({ nombre: nombreFinal, precio: subtotal, cantidadValidaEnvio: cantidadSandwiches }); window.guardarMemoria(); window.actualizarBotonCarrito(); window.animarInteraccion(botonElement);
+            window.carrito.push({ nombre: nombreFinal, precio: subtotal, cantidadValidaEnvio: cantidadSandwiches }); 
+            
+            // NUEVO: Le avisamos a Analytics que alguien sumó algo al carrito
+            logEvent(analytics, 'add_to_cart', { item_name: nombreFinal, value: subtotal, currency: "ARS" });
+            
+            window.guardarMemoria(); window.actualizarBotonCarrito(); window.animarInteraccion(botonElement);
         }
         
         window.actualizarBotonCarrito = function() { 
@@ -675,6 +691,10 @@ body::before {
                 let subtotalPesos = window.carrito.reduce((suma, item) => suma + item.precio, 0); let montoDescuento = window.descuentoGlobal > 0 ? Math.round(subtotalPesos * (window.descuentoGlobal / 100)) : 0; let cuponTextoFirebase = window.cuponAplicado ? `\n- Cupón: ${window.cuponAplicado} (-$${montoDescuento})` : ''; let cuponTextoWpp = window.cuponAplicado ? `\n*Cupón:* ${window.cuponAplicado} (-$${montoDescuento})` : '';
                 try {
                     await addDoc(collection(db, "pedidos"), { producto: pedidoCompletoTexto + "- Envío: " + envioAplicado + cuponTextoFirebase, total: window.totalPesosGlobal, nombre: nombre, telefono: telefono, direccion: direccion, metodo_pago: pago, fecha: serverTimestamp(), estado: "Pendiente", cupon: window.cuponAplicado || "Ninguno" });
+                    
+                    // NUEVO: Le avisamos a Analytics que se confirmó una compra
+                    logEvent(analytics, 'purchase', { value: window.totalPesosGlobal, currency: "ARS", transaction_id: `WPP_${new Date().getTime()}` });
+
                     const msg = `¡Hola! Acabo de armar un pedido en la web. 🛒\n\n*Nombre:* ${nombre}\n*Teléfono:* ${telefono}\n*Dirección / Método:* ${direccion}\n\n*MI PEDIDO:*\n- ${pedidoCompletoTexto}\n*- Costo Envío: ${envioAplicado}*${cuponTextoWpp}\n\n*TOTAL FINAL: $${window.totalPesosGlobal}*\n\n*Pago:* ${pago === 'efectivo' ? '💵 Efectivo' : '💳 Transferencia'}`;
                     window.mostrarToast("¡Pedido registrado! Abriendo WhatsApp...", "success");
                     if (window.cuponAplicado === "MIGAS.10") localStorage.setItem('cupon_migas10_usado', 'true'); if (window.cuponAplicado === "MIGASJACKPOT") localStorage.setItem('cupon_migasjackpot_usado', 'true'); if (window.cuponAplicado === "QR MISTERIOSO") localStorage.setItem('cupon_qr_usado', 'true');
